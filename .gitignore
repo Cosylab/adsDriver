@@ -1,0 +1,30 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT-0
+
+O.*/
+bin/
+db/
+dbd/
+lib/
+envPaths
+adsSup/obj
+adsSup/*.so
+*.swp
+~$*
+.cache
+.ccls-cache
+compile_commands.json
+
+# Docs
+documentation/build/*
+
+# Twincat files
+*.suo
+*.bak
+*.~u
+*.tclrs
+adsExampleApp/TC3_testProj/_Boot
+adsExampleApp/TC3_testProj/_Config
+adsExampleApp/TC3_testProj/**/_Libraries
+

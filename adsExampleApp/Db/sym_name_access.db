@@ -1,0 +1,21 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT
+
+# Test plan database: demonstrates the ability to connect to ADS variables
+# by using the symbolic name specifier.
+
+record(longin, "$(P):sym_int32_counter") {
+    field(DESC, "Read ADS by symbolic name")
+    field(DTYP, "asynInt32")
+    field(INP,  "@asyn($(PORT) 0 0) DINT R P=$(ADS_PORT) V=TestPlan.sym_int32_counter")
+    field(UDFS, "NO_ALARM")
+    field(SCAN, "I/O Intr")
+}
+
+record(longout, "$(P):sym_int32_writable") {
+    field(DESC, "Write ADS by symbolic name")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) DINT W P=$(ADS_PORT) V=TestPlan.sym_int32_writable")
+    field(UDFS, "NO_ALARM")
+}

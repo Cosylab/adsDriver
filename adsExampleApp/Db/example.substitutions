@@ -1,0 +1,22 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT
+
+global {PORT="$(PORT)"}
+global {ADS_PORT="PLC_TC3"}
+
+file "sym_name_access.db" {
+    pattern { "P" }
+        { "$(P)" }
+}
+
+file "supported_records_scalar.db" {
+    pattern { "P" }
+        { "$(P)" }
+}
+
+file "supported_records_waveform.db" {
+    pattern { "P" }
+        { "$(P)" }
+}
+

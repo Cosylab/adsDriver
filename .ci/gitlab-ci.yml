@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT-0
+
+image: python:3.7-alpine
+variables:
+    HTML_DIR: "/var/www/landing/documentation/"
+    TARGET_DIR: "${HTML_DIR}/adsDriver"
+    SOURCE_DIR: "documentation/build"
+
+stages:
+  - build
+  - deploy
+
+docs_build:
+    when: manual
+    stage: build
+    script:
+        - pip3 install -U sphinx sphinx_rtd_theme
+        - cd documentation
+        - sphinx-build -b html source build
+    artifacts:
+        paths:
+            - ${SOURCE_DIR}
+
+
+docs_deploy:
+    when: manual
+    stage: deploy
+    tags: 
+        - epics
+        - website
+    dependencies: 
+        - docs_build
+    script:
+        - sudo rm -fr "${TARGET_DIR}"
+        - sudo mkdir -p "${HTML_DIR}"
+        - sudo mv "${SOURCE_DIR}" "${TARGET_DIR}"
+        - sudo chown -R ${WWW_USER}:${WWW_USER} "${HTML_DIR}"
+

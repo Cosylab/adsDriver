@@ -1,0 +1,165 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT
+
+# Test plan database: demonstrates ADS support for scalar record types.
+
+record(bi, "$(P):types_bi") {
+    field(DESC, "bi record type demonstration")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) BOOL R P=$(ADS_PORT) V=TestPlan.types_bi")
+    field(ZNAM, "Zero")
+    field(ONAM, "One")
+    field(UDFS, "NO_ALARM")
+}
+
+record(bo, "$(P):types_bo") {
+    field(DESC, "bo record type demonstration")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) BOOL W P=$(ADS_PORT) V=TestPlan.types_bo")
+    field(ZNAM, "Zero")
+    field(ONAM, "One")
+    field(UDFS, "NO_ALARM")
+}
+
+record(ai, "$(P):types_ai") {
+    field(DESC, "ai record type demonstration")
+    field(PREC, "2")
+    field(DTYP, "asynFloat64")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) LREAL R P=$(ADS_PORT) V=TestPlan.types_ai")
+    field(UDFS, "NO_ALARM")
+}
+
+record(ao, "$(P):types_ao") {
+    field(DESC, "ao record type demonstration")
+    field(PREC, "2")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 0 0) LREAL W P=$(ADS_PORT) V=TestPlan.types_ao")
+    field(UDFS, "NO_ALARM")
+}
+
+record(longin, "$(P):types_longin") {
+    field(DESC, "longin record type demonstration")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) DINT R P=$(ADS_PORT) V=TestPlan.types_longin")
+    field(UDFS, "NO_ALARM")
+}
+
+record(longout, "$(P):types_longout") {
+    field(DESC, "longout record type demonstration")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) DINT W P=$(ADS_PORT) V=TestPlan.types_longout")
+    field(UDFS, "NO_ALARM")
+}
+
+record(mbbi, "$(P):types_mbbi") {
+    field(DESC, "mbbi record type demonstration")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) UINT R P=$(ADS_PORT) V=TestPlan.types_mbbi")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(FRVL, "4")
+    field(FVVL, "5")
+    field(SXVL, "6")
+    field(SVVL, "7")
+    field(EIVL, "8")
+    field(NIVL, "9")
+    field(TEVL, "10")
+    field(ELVL, "11")
+    field(TVVL, "12")
+    field(TTVL, "13")
+    field(FTVL, "14")
+    field(FFVL, "15")
+    field(ZRST, "Zero")
+    field(ONST, "One")
+    field(TWST, "Two")
+    field(THST, "Three")
+    field(FRST, "Four")
+    field(FVST, "Five")
+    field(SXST, "Six")
+    field(SVST, "Seven")
+    field(EIST, "Eight")
+    field(NIST, "Nine")
+    field(TEST, "Ten")
+    field(ELST, "Eleven")
+    field(TVST, "Twelve")
+    field(TTST, "Thirteen")
+    field(FTST, "Fourteen")
+    field(FFST, "Fifteen")
+    field(UDFS, "NO_ALARM")
+}
+
+record(mbbo, "$(P):types_mbbo") {
+    field(DESC, "mbbo record type demonstration")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) UINT W P=$(ADS_PORT) V=TestPlan.types_mbbo")
+    field(ZRVL, "0")
+    field(ONVL, "1")
+    field(TWVL, "2")
+    field(THVL, "3")
+    field(FRVL, "4")
+    field(FVVL, "5")
+    field(SXVL, "6")
+    field(SVVL, "7")
+    field(EIVL, "8")
+    field(NIVL, "9")
+    field(TEVL, "10")
+    field(ELVL, "11")
+    field(TVVL, "12")
+    field(TTVL, "13")
+    field(FTVL, "14")
+    field(FFVL, "15")
+    field(ZRST, "Zero")
+    field(ONST, "One")
+    field(TWST, "Two")
+    field(THST, "Three")
+    field(FRST, "Four")
+    field(FVST, "Five")
+    field(SXST, "Six")
+    field(SVST, "Seven")
+    field(EIST, "Eight")
+    field(NIST, "Nine")
+    field(TEST, "Ten")
+    field(ELST, "Eleven")
+    field(TVST, "Twelve")
+    field(TTST, "Thirteen")
+    field(FTST, "Fourteen")
+    field(FFST, "Fifteen")
+    field(UDFS, "NO_ALARM")
+}
+
+record(mbbiDirect, "$(P):types_mbbiDirect") {
+    field(DESC, "mbbiDirect record type demonstration")
+    field(DTYP, "asynUInt32Digital")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asynMask($(PORT) 0 0xFFFF 0) UINT_digi R P=$(ADS_PORT) V=TestPlan.types_mbbiDirect")
+    field(UDFS, "NO_ALARM")
+}
+
+record(mbboDirect, "$(P):types_mbboDirect") {
+    field(DESC, "mbboDirect record type demonstration")
+    field(DTYP, "asynUInt32Digital")
+    field(OUT,  "@asynMask($(PORT) 0 0xFFFF 0) UINT_digi W P=$(ADS_PORT) V=TestPlan.types_mbboDirect")
+    field(UDFS, "NO_ALARM")
+}
+
+record(stringin, "$(P):types_stringin") {
+    field(DESC, "stringin record type demonstration")
+    field(DTYP, "asynOctetRead")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) STRING N=9 R P=$(ADS_PORT) V=TestPlan.types_stringin")
+    field(UDFS, "NO_ALARM")
+}
+
+record(stringout, "$(P):types_stringout") {
+    field(DESC, "stringout record type demonstration")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT) 0 0) STRING N=10 W P=$(ADS_PORT) V=TestPlan.types_stringout")
+    field(UDFS, "NO_ALARM")
+}

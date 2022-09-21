@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT-0
+
+#RULES_DIRS
+include $(CONFIG)/RULES_DIRS

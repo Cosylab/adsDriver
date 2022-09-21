@@ -1,0 +1,13 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT-0
+
+#RELEASE Location of external products
+
+ASYN=$(MODULES)/asyn
+AUTOPARAM=$(MODULES)/autoparamdriver
+
+-include $(TOP)/../RELEASE.local
+-include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
+-include $(TOP)/configure/RELEASE.local
+

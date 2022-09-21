@@ -1,0 +1,6 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT-0
+
+registrar(ads_open_register_command)
+registrar(ads_set_local_amsNetID_register_command)

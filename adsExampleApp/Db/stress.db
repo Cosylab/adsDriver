@@ -1,0 +1,9 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT
+
+record(ai, "$(P):StressTest:counter$(NUM)") {
+    field(DTYP, "asynFloat64")
+    field(SCAN, "I/O Intr")
+    field(INP, "@asyn($(PORT) 0 0) LREAL R P=$(ADS_PORT) V=StressTest.counter$(NUM)")
+}

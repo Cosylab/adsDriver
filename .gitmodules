@@ -1,0 +1,7 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT-0
+
+[submodule "adsApp/src/beckhoffAdsLib"]
+	path = adsApp/src/beckhoffAdsLib
+	url = https://github.com/Beckhoff/ADS.git

@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4022.18">
+  <GVL Name="TestPlan" Id="{8ca85bfe-c6cc-4fc7-a811-976821467293}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL	
+	
+	// Float types
+	types_float_real_counter: REAL;
+	types_float_real_writable: REAL;
+	types_float_lreal_counter: LREAL;
+	types_float_lreal_writable: LREAL;
+	
+    // Integer types
+	types_int_byte_counter: BYTE;
+	types_int_byte_writable: BYTE;
+	types_int_word_counter: WORD;
+	types_int_word_writable: WORD;
+	types_int_dword_counter: DWORD;
+	types_int_dword_writable: DWORD;
+	types_int_lword_counter: LWORD;
+	types_int_lword_writable: LWORD;
+	types_int_sint_counter: SINT;
+	types_int_sint_writable: SINT;
+	types_int_usint_counter: USINT;
+	types_int_usint_writable: USINT;
+	types_int_int_counter: INT;
+	types_int_int_writable: INT;
+	types_int_uint_counter: UINT;
+	types_int_uint_writable: UINT;
+	types_int_dint_counter: DINT;
+	types_int_dint_writable: DINT;
+	types_int_udint_counter: UDINT;
+	types_int_udint_writable: UDINT;
+	types_int_lint_counter: LINT;
+	types_int_lint_writable: LINT;
+	types_int_ulint_counter: ULINT;
+	types_int_ulint_writable: ULINT;
+	
+	// date/time types
+	types_datetime_time_readable: TIME;
+	types_datetime_time_writable: TIME;
+	types_datetime_timeofday_readable: TIME_OF_DAY;
+	types_datetime_timeofday_writable: TIME_OF_DAY;
+	types_datetime_date_readable: DATE;
+	types_datetime_date_writable: DATE;
+	types_datetime_dateandtime_readable: DATE_AND_TIME ;
+	types_datetime_dateandtime_writable: DATE_AND_TIME ;
+	
+	// T-ADS-03
+	reg_int32_counter AT %QW0: DINT;
+	reg_int32_writable AT %QW1: DINT;
+	// T-ADS-04
+	sym_int32_counter: DINT;
+	sym_int32_writable: DINT;
+	// T-ADS-05
+	types_bi: BOOL;
+	types_bo: BOOL;
+	types_ai: LREAL;
+	types_ao: LREAL;
+	types_ai_real: REAL;
+	types_ao_real: REAL;
+	
+	types_longin: DINT;
+	types_longout: DINT;
+	types_longin_int: INT;
+	types_longout_int: INT;
+	types_mbbi: UINT;
+	types_mbbo: UINT;
+	types_mbbiDirect: UINT;
+	types_mbboDirect: UINT;
+	types_stringin: STRING(60);
+	types_stringout: STRING(40);
+	string1: ARRAY [1..100] OF SINT;
+	types_wf_char_in: ARRAY [1..10] OF SINT;
+	types_wf_char_out: ARRAY [1..10] OF SINT;
+	types_wf_uchar_in: ARRAY [1..10] OF USINT;
+	types_wf_uchar_out: ARRAY [1..10] OF USINT;
+	types_wf_char_str_in: STRING(23);
+	types_wf_char_str_out: STRING(50);
+	types_wf_short_in: ARRAY [1..10] OF INT;
+	types_wf_short_out: ARRAY [1..10] OF INT;
+	types_wf_ushort_in: ARRAY [1..10] OF UINT;
+	types_wf_ushort_out: ARRAY [1..10] OF UINT;
+	types_wf_long_in: ARRAY [1..10] OF DINT;
+	types_wf_long_out: ARRAY [1..10] OF DINT;
+	types_wf_ulong_in: ARRAY [1..10] OF UDINT;
+	types_wf_ulong_out: ARRAY [1..10] OF UDINT;
+	types_wf_float_in: ARRAY [1..10] OF REAL;
+	types_wf_float_out: ARRAY [1..10] OF REAL;
+	types_wf_double_in: ARRAY [1..10] OF LREAL;
+	types_wf_double_out: ARRAY [1..10] OF LREAL;
+	// T-ADS-07
+	notify_int32_counter: INT;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

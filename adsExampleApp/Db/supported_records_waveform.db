@@ -1,0 +1,186 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT
+
+# Test plan database: demonstrates ADS support for waveform records.
+
+# CHAR/UCHAR/CHAR as string
+record(waveform, "$(P):types_wf_char_in") {
+    field(DESC, "waveform FTVL=CHAR input type demo")
+    field(DTYP, "asynInt8ArrayIn")
+    field(FTVL, "CHAR")
+    field(NELM, "10")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) SINT[] N=10 R P=$(ADS_PORT) V=TestPlan.types_wf_char_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_char_out") {
+    field(DESC, "waveform FTVL=CHAR output type demo")
+    field(DTYP, "asynInt8ArrayOut")
+    field(FTVL, "CHAR")
+    field(NELM, "10")
+    field(INP,  "@asyn($(PORT) 0 0) SINT[] N=10 W P=$(ADS_PORT) V=TestPlan.types_wf_char_out")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_uchar_in") {
+    field(DESC, "waveform FTVL=UCHAR input type demo")
+    field(DTYP, "asynInt8ArrayIn")
+    field(FTVL, "UCHAR")
+    field(NELM, "10")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) USINT[] N=10 R P=$(ADS_PORT) V=TestPlan.types_wf_uchar_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_uchar_out") {
+    field(DESC, "waveform FTVL=UCHAR output type demo")
+    field(DTYP, "asynInt8ArrayOut")
+    field(FTVL, "UCHAR")
+    field(NELM, "10")
+    field(INP,  "@asyn($(PORT) 0 0) USINT[] N=10 W P=$(ADS_PORT) V=TestPlan.types_wf_uchar_out")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_char_str_in") {
+    field(DESC, "waveform FTVL=CHAR string input type")
+    field(DTYP, "asynOctetRead")
+    field(FTVL, "CHAR")
+    field(NELM, "23")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) STRING N=23 R P=$(ADS_PORT) V=TestPlan.types_wf_char_str_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_char_str_out") {
+    field(DESC, "waveform FTVL=CHAR string output type")
+    field(DTYP, "asynOctetWrite")
+    field(FTVL, "CHAR")
+    field(NELM, "50")
+    field(INP,  "@asyn($(PORT) 0 0) STRING N=50 W P=$(ADS_PORT) V=TestPlan.types_wf_char_str_out")
+    field(UDFS, "NO_ALARM")
+}
+
+# SHORT/USHORT
+record(waveform, "$(P):types_wf_short_in") {
+    field(DESC, "waveform FTVL=SHORT input type demo")
+    field(DTYP, "asynInt16ArrayIn")
+    field(FTVL, "SHORT")
+    field(NELM, "10")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) INT[] N=10 R P=$(ADS_PORT) V=TestPlan.types_wf_short_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_short_out") {
+    field(DESC, "waveform FTVL=SHORT output type demo")
+    field(DTYP, "asynInt16ArrayOut")
+    field(FTVL, "SHORT")
+    field(NELM, "10")
+    field(INP,  "@asyn($(PORT) 0 0) INT[] N=10 W P=$(ADS_PORT) V=TestPlan.types_wf_short_out")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_ushort_in") {
+    field(DESC, "waveform FTVL=USHORT input type demo")
+    field(DTYP, "asynInt16ArrayIn")
+    field(FTVL, "USHORT")
+    field(NELM, "10")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) UINT[] N=10 R P=$(ADS_PORT) V=TestPlan.types_wf_ushort_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_ushort_out") {
+    field(DESC, "waveform FTVL=USHORT output type demo")
+    field(DTYP, "asynInt16ArrayOut")
+    field(FTVL, "USHORT")
+    field(NELM, "10")
+    field(INP,  "@asyn($(PORT) 0 0) UINT[] N=10 W P=$(ADS_PORT) V=TestPlan.types_wf_ushort_out")
+    field(UDFS, "NO_ALARM")
+}
+
+# LONG/ULONG
+record(waveform, "$(P):types_wf_long_in") {
+    field(DESC, "waveform FTVL=LONG input type demo")
+    field(DTYP, "asynInt32ArrayIn")
+    field(FTVL, "LONG")
+    field(NELM, "10")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) DINT[] N=10 R P=$(ADS_PORT) V=TestPlan.types_wf_long_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_long_out") {
+    field(DESC, "waveform FTVL=LONG output type demo")
+    field(DTYP, "asynInt32ArrayOut")
+    field(FTVL, "LONG")
+    field(NELM, "10")
+    field(INP,  "@asyn($(PORT) 0 0) DINT[] N=10 W P=$(ADS_PORT) V=TestPlan.types_wf_long_out")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_ulong_in") {
+    field(DESC, "waveform FTVL=ULONG input type demo")
+    field(DTYP, "asynInt32ArrayIn")
+    field(FTVL, "ULONG")
+    field(NELM, "10")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) UDINT[] N=10 R P=$(ADS_PORT) V=TestPlan.types_wf_ulong_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_ulong_out") {
+    field(DESC, "waveform FTVL=ULONG output type demo")
+    field(DTYP, "asynInt32ArrayOut")
+    field(FTVL, "ULONG")
+    field(NELM, "10")
+    field(INP,  "@asyn($(PORT) 0 0) UDINT[] N=10 W P=$(ADS_PORT) V=TestPlan.types_wf_ulong_out")
+    field(UDFS, "NO_ALARM")
+}
+
+# FLOAT
+record(waveform, "$(P):types_wf_float_in") {
+    field(DESC, "waveform FTVL=FLOAT input type demo")
+    field(DTYP, "asynFloat32ArrayIn")
+    field(FTVL, "FLOAT")
+    field(PREC, "2")
+    field(NELM, "10")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) REAL[] N=10 R P=$(ADS_PORT) V=TestPlan.types_wf_float_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_float_out") {
+    field(DESC, "waveform FTVL=FLOAT output type demo")
+    field(DTYP, "asynFloat32ArrayOut")
+    field(FTVL, "FLOAT")
+    field(PREC, "2")
+    field(NELM, "10")
+    field(INP,  "@asyn($(PORT) 0 0) REAL[] N=10 W P=$(ADS_PORT) V=TestPlan.types_wf_float_out")
+    field(UDFS, "NO_ALARM")
+}
+
+# DOUBLE
+record(waveform, "$(P):types_wf_double_in") {
+    field(DESC, "waveform FTVL=DOUBLE input type demo")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(FTVL, "DOUBLE")
+    field(PREC, "2")
+    field(NELM, "10")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) LREAL[] N=10 R P=$(ADS_PORT) V=TestPlan.types_wf_double_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):types_wf_double_out") {
+    field(DESC, "waveform FTVL=DOUBLE output type demo")
+    field(DTYP, "asynFloat64ArrayOut")
+    field(FTVL, "DOUBLE")
+    field(PREC, "2")
+    field(NELM, "10")
+    field(INP,  "@asyn($(PORT) 0 0) LREAL[] N=10 W P=$(ADS_PORT) V=TestPlan.types_wf_double_out")
+    field(UDFS, "NO_ALARM")
+}
+
