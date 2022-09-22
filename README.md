@@ -6,6 +6,9 @@ SPDX-License-Identifier: MIT
 
 # EPICS ADS Device Support
 
+* Code repository: https://github.com/cosylab/adsDriver
+* Online documentation: https://epics.cosylab.com/documentation/adsDriver
+
 This device support library is used for communication with Beckhoff ADS devices.
 It implements the layer between Beckhoff ADS client library and EPICS database
 records. The library handles read/write requests initiated by database records
@@ -13,8 +16,6 @@ and converts them to ADS client library calls.
 
 More information can be found in the EPICS ADS Reference Manual which is located
 in `documentation` folder. Compiling documentation to html requires python-sphinx.
-
-Online version of documentation located here: TODO
 
 # Dependencies
 

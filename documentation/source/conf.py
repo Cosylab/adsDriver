@@ -58,9 +58,9 @@ html_static_path = ['_static']
 
 html_theme_options = {
     'collapse_navigation': False,
-#    'analytics_id': UA-XXXXX or G-XXX,
     'display_version': False,
-    'style_nav_header_background': '#00002C'
+    'style_nav_header_background': '#00002C',
+    #'analytics_id': UA-XXXXX or G-XXX,
 }
 
 html_css_files = [

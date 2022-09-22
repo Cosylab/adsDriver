@@ -7,6 +7,7 @@ variables:
     HTML_DIR: "/var/www/landing/documentation/"
     TARGET_DIR: "${HTML_DIR}/adsDriver"
     SOURCE_DIR: "documentation/build"
+    COLON: ':'
 
 stages:
   - build
@@ -18,6 +19,7 @@ docs_build:
     script:
         - pip3 install -U sphinx sphinx_rtd_theme
         - cd documentation
+        - sed -i "s|#'analytics_id'.*|'analytics_id'${COLON} '${ANALYTICS_TOKEN}'|" source/conf.py
         - sphinx-build -b html source build
     artifacts:
         paths:
@@ -27,10 +29,10 @@ docs_build:
 docs_deploy:
     when: manual
     stage: deploy
-    tags: 
+    tags:
         - epics
         - website
-    dependencies: 
+    dependencies:
         - docs_build
     script:
         - sudo rm -fr "${TARGET_DIR}"
