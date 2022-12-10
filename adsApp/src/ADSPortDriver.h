@@ -6,6 +6,9 @@
 
 #include "ADSAddress.h"
 #include "autoparamHandler.h"
+#ifdef USE_BUNDLED_ADS
+#include <standalone/AdsDef.h>
+#endif /* USE_BUNDLED_ADS */
 #include <atomic>
 #include <chrono>
 #include <cstdint>

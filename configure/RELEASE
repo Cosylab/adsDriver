@@ -6,8 +6,13 @@
 
 ASYN=$(SUPPORT)/asyn/master
 AUTOPARAM=$(SUPPORT)/autoparamDriver/master
-ADS=$(SUPPORT)/ADS/master
 BOOST=$(EPICS_KIT_ROOT)/libraries/master/boost
+
+## define ADSLIB to use external build of github Beckhof ADS library 
+ADSLIB=$(SUPPORT)/ADS/master
+
+## define TCDIR to use ADS library from twincat install 
+#TCDIR=$(TWINCATSDK)
 
 -include $(TOP)/../RELEASE.local
 -include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local

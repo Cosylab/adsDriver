@@ -20,7 +20,11 @@ EPICS_ADS=$(TOP)/adsApp/src
 
 USR_CXXFLAGS_Linux += -std=c++11
 
-#USR_INCLUDES += -I$(TWINCAT3DIR)/sdk/include
+# use ADS from twincat
+ifdef TCDIR
+USR_INCLUDES += -I$(TWINCAT3DIR)/Include
+USR_CXXFLAGS += -DUSE_TC_ADS
+endif
 
 # specify all source files to be compiled and added to the library
 SRC_DIRS += $(EPICS_ADS)/epics-ads
@@ -35,29 +39,36 @@ ads_SRCS += RWLock.cpp
 ads_SRCS += Types.cpp
 ads_SRCS += err.cpp
 
+## ADSLIB points at an external build of beckhoff ADS, if this is not
+## defined use bindled one 
+ifndef TCDIR
+ifndef ADSLIB
 # specify beckhoff ads lib source files to be compiled and added
-#SRC_DIRS += $(EPICS_ADS)/beckhoffAdsLib/AdsLib
-#ads_SRCS += AdsDef.cpp
-#ads_SRCS += AdsDevice.cpp
-#ads_SRCS += AdsLib.cpp
-#ads_SRCS += AdsFile.cpp
-#ads_SRCS += LicenseAccess.cpp
-#ads_SRCS += Log.cpp
-#ads_SRCS += RouterAccess.cpp
-#ads_SRCS += RTimeAccess.cpp
-#ads_SRCS += Sockets.cpp
-#ads_SRCS += Frame.cpp
-#ads_SRCS += standalone_AdsLib.cpp
-#ads_SRCS += standalone_AmsConnection.cpp
-#ads_SRCS += standalone_AmsNetId.cpp
-#ads_SRCS += standalone_AmsPort.cpp
-#ads_SRCS += standalone_AmsRouter.cpp
-#ads_SRCS += standalone_NotificationDispatcher.cpp
+USR_CXXFLAGS += -DUSE_BUNDLED_ADS
+SRC_DIRS += $(EPICS_ADS)/beckhoffAdsLib/AdsLib
+ads_SRCS += AdsDef.cpp
+ads_SRCS += AdsDevice.cpp
+ads_SRCS += AdsLib.cpp
+ads_SRCS += AdsFile.cpp
+ads_SRCS += LicenseAccess.cpp
+ads_SRCS += Log.cpp
+ads_SRCS += RouterAccess.cpp
+ads_SRCS += RTimeAccess.cpp
+ads_SRCS += Sockets.cpp
+ads_SRCS += Frame.cpp
+ads_SRCS += standalone_AdsLib.cpp
+ads_SRCS += standalone_AmsConnection.cpp
+ads_SRCS += standalone_AmsNetId.cpp
+ads_SRCS += standalone_AmsPort.cpp
+ads_SRCS += standalone_AmsRouter.cpp
+ads_SRCS += standalone_NotificationDispatcher.cpp
 
 # Because AdsLib.cpp exists both in AdsLib/ and AdsLib/standalone, those in standalone/ are copied and renamed to standalone_*.
 $(filter standalone_%,$(ads_SRCS)): standalone_%: $(EPICS_ADS)/beckhoffAdsLib/AdsLib/standalone/%
 	cp $< $@
 
+endif
+endif
 
 # libpthread is needed for POSIX R/W locks used in RWLock.h
 ads_SYS_LIBS_Linux += pthread
