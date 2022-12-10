@@ -9,7 +9,7 @@
 #include <cstring>
 #include <errlog.h>
 #include "asynDriver.h"
-#include "AdsDef.h"
+#include "AdsLib.h"
 
 #define FILENAME (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 

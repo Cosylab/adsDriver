@@ -127,15 +127,14 @@ int ADSVariable::write(const char *data, const uint32_t size) {
         return EPICSADS_NOT_RESOLVED;
     }
 
-    uint8_t buffer[this->size()];
-    memset(buffer, 0, sizeof(buffer));
-
-    if (size > sizeof(buffer)) {
+    if (size > this->size()) {
         return EPICSADS_OVERFLOW;
     }
-    memcpy(buffer, data, size);
 
-    uint32_t bytes_to_write = sizeof(buffer);
+    std::vector<uint8_t> buffer(this->size(), 0);
+    memcpy(&(buffer[0]), data, size);
+
+    uint32_t bytes_to_write = this->size();
 
     std::lock_guard<epicsMutex> lock(this->conn->mtx);
 
@@ -147,7 +146,7 @@ int ADSVariable::write(const char *data, const uint32_t size) {
                                 this->addr->get_index_group(),  // index group
                                 this->addr->get_index_offset(), // index offset
                                 bytes_to_write,                 // data length
-                                buffer);                        // data buffer
+                                &(buffer[0]));                        // data buffer
     if (rc != 0) {
         return ads_rc_to_epicsads_error(rc);
     }

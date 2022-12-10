@@ -7,7 +7,7 @@
 
 #include <map>
 
-#include <AdsDef.h>
+#include <AdsLib.h>
 
 enum Operation { Read, Write };
 
@@ -50,6 +50,7 @@ enum ADSState {
     Reconfig = 16,
     Maxstates
 };
+
 
 extern std::map<ADSDataType, size_t> ads_datatype_sizes;
 extern std::map<std::string, ADSDataType> ads_datatypes;

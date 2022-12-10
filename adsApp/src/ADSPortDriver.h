@@ -6,7 +6,6 @@
 
 #include "ADSAddress.h"
 #include "autoparamHandler.h"
-#include "standalone/AdsDef.h"
 #include <atomic>
 #include <chrono>
 #include <cstdint>

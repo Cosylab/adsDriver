@@ -6,7 +6,6 @@
 #include <Variable.h>
 #include <autoparamHandler.h>
 #include <err.h>
-#include <standalone/AdsDef.h>
 #include <Connection.h>
 #include <chrono>
 #include <cstddef>

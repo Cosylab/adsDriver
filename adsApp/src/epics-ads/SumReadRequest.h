@@ -11,7 +11,7 @@
 #include <cstdint>
 #include <utility>
 
-#include "AdsDef.h"
+#include "AdsLib.h"
 
 #include "Variable.h"
 #include "SumReadBuffer.h"
