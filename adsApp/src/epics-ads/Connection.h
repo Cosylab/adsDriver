@@ -9,7 +9,12 @@
 #include <vector>
 
 #include <epicsMutex.h>
-#include "AdsLib.h"
+#ifdef USE_TC_ADS
+#include <windows.h>
+#include <TcAdsDef.h>
+#else
+#include <AdsLib.h>
+#endif
 
 #include "Variable.h"
 

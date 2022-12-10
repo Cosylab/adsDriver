@@ -7,11 +7,16 @@
 
 #include <map>
 
-#include <AdsLib.h>
+#ifdef USE_TC_ADS
+#include <windows.h>
+#include <TcAdsDef.h>
+#else
+#include <AdsLib.h>^M
+#endif
 
 enum Operation { Read, Write };
 
-enum ADSDataType {
+enum class ADSDataType {
     UNKNOWN,
     BOOL,
     SINT,

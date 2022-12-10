@@ -522,55 +522,55 @@ void ADSPortDriver::performIOIntr() {
             auto const &nelem = adsVar.adsPV->addr->get_nelem();
 
             switch (dataType) {
-            case BOOL:
-            case BYTE:
-            case SINT: {
+            case ADSDataType::BOOL:
+            case ADSDataType::BYTE:
+            case ADSDataType::SINT: {
                 performArrayCallbacks<epicsInt8, epicsInt8>(adsVar, nelem);
                 break;
             }
 
-            case INT: {
+            case ADSDataType::INT: {
                 performArrayCallbacks<epicsInt16, epicsInt16>(adsVar, nelem);
                 break;
             }
 
-            case DINT: {
+            case ADSDataType::DINT: {
                 performArrayCallbacks<epicsInt32, epicsInt32>(adsVar, nelem);
                 break;
             }
-            case LINT: {
+            case ADSDataType::LINT: {
                 performArrayCallbacks<epicsInt64, epicsInt64>(adsVar, nelem);
                 break;
             }
 
-            case REAL: {
+            case ADSDataType::REAL: {
                 performArrayCallbacks<epicsFloat32, epicsFloat32>(adsVar,
                                                                   nelem);
                 break;
             }
 
-            case LREAL: {
+            case ADSDataType::LREAL: {
                 performArrayCallbacks<epicsFloat64, epicsFloat64>(adsVar,
                                                                   nelem);
                 break;
             }
 
-            case USINT: {
+            case ADSDataType::USINT: {
                 performArrayCallbacks<epicsUInt8, epicsInt8>(adsVar, nelem);
                 break;
             }
-            case WORD:
-            case UINT: {
+            case ADSDataType::WORD:
+            case ADSDataType::UINT: {
                 performArrayCallbacks<epicsUInt16, epicsInt16>(adsVar, nelem);
                 break;
             }
-            case DWORD:
-            case UDINT: {
+            case ADSDataType::DWORD:
+            case ADSDataType::UDINT: {
                 performArrayCallbacks<epicsUInt32, epicsInt32>(adsVar, nelem);
                 break;
             }
 
-            case STRING: {
+            case ADSDataType::STRING: {
                 std::vector<char> buffer(nelem);
                 Autoparam::Octet readArray(buffer.data(), buffer.size());
 
@@ -587,9 +587,9 @@ void ADSPortDriver::performIOIntr() {
 
         } else if (func.find("_digi") != std::string::npos) {
             switch (dataType) {
-            case BOOL:
-            case BYTE:
-            case USINT: {
+            case ADSDataType::BOOL:
+            case ADSDataType::BYTE:
+            case ADSDataType::USINT: {
                 UInt32ReadResult result =
                     digitalRead<epicsUInt8>(adsVar, 0xFFFF);
 
@@ -597,8 +597,8 @@ void ADSPortDriver::performIOIntr() {
                          result.alarmStatus, result.alarmSeverity);
                 break;
             }
-            case WORD:
-            case UINT: {
+            case ADSDataType::WORD:
+            case ADSDataType::UINT: {
                 UInt32ReadResult result =
                     digitalRead<epicsUInt16>(adsVar, 0xFFFF);
 
@@ -606,8 +606,8 @@ void ADSPortDriver::performIOIntr() {
                          result.alarmStatus, result.alarmSeverity);
                 break;
             }
-            case DWORD:
-            case UDINT: {
+            case ADSDataType::DWORD:
+            case ADSDataType::UDINT: {
                 UInt32ReadResult result =
                     digitalRead<epicsUInt32>(adsVar, 0xFFFF);
 
@@ -621,9 +621,9 @@ void ADSPortDriver::performIOIntr() {
 
         } else {
             switch (dataType) {
-            case BOOL:
-            case BYTE:
-            case SINT: {
+            case ADSDataType::BOOL:
+            case ADSDataType::BYTE:
+            case ADSDataType::SINT: {
                 Int32ReadResult result =
                     integerRead<epicsInt8, epicsInt32>(adsVar);
 
@@ -632,7 +632,7 @@ void ADSPortDriver::performIOIntr() {
                 break;
             }
 
-            case INT: {
+            case ADSDataType::INT: {
                 Int32ReadResult result =
                     integerRead<epicsInt16, epicsInt32>(adsVar);
 
@@ -641,7 +641,7 @@ void ADSPortDriver::performIOIntr() {
                 break;
             }
 
-            case DINT: {
+            case ADSDataType::DINT: {
                 Int32ReadResult result =
                     integerRead<epicsInt32, epicsInt32>(adsVar);
 
@@ -650,7 +650,7 @@ void ADSPortDriver::performIOIntr() {
                 break;
             }
 
-            case LINT: {
+            case ADSDataType::LINT: {
                 Int64ReadResult result =
                     integerRead<epicsInt64, epicsInt64>(adsVar);
 
@@ -660,7 +660,7 @@ void ADSPortDriver::performIOIntr() {
                 break;
             }
 
-            case REAL: {
+            case ADSDataType::REAL: {
                 Float64ReadResult result = floatRead<epicsFloat32>(adsVar);
 
                 setParam(adsVar, result.value, result.status,
@@ -668,7 +668,7 @@ void ADSPortDriver::performIOIntr() {
                 break;
             }
 
-            case LREAL: {
+            case ADSDataType::LREAL: {
                 Float64ReadResult result = floatRead<epicsFloat64>(adsVar);
 
                 setParam(adsVar, result.value, result.status,
@@ -676,7 +676,7 @@ void ADSPortDriver::performIOIntr() {
                 break;
             }
 
-            case USINT: {
+            case ADSDataType::USINT: {
                 Int32ReadResult result =
                     integerRead<epicsInt16, epicsInt32>(adsVar);
 
@@ -685,8 +685,8 @@ void ADSPortDriver::performIOIntr() {
                 break;
             }
 
-            case WORD:
-            case UINT: {
+            case ADSDataType::WORD:
+            case ADSDataType::UINT: {
                 Int32ReadResult result =
                     integerRead<epicsInt32, epicsInt32>(adsVar);
 
@@ -695,8 +695,8 @@ void ADSPortDriver::performIOIntr() {
                 break;
             }
 
-            case DWORD:
-            case UDINT: {
+            case ADSDataType::DWORD:
+            case ADSDataType::UDINT: {
                 Int64ReadResult result =
                     integerRead<epicsInt64, epicsInt64>(adsVar);
 

@@ -19,10 +19,10 @@ DBD += ads.dbd
 EPICS_ADS=$(TOP)/adsApp/src
 
 USR_CXXFLAGS_Linux += -std=c++11
+USR_CXXFLAGS_WIN32 += -DNOMINMAX
 
 # use ADS from twincat
 ifdef TCDIR
-USR_INCLUDES += -I$(TWINCAT3DIR)/Include
 USR_CXXFLAGS += -DUSE_TC_ADS
 endif
 

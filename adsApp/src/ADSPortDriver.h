@@ -19,7 +19,12 @@
 #include <thread>
 #include <vector>
 
+#ifdef USE_TC_ADS
+#include <windows.h>
+#include <TcAdsDef.h>
+#else
 #include <AdsLib.h>
+#endif
 #include <autoparamDriver.h>
 #include <SumReadRequest.h>
 #include <Types.h>
