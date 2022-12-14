@@ -5,13 +5,15 @@
 #ifndef EPICSADS_TYPES_H
 #define EPICSADS_TYPES_H
 
+#include <string>
 #include <map>
 
 #ifdef USE_TC_ADS
 #include <windows.h>
 #include <TcAdsDef.h>
+#include <TcAdsApi.h>
 #else
-#include <AdsLib.h>^M
+#include <AdsLib.h>
 #endif
 
 enum Operation { Read, Write };

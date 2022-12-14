@@ -76,7 +76,11 @@ ads_SYS_LIBS_Linux += pthread
 # ads_LIBS += DynamicAsynPort
 ads_LIBS += autoparamDriver
 ads_LIBS += asyn
+ifdef TCDIR
+ads_SYS_LIBS_WIN32 += C:\TwinCAT\AdsApi\TcAdsDll\x64\Lib\tcadsdll
+else
 ads_LIBS += AdsLib
+endif
 ads_LIBS += $(EPICS_BASE_IOC_LIBS)
 
 #===========================

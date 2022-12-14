@@ -96,7 +96,7 @@ ADSPortDriver::ADSPortDriver(
                                       .setAutoConnect(true)
                                       .setAutoDestruct()
                                       .setInitHook(initHook)),
-      portName(portName), ipAddr(ipAddr), amsNetId(amsNetId),
+      portName(portName), ipAddr(ipAddr), /*amsNetId(amsNetId),*/
       sumBufferSize(sumBufferSize), adsFunctionTimeout(adsFunctionTimeout),
       adsConnection(new Connection()), SumRead(sumBufferSize, adsConnection),
       exitCalled(false), initialized(false),

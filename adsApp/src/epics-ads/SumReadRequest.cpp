@@ -5,8 +5,6 @@
 #include <stdexcept>
 #include <mutex>
 
-#include "AdsLib.h"
-
 #include "SumReadRequest.h"
 #include "Connection.h"
 #include "err.h"
@@ -127,7 +125,7 @@ int SumReadRequest::allocate(
             chunk->add_variable(var);
         } catch (const std::exception &ex) {
             LOG_ERR("could not add ADS variable to read-request-chunk");
-            goto ERROR;
+            goto SRR_ERROR;
         }
     }
 
@@ -143,7 +141,7 @@ int SumReadRequest::allocate(
             if (rc != 0) {
                 LOG_ERR("failed to initialize sum-read data buffer (%i): %s",
                         rc, ads_errors[rc].c_str());
-                goto ERROR;
+                goto SRR_ERROR;
             }
         }
     }
@@ -152,7 +150,7 @@ int SumReadRequest::allocate(
 
     return 0;
 
-ERROR:
+SRR_ERROR:
     this->deallocate();
     return EPICSADS_ERROR;
 }
@@ -246,6 +244,8 @@ void SumReadRequest::set_buffers_state(
     }
 }
 
+#define ADSIGRP_SUMUP_READ 0xF080
+
 int SumReadRequest::read() {
     if (this->initialized == false) {
         return EPICSADS_INV_CALL;
@@ -289,7 +289,7 @@ int SumReadRequest::read() {
             write_buffer_size, // write buffer size in bytes
             write_buffer, // write buffer (data sent to PLC), containing read
                           // requests for PLC variables
-            &bytes_read); // number of bytes read
+            (ads_ui32*)&bytes_read); // number of bytes read
         if (rc != 0) {
             this->set_buffers_state(SumReadBuffer::SumReadBufferState::Invalid);
             return ads_rc_to_epicsads_error(rc);

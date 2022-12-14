@@ -14,6 +14,7 @@
 #ifdef USE_TC_ADS
 #include <windows.h>
 #include <TcAdsDef.h>
+#include <TcAdsApi.h>
 #else
 #include <AdsLib.h>
 #endif

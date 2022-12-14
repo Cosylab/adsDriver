@@ -83,7 +83,7 @@ epicsShareFunc void ads_set_local_amsNetID(const char *ams) {
     if (ams == NULL)
         errlogPrintf("Local Ams Net ID must be specified\n");
     else
-        AdsSetLocalAddress((std::string)ams);
+        ; // AdsSetLocalAddress((std::string)ams);
 
     return;
 }

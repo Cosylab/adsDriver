@@ -4,6 +4,10 @@
 
 #include "Types.h"
 
+#ifndef AMSPORT_R0_PLC_TC3
+#define AMSPORT_R0_PLC_TC3 851
+#endif
+
 std::map<ADSDataType, size_t> ads_datatype_sizes = {
     {ADSDataType::BOOL, 1},  {ADSDataType::SINT, 1},  {ADSDataType::BYTE, 1},
     {ADSDataType::USINT, 1}, {ADSDataType::INT, 2},   {ADSDataType::WORD, 2},

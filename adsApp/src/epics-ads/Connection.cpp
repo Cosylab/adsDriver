@@ -7,6 +7,10 @@
 
 #include "Connection.h"
 
+#ifndef AMSPORT_R0_PLC_TC3
+#define AMSPORT_R0_PLC_TC3 851
+#endif
+
 bool Connection::is_connected() { return (this->ads_port != 0 ? true : false); }
 
 const AmsNetId Connection::get_remote_ams_netid() {
@@ -20,14 +24,14 @@ Connection::Connection() {}
 Connection::~Connection() {}
 
 void Connection::set_local_ams_id(const AmsNetId ams_id) {
-    AdsSetLocalAddress(ams_id);
+    //AdsSetLocalAddress(ams_id);
 }
 
 int Connection::connect(const AmsNetId ams_id, const std::string address) {
     std::lock_guard<epicsMutex> lock(this->mtx);
 
     /* Add AMS route */
-    long rc = AdsAddRoute(ams_id, address.c_str());
+    long rc = 0; // AdsAddRoute(ams_id, address.c_str());
     if (rc != 0) {
         LOG_ERR("could not add ADS rout (%li): %s", rc, errorMap[rc].c_str());
         return EPICSADS_DISCONNECTED;
@@ -56,7 +60,7 @@ int Connection::disconnect() {
     this->ads_port = 0;
 
     /* TODO: does this bork other ADS connections? */
-    AdsDelRoute(this->remote_ams_netid);
+    //AdsDelRoute(this->remote_ams_netid);
     this->remote_ams_netid = {0, 0, 0, 0, 0, 0};
 
     return 0;
@@ -106,7 +110,7 @@ int Connection::resolve_variables(
             sizeof(handle),                        // read length
             &handle,                               // read data
             ads_var->addr->get_var_name().size(),  // write length
-            ads_var->addr->get_var_name().c_str(), // write data
+            (void*)ads_var->addr->get_var_name().c_str(), // write data
             nullptr);                              // bytes read
 
         if (rc != 0) {

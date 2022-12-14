@@ -5,6 +5,7 @@
 #ifndef ERR_H
 #define ERR_H
 
+#include <string>
 #include <map>
 #include <cstring>
 #include <errlog.h>
@@ -12,6 +13,7 @@
 #ifdef USE_TC_ADS
 #include <windows.h>
 #include <TcAdsDef.h>
+#include <TcAdsApi.h>
 #else
 #include <AdsLib.h>
 #endif
