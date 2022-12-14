@@ -40,7 +40,7 @@ ads_SRCS += Types.cpp
 ads_SRCS += err.cpp
 
 ## ADSLIB points at an external build of beckhoff ADS, if this is not
-## defined use bindled one 
+## defined use bundled one 
 ifndef TCDIR
 ifndef ADSLIB
 # specify beckhoff ads lib source files to be compiled and added
@@ -65,7 +65,7 @@ ads_SRCS += standalone_NotificationDispatcher.cpp
 
 # Because AdsLib.cpp exists both in AdsLib/ and AdsLib/standalone, those in standalone/ are copied and renamed to standalone_*.
 $(filter standalone_%,$(ads_SRCS)): standalone_%: $(EPICS_ADS)/beckhoffAdsLib/AdsLib/standalone/%
-	cp $< $@
+	$(CP) $< $@
 
 endif
 endif
@@ -76,8 +76,11 @@ ads_SYS_LIBS_Linux += pthread
 # ads_LIBS += DynamicAsynPort
 ads_LIBS += autoparamDriver
 ads_LIBS += asyn
+ifdef ADSLIB
 ads_LIBS += AdsLib
+endif
 ads_LIBS += $(EPICS_BASE_IOC_LIBS)
+ads_SYS_LIBS_WIN32 += ws2_32
 
 #===========================
 
