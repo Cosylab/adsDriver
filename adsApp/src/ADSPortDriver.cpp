@@ -22,6 +22,7 @@
 #include <stdexcept>
 #include <thread>
 #include <vector>
+#include <boost/algorithm/string.hpp>
 
 bool ADSDeviceAddress::operator==(DeviceAddress const &other) const {
     ADSDeviceAddress const &b = static_cast<ADSDeviceAddress const &>(other);
@@ -96,11 +97,22 @@ ADSPortDriver::ADSPortDriver(
                                       .setAutoConnect(true)
                                       .setAutoDestruct()
                                       .setInitHook(initHook)),
-      portName(portName), ipAddr(ipAddr), /*amsNetId(amsNetId),*/
+      portName(portName), ipAddr(ipAddr), amsNetId({0, 0, 0 ,0 ,0 ,0}),
       sumBufferSize(sumBufferSize), adsFunctionTimeout(adsFunctionTimeout),
       adsConnection(new Connection()), SumRead(sumBufferSize, adsConnection),
       exitCalled(false), initialized(false),
       currentDeviceState(ADSSTATE_INVALID) {
+
+#ifdef USE_TC_ADS
+    std::vector<std::string> split_ams;
+    boost::split(split_ams, amsNetId, boost::is_any_of("."));
+    for(int i=0; i < split_ams.size() && i < 6; ++i)
+    {
+        this->amsNetId.b[i] = atoi(split_ams[i].c_str());
+    }
+#else
+    this.amsNetId = amsNetId;
+#endif
 
     // scalars
     registerHandlers<epicsInt32>(ads_datatypes_str.at(ADSDataType::BOOL),

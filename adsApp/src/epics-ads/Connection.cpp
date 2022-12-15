@@ -24,18 +24,22 @@ Connection::Connection() {}
 Connection::~Connection() {}
 
 void Connection::set_local_ams_id(const AmsNetId ams_id) {
-    //AdsSetLocalAddress(ams_id);
+#ifndef USE_TC_ADS
+    AdsSetLocalAddress(ams_id);
+#endif
 }
 
 int Connection::connect(const AmsNetId ams_id, const std::string address) {
     std::lock_guard<epicsMutex> lock(this->mtx);
 
     /* Add AMS route */
-    long rc = 0; // AdsAddRoute(ams_id, address.c_str());
+#ifndef USE_TC_ADS
+    long rc = AdsAddRoute(ams_id, address.c_str());
     if (rc != 0) {
         LOG_ERR("could not add ADS rout (%li): %s", rc, errorMap[rc].c_str());
         return EPICSADS_DISCONNECTED;
     }
+#endif
 
     const long port = AdsPortOpenEx();
     if (port == 0) {
@@ -59,8 +63,10 @@ int Connection::disconnect() {
     AdsPortCloseEx(this->ads_port);
     this->ads_port = 0;
 
+#ifndef USE_TC_ADS
     /* TODO: does this bork other ADS connections? */
-    //AdsDelRoute(this->remote_ams_netid);
+    AdsDelRoute(this->remote_ams_netid);
+#endif
     this->remote_ams_netid = {0, 0, 0, 0, 0, 0};
 
     return 0;

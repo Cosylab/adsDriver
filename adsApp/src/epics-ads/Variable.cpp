@@ -138,7 +138,7 @@ int ADSVariable::write(const char *data, const uint32_t size) {
 
     std::lock_guard<epicsMutex> lock(this->conn->mtx);
 
-    struct ::AmsAddr remote_ams_addr = {this->conn->get_remote_ams_netid(),
+    AmsAddr remote_ams_addr = {this->conn->get_remote_ams_netid(),
                                       this->addr->get_ads_port()};
 
     long rc = AdsSyncWriteReqEx(this->conn->get_ads_port(),     // ADS port
@@ -175,7 +175,7 @@ int ADSVariable::read(uint8_t *data, const uint32_t size,
 
     std::lock_guard<epicsMutex> lock(this->conn->mtx);
 
-    struct ::AmsAddr remote_ams_addr = {this->conn->get_remote_ams_netid(),
+    AmsAddr remote_ams_addr = {this->conn->get_remote_ams_netid(),
                                       this->addr->get_ads_port()};
 
     long rc = AdsSyncReadReqEx2(this->conn->get_ads_port(),     // ADS port
