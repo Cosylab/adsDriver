@@ -12,7 +12,7 @@ BOOST=$(EPICS_KIT_ROOT)/libraries/master/boost
 #ADSLIB=$(SUPPORT)/ADS/master
 
 ## define TCDIR to use ADS library from twincat install 
-TCDIR=C:/TwinCAT/3.1/SDK
+TCDIR=C:/TwinCAT
 
 -include $(TOP)/../RELEASE.local
 -include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local

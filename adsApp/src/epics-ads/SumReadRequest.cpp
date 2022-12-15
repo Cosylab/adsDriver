@@ -125,7 +125,7 @@ int SumReadRequest::allocate(
             chunk->add_variable(var);
         } catch (const std::exception &ex) {
             LOG_ERR("could not add ADS variable to read-request-chunk");
-            goto SRR_ERROR;
+            goto ALLOC_ERROR;
         }
     }
 
@@ -141,7 +141,7 @@ int SumReadRequest::allocate(
             if (rc != 0) {
                 LOG_ERR("failed to initialize sum-read data buffer (%i): %s",
                         rc, ads_errors[rc].c_str());
-                goto SRR_ERROR;
+                goto ALLOC_ERROR;
             }
         }
     }
@@ -150,7 +150,7 @@ int SumReadRequest::allocate(
 
     return 0;
 
-SRR_ERROR:
+ALLOC_ERROR:
     this->deallocate();
     return EPICSADS_ERROR;
 }
