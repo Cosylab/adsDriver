@@ -111,7 +111,7 @@ ADSPortDriver::ADSPortDriver(
         this->amsNetId.b[i] = atoi(split_ams[i].c_str());
     }
 #else
-    this.amsNetId = amsNetId;
+    this->amsNetId = amsNetId;
 #endif
 
     // scalars
