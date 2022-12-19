@@ -116,7 +116,7 @@ int Connection::resolve_variables(
             sizeof(handle),                        // read length
             &handle,                               // read data
             ads_var->addr->get_var_name().size(),  // write length
-            (void*)ads_var->addr->get_var_name().c_str(), // write data
+            const_cast<char*>(ads_var->addr->get_var_name().c_str()), // write data
             nullptr);                              // bytes read
 
         if (rc != 0) {

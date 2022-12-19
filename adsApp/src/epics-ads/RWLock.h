@@ -5,10 +5,12 @@
 #ifndef RWLOCK_H
 #define RWLOCK_H
 
+#ifdef _WIN32
 #include <mutex>
 #include <shared_mutex>
-
-//#include <pthread.h>
+#else
+#include <pthread.h>
+#endif
 
 /* Reader/writer lock implementation based on POSIX rwlocks.
  *
@@ -16,17 +18,23 @@
  * - Don't release locks if currently not holding a lock.
  * */
 class RWLock {
-    private:
-    std::shared_mutex mutex_;
 protected:
-//    pthread_rwlock_t rwlock;
-//    pthread_rwlockattr_t rwlock_attr;
+#ifdef _WIN32
+    std::shared_mutex mutex_;
+#else
+    pthread_rwlock_t rwlock;
+    pthread_rwlockattr_t rwlock_attr;
 
+#endif
     RWLock();
 
 public:
-    static const int prefer_reader = 0; //PTHREAD_RWLOCK_PREFER_READER_NP;
-    static const int prefer_writer = 1; // PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP;
+#ifdef _WIN32
+#define PTHREAD_RWLOCK_PREFER_READER_NP 0
+#define PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP 1
+#endif
+    static const int prefer_reader = PTHREAD_RWLOCK_PREFER_READER_NP;
+    static const int prefer_writer = PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP;
 
     /* Flags chould be set to either prefer_reader or prefer_writer. */
     RWLock(int flags);

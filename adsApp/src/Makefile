@@ -24,7 +24,6 @@ USR_CXXFLAGS_WIN32 += -DNOMINMAX
 # use ADS from twincat
 ifdef TCDIR
 USR_CXXFLAGS += -DUSE_TC_ADS
-#USR_CXXFLAGS += -I$(TCDIR)/AdsApi/TcAdsDll/Include
 USR_CXXFLAGS += -I$(TCDIR)/3.1/sdk/Include
 endif
 
@@ -41,12 +40,8 @@ ads_SRCS += RWLock.cpp
 ads_SRCS += Types.cpp
 ads_SRCS += err.cpp
 
-## ADSLIB points at an external build of beckhoff ADS, if this is not
-## defined use bundled one 
 ifndef TCDIR
-ifndef ADSLIB
 # specify beckhoff ads lib source files to be compiled and added
-USR_CXXFLAGS += -DUSE_BUNDLED_ADS
 SRC_DIRS += $(EPICS_ADS)/beckhoffAdsLib/AdsLib
 ads_SRCS += AdsDef.cpp
 ads_SRCS += AdsDevice.cpp
@@ -70,7 +65,6 @@ $(filter standalone_%,$(ads_SRCS)): standalone_%: $(EPICS_ADS)/beckhoffAdsLib/Ad
 	$(CP) $< $@
 
 endif
-endif
 
 # libpthread is needed for POSIX R/W locks used in RWLock.h
 ads_SYS_LIBS_Linux += pthread
@@ -78,9 +72,6 @@ ads_SYS_LIBS_Linux += pthread
 # ads_LIBS += DynamicAsynPort
 ads_LIBS += autoparamDriver
 ads_LIBS += asyn
-ifdef ADSLIB
-ads_LIBS += AdsLib
-endif
 ads_LIBS += $(EPICS_BASE_IOC_LIBS)
 ifdef TCDIR
 ads_SYS_LIBS_WIN32 += $(TCDIR)/AdsApi/TcAdsDll/x64/lib/TcAdsDll

@@ -6,9 +6,9 @@
 
 #include "ADSAddress.h"
 #include "autoparamHandler.h"
-#ifdef USE_BUNDLED_ADS
+#ifndef USE_TC_ADS
 #include <standalone/AdsDef.h>
-#endif /* USE_BUNDLED_ADS */
+#endif /* ifndef USE_TC_ADS */
 #include <atomic>
 #include <chrono>
 #include <cstdint>
@@ -25,7 +25,7 @@
 #include <TcAdsApi.h>
 #else
 #include <AdsLib.h>
-#endif
+#endif /* ifdef USE_TC_ADS */
 #include <autoparamDriver.h>
 #include <SumReadRequest.h>
 #include <Types.h>

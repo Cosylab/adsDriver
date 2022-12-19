@@ -6,6 +6,11 @@
 #include "err.h"
 #include "RWLock.h"
 
+#ifndef _WIN32
+static int unlock(pthread_rwlock_t *rwlock);
+#endif
+
+
 RWLock::RWLock(int flags) {
 #ifndef _WIN32
     int rc = pthread_rwlockattr_init(&this->rwlock_attr);
@@ -85,7 +90,7 @@ int RWLock::unlock_read() {
 int RWLock::lock_write() {
 #ifdef _WIN32
     mutex_.lock();
-    return 0; 
+    return 0;
 #else
     int rc = pthread_rwlock_wrlock(&this->rwlock);
     if (rc != 0) {

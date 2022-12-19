@@ -132,7 +132,7 @@ int ADSVariable::write(const char *data, const uint32_t size) {
     }
 
     std::vector<uint8_t> buffer(this->size(), 0);
-    memcpy(&(buffer[0]), data, size);
+    memcpy(buffer.data(), data, size);
 
     uint32_t bytes_to_write = this->size();
 
@@ -146,7 +146,7 @@ int ADSVariable::write(const char *data, const uint32_t size) {
                                 this->addr->get_index_group(),  // index group
                                 this->addr->get_index_offset(), // index offset
                                 bytes_to_write,                 // data length
-                                &(buffer[0]));                        // data buffer
+                                buffer.data());                 // data buffer
     if (rc != 0) {
         return ads_rc_to_epicsads_error(rc);
     }
@@ -178,13 +178,18 @@ int ADSVariable::read(uint8_t *data, const uint32_t size,
     AmsAddr remote_ams_addr = {this->conn->get_remote_ams_netid(),
                                       this->addr->get_ads_port()};
 
+
     long rc = AdsSyncReadReqEx2(this->conn->get_ads_port(),     // ADS port
                                 &remote_ams_addr,               // AMS address
                                 this->addr->get_index_group(),  // index group
                                 this->addr->get_index_offset(), // index offset
                                 bytes_to_read,                  // data length
                                 data,        // read (result data) buffer
-                                (ads_ui32*)bytes_read); // bytes written into read buffer
+#ifdef USE_TC_ADS
+                     (ads_ui32*)
+#endif
+                                bytes_read); // bytes written into read buffer
+
     if (rc != 0) {
         return ads_rc_to_epicsads_error(rc);
     }

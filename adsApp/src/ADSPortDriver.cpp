@@ -6,9 +6,9 @@
 #include <Variable.h>
 #include <autoparamHandler.h>
 #include <err.h>
-#ifdef USE_BUNDLED_ADS
+#ifndef USE_TC_ADS
 #include <standalone/AdsDef.h>
-#endif /* USE_BUNDLED_ADS */
+#endif /* USE_TC_ADS */
 #include <Connection.h>
 #include <chrono>
 #include <cstddef>

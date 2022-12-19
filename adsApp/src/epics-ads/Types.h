@@ -58,7 +58,6 @@ enum ADSState {
     Maxstates
 };
 
-
 extern std::map<ADSDataType, size_t> ads_datatype_sizes;
 extern std::map<std::string, ADSDataType> ads_datatypes;
 extern std::map<ADSDataType, std::string> ads_datatypes_str;
