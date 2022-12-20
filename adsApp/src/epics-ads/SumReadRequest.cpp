@@ -354,12 +354,12 @@ void SumReadRequest::print_info(FILE *fd, int details) {
         auto chunk_set = this->get_chunks();
         for (size_t i_chunk = 0; i_chunk < chunk_set->size(); i_chunk++) {
             auto chunk = chunk_set->at(i_chunk);
-            fprintf(fd, "  Buffers chunk #%lu/%i:\n", (i_chunk + 1),
+            fprintf(fd, "  Buffers chunk #%zu/%i:\n", (i_chunk + 1),
                     this->get_num_chunks());
             fprintf(fd, "    - ADS port: %u\n", chunk->ads_port);
-            fprintf(fd, "    - Number of variables: %lu\n",
+            fprintf(fd, "    - Number of variables: %zu\n",
                     chunk->variables.size());
-            fprintf(fd, "    - Sum-read buffer size: %lu bytes\n",
+            fprintf(fd, "    - Sum-read buffer size: %zu bytes\n",
                     chunk->sum_read_data_buffer->get_size());
 
             if (details >= 3) {
@@ -368,7 +368,7 @@ void SumReadRequest::print_info(FILE *fd, int details) {
                      i_var++) {
                     auto var = chunk->variables[i_var];
                     auto req_info = chunk->sum_read_request_buffer[i_var];
-                    fprintf(fd, "    - Variable %lu/%lu:\n", (i_var + 1),
+                    fprintf(fd, "    - Variable %zu/%zu:\n", (i_var + 1),
                             chunk->variables.size());
                     fprintf(fd, "       - Name: '%s'\n",
                             var->addr->info().c_str());
