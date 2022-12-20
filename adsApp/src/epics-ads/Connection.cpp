@@ -7,6 +7,8 @@
 
 #include "Connection.h"
 
+
+
 bool Connection::is_connected() { return (this->ads_port != 0 ? true : false); }
 
 const AmsNetId Connection::get_remote_ams_netid() {
@@ -20,18 +22,22 @@ Connection::Connection() {}
 Connection::~Connection() {}
 
 void Connection::set_local_ams_id(const AmsNetId ams_id) {
+#ifndef USE_TC_ADS
     AdsSetLocalAddress(ams_id);
+#endif
 }
 
-int Connection::connect(const AmsNetId ams_id, const std::string address) {
+int Connection::connect(const AmsNetId ams_id, const std::string address, const uint16_t device_read_ads_port) {
     std::lock_guard<epicsMutex> lock(this->mtx);
 
     /* Add AMS route */
+#ifndef USE_TC_ADS
     long rc = AdsAddRoute(ams_id, address.c_str());
     if (rc != 0) {
         LOG_ERR("could not add ADS rout (%li): %s", rc, errorMap[rc].c_str());
         return EPICSADS_DISCONNECTED;
     }
+#endif
 
     const long port = AdsPortOpenEx();
     if (port == 0) {
@@ -41,6 +47,7 @@ int Connection::connect(const AmsNetId ams_id, const std::string address) {
 
     this->remote_ams_netid = ams_id;
     this->ads_port = port;
+    this->device_read_ads_port = device_read_ads_port;
 
     return 0;
 }
@@ -55,8 +62,10 @@ int Connection::disconnect() {
     AdsPortCloseEx(this->ads_port);
     this->ads_port = 0;
 
+#ifndef USE_TC_ADS
     /* TODO: does this bork other ADS connections? */
     AdsDelRoute(this->remote_ams_netid);
+#endif
     this->remote_ams_netid = {0, 0, 0, 0, 0, 0};
 
     return 0;
@@ -106,7 +115,7 @@ int Connection::resolve_variables(
             sizeof(handle),                        // read length
             &handle,                               // read data
             ads_var->addr->get_var_name().size(),  // write length
-            ads_var->addr->get_var_name().c_str(), // write data
+            const_cast<char*>(ads_var->addr->get_var_name().c_str()), // write data
             nullptr);                              // bytes read
 
         if (rc != 0) {
@@ -202,7 +211,7 @@ int Connection::read_device_info(char *device_info, size_t size_device_info,
     }
 
     std::lock_guard<epicsMutex> lock(this->mtx);
-    AmsAddr ams_addr = {this->remote_ams_netid, AMSPORT_R0_PLC_TC3};
+    AmsAddr ams_addr = {this->remote_ams_netid, this->device_read_ads_port};
     long rc = AdsSyncReadDeviceInfoReqEx(this->ads_port, // ADS port
                                          &ams_addr,      // AMS address
                                          device_info,    // device name
@@ -221,7 +230,7 @@ int Connection::read_device_state(uint16_t *device_state, ADSState *ads_state) {
     }
 
     std::lock_guard<epicsMutex> lock(this->mtx);
-    AmsAddr ams_addr = {this->remote_ams_netid, AMSPORT_R0_PLC_TC3};
+    AmsAddr ams_addr = {this->remote_ams_netid, this->device_read_ads_port};
     uint16_t ads_state_value = 0;
     long rc = AdsSyncReadStateReqEx(this->ads_port,   // ADS port
                                     &ams_addr,        // AMS address
