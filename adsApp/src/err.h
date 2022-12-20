@@ -5,11 +5,18 @@
 #ifndef ERR_H
 #define ERR_H
 
+#include <string>
 #include <map>
 #include <cstring>
 #include <errlog.h>
 #include "asynDriver.h"
-#include "AdsDef.h"
+#ifdef USE_TC_ADS
+#include <windows.h>
+#include <TcAdsDef.h>
+#include <TcAdsApi.h>
+#else
+#include <AdsLib.h>
+#endif
 
 #define FILENAME (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 

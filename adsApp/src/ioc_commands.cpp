@@ -5,10 +5,10 @@
 #include <cstring>
 #include <map>
 #include <memory>
-#include <epicsExport.h>
 #include <iocsh.h>
 #include <errlog.h>
 #include "ADSPortDriver.h"
+#include <epicsExport.h>
 
 static const iocshArg ads_open_arg = {"parameters", iocshArgArgv};
 static const iocshArg *ads_open_args[1] = {&ads_open_arg};
@@ -83,7 +83,9 @@ epicsShareFunc void ads_set_local_amsNetID(const char *ams) {
     if (ams == NULL)
         errlogPrintf("Local Ams Net ID must be specified\n");
     else
+#ifndef USE_TC_ADS
         AdsSetLocalAddress((std::string)ams);
+#endif
 
     return;
 }
@@ -115,5 +117,7 @@ static void ads_set_local_amsNetID_register_command(void) {
     }
 }
 
+extern "C" {
 epicsExportRegistrar(ads_open_register_command);
 epicsExportRegistrar(ads_set_local_amsNetID_register_command);
+}

@@ -7,6 +7,13 @@
 ASYN=$(MODULES)/asyn
 AUTOPARAM=$(MODULES)/autoparamdriver
 
+## define if need path to find boost
+#BOOST=$(MODULES)/boost
+
+## define TCDIR to use ADS library from local Beckhoff TwinCAT install
+## rather than ADS in submodule
+#TCDIR=C:/TwinCAT
+
 -include $(TOP)/../RELEASE.local
 -include $(TOP)/../RELEASE.$(EPICS_HOST_ARCH).local
 -include $(TOP)/configure/RELEASE.local

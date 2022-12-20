@@ -5,11 +5,13 @@
 #include <stdexcept>
 #include <mutex>
 
-#include "AdsLib.h"
-
 #include "SumReadRequest.h"
 #include "Connection.h"
 #include "err.h"
+
+#ifndef ADSIGRP_SUMUP_READ
+#define ADSIGRP_SUMUP_READ 0xF080
+#endif
 
 /* Struct containing data needed to perform a single sum-read ADS operation */
 struct ReadRequestChunk {
@@ -127,7 +129,7 @@ int SumReadRequest::allocate(
             chunk->add_variable(var);
         } catch (const std::exception &ex) {
             LOG_ERR("could not add ADS variable to read-request-chunk");
-            goto ERROR;
+            goto ALLOC_ERROR;
         }
     }
 
@@ -143,7 +145,7 @@ int SumReadRequest::allocate(
             if (rc != 0) {
                 LOG_ERR("failed to initialize sum-read data buffer (%i): %s",
                         rc, ads_errors[rc].c_str());
-                goto ERROR;
+                goto ALLOC_ERROR;
             }
         }
     }
@@ -152,7 +154,7 @@ int SumReadRequest::allocate(
 
     return 0;
 
-ERROR:
+ALLOC_ERROR:
     this->deallocate();
     return EPICSADS_ERROR;
 }
@@ -246,6 +248,7 @@ void SumReadRequest::set_buffers_state(
     }
 }
 
+
 int SumReadRequest::read() {
     if (this->initialized == false) {
         return EPICSADS_INV_CALL;
@@ -267,7 +270,11 @@ int SumReadRequest::read() {
             sizeof(AdsSymbolInfoByName);
         uint8_t *write_buffer =
             (uint8_t *)(*chunk_itr)->sum_read_request_buffer.data();
+#ifdef USE_TC_ADS
+        ads_ui32 bytes_read = 0;
+#else
         uint32_t bytes_read = 0;
+#endif
 
         if (sum_read_data_buffer->is_initialized() == false) {
             return EPICSADS_NOT_INITIALIZED;
@@ -347,12 +354,12 @@ void SumReadRequest::print_info(FILE *fd, int details) {
         auto chunk_set = this->get_chunks();
         for (size_t i_chunk = 0; i_chunk < chunk_set->size(); i_chunk++) {
             auto chunk = chunk_set->at(i_chunk);
-            fprintf(fd, "  Buffers chunk #%lu/%i:\n", (i_chunk + 1),
+            fprintf(fd, "  Buffers chunk #%zu/%i:\n", (i_chunk + 1),
                     this->get_num_chunks());
             fprintf(fd, "    - ADS port: %u\n", chunk->ads_port);
-            fprintf(fd, "    - Number of variables: %lu\n",
+            fprintf(fd, "    - Number of variables: %zu\n",
                     chunk->variables.size());
-            fprintf(fd, "    - Sum-read buffer size: %lu bytes\n",
+            fprintf(fd, "    - Sum-read buffer size: %zu bytes\n",
                     chunk->sum_read_data_buffer->get_size());
 
             if (details >= 3) {
@@ -361,7 +368,7 @@ void SumReadRequest::print_info(FILE *fd, int details) {
                      i_var++) {
                     auto var = chunk->variables[i_var];
                     auto req_info = chunk->sum_read_request_buffer[i_var];
-                    fprintf(fd, "    - Variable %lu/%lu:\n", (i_var + 1),
+                    fprintf(fd, "    - Variable %zu/%zu:\n", (i_var + 1),
                             chunk->variables.size());
                     fprintf(fd, "       - Name: '%s'\n",
                             var->addr->info().c_str());
