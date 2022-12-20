@@ -40,6 +40,10 @@ adsExample_SRCS_vxWorks += -nil-
 
 # Finally link to the EPICS Base libraries
 adsExample_LIBS += $(EPICS_BASE_IOC_LIBS)
+ifdef TCDIR
+adsExample_SYS_LIBS_WIN32 += $(TCDIR)/AdsApi/TcAdsDll/x64/lib/TcAdsDll
+endif
+adsExample_SYS_LIBS_WIN32 += ws2_32
 
 #===========================
 
