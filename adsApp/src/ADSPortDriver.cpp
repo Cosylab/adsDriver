@@ -91,7 +91,7 @@ DeviceVariable *ADSPortDriver::createDeviceVariable(DeviceVariable *baseInfo) {
 ADSPortDriver::ADSPortDriver(
     char const *portName, char const *ipAddr, char const *amsNetId,
     uint16_t sumBufferSize = defaultSumBuferNelem,
-    uint32_t adsFunctionTimeout = defaultADSCallTimeout_ms)
+    uint32_t adsFunctionTimeout = defaultADSCallTimeout_ms, uint16_t deviceReadAdsPort = defaultDeviceReadADSPort)
     : Autoparam::Driver(portName, Autoparam::DriverOpts()
                                       .setAutoInterrupts(false)
                                       .setAutoConnect(true)
@@ -99,7 +99,8 @@ ADSPortDriver::ADSPortDriver(
                                       .setInitHook(initHook)),
       portName(portName), ipAddr(ipAddr), amsNetId{0, 0, 0 ,0 ,0 ,0},
       sumBufferSize(sumBufferSize), adsFunctionTimeout(adsFunctionTimeout),
-      adsConnection(new Connection()), SumRead(sumBufferSize, adsConnection),
+      deviceReadAdsPort(deviceReadAdsPort),  adsConnection(new Connection()),
+      SumRead(sumBufferSize, adsConnection),
       exitCalled(false), initialized(false),
       currentDeviceState(ADSSTATE_INVALID) {
 
@@ -238,8 +239,8 @@ ADSPortDriver::ADSPortDriver(
     registerHandlers<Octet>(ads_datatypes_str.at(ADSDataType::STRING),
                             stringRead, stringWrite, NULL);
 
-    LOG_TRACE("ADSPortDriver parameters: %s, %s, %s, %d, %d", portName, ipAddr,
-              amsNetId, sumBufferSize, adsFunctionTimeout);
+    LOG_TRACE("ADSPortDriver parameters: %s, %s, %s, %d, %d %d", portName, ipAddr,
+              amsNetId, sumBufferSize, adsFunctionTimeout, deviceReadAdsPort);
     LOG_TRACE("ADSPortDriver instance: %p, ip: %s", this, ipAddr);
 
     adsScanThread = std::thread(&ADSPortDriver::adsScan, this);
@@ -308,7 +309,7 @@ asynStatus ADSPortDriver::ADSConnect(asynUser *pasynUser) {
     }
 
     // connect to the ADS device
-    status = static_cast<asynStatus>(adsConnection->connect(amsNetId, ipAddr));
+    status = static_cast<asynStatus>(adsConnection->connect(amsNetId, ipAddr, deviceReadAdsPort));
 
     if (status) {
         LOG_ERR_ASYN(pasynUser, "Could not connect to ADS device (%i): %s",

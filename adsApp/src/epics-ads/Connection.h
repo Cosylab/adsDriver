@@ -24,6 +24,7 @@ class Connection {
     AmsNetId remote_ams_netid;  /* Remote ADS device AMS net ID */
     std::string remote_address; /* Remote ADS device address */
     long ads_port = 0;          /* ADS connection handle */
+    uint16_t device_read_ads_port;
     bool connected = false;
 
     /* Maximum number of `commands` that will be sent to the ADS device in a
@@ -54,7 +55,7 @@ class Connection {
     ~Connection();
 
     void set_local_ams_id(const AmsNetId ams_id);
-    int connect(const AmsNetId ams_id, const std::string address);
+    int connect(const AmsNetId ams_id, const std::string address, const uint16_t deviceReadAdsPort);
 
     /* Disconnect from the ADS device, i.e. close the ADS port and remove the
      * remote AMS route. */
