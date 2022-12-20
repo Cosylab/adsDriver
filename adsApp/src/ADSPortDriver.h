@@ -31,10 +31,15 @@
 #include <Types.h>
 #include <Variable.h>
 
+#ifndef AMSPORT_R0_PLC_TC3
+#define AMSPORT_R0_PLC_TC3 851
+#endif
+
 using namespace Autoparam::Convenience;
 
 constexpr uint16_t defaultSumBuferNelem = 500;
 constexpr uint32_t defaultADSCallTimeout_ms = 500;
+constexpr uint16_t defaultDeviceReadADSPort = AMSPORT_R0_PLC_TC3;
 constexpr std::chrono::seconds deviceInfoPeriod{5};
 constexpr std::chrono::milliseconds waitForConnectionPeriod{500};
 constexpr std::chrono::milliseconds sumReadPeriod{1};
@@ -61,7 +66,7 @@ class ADSPortDriver : public Autoparam::Driver {
   public:
     ADSPortDriver(char const *portName, char const *ipAddr,
                   char const *amsNetId, uint16_t sumBufferSize,
-                  uint32_t adsFunctionTimeout);
+                  uint32_t adsFunctionTimeout, uint16_t deviceReadAdsPort);
 
     ~ADSPortDriver();
 
@@ -73,6 +78,7 @@ class ADSPortDriver : public Autoparam::Driver {
     std::string ipAddr;
     AmsNetId amsNetId;
     uint16_t const sumBufferSize;
+    uint16_t deviceReadAdsPort;
     uint32_t const adsFunctionTimeout;
     const std::shared_ptr<Connection> adsConnection;
 
