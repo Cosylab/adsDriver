@@ -97,7 +97,7 @@ ADSPortDriver::ADSPortDriver(
                                       .setAutoConnect(true)
                                       .setAutoDestruct()
                                       .setInitHook(initHook)),
-      portName(portName), ipAddr(ipAddr), amsNetId({0, 0, 0 ,0 ,0 ,0}),
+      portName(portName), ipAddr(ipAddr), amsNetId{0, 0, 0 ,0 ,0 ,0},
       sumBufferSize(sumBufferSize), adsFunctionTimeout(adsFunctionTimeout),
       adsConnection(new Connection()), SumRead(sumBufferSize, adsConnection),
       exitCalled(false), initialized(false),
@@ -111,7 +111,7 @@ ADSPortDriver::ADSPortDriver(
         this->amsNetId.b[i] = atoi(split_ams[i].c_str());
     }
 #else
-    this->amsNetId = amsNetId;
+    this->amsNetId = std::string(amsNetId);
 #endif
 
     // scalars

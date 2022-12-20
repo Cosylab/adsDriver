@@ -24,8 +24,9 @@ adsExample_DBD += asyn.dbd
 adsExample_DBD += ads.dbd
 
 # Add all the support libraries needed by this IOC
-adsExample_LIBS += asyn
 adsExample_LIBS += ads
+adsExample_LIBS += autoparamDriver
+adsExample_LIBS += asyn
 
 # adsExample_registerRecordDeviceDriver.cpp derives from adsExample.dbd
 adsExample_SRCS += adsExample_registerRecordDeviceDriver.cpp
