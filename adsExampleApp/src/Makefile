@@ -24,8 +24,9 @@ adsExample_DBD += asyn.dbd
 adsExample_DBD += ads.dbd
 
 # Add all the support libraries needed by this IOC
-adsExample_LIBS += asyn
 adsExample_LIBS += ads
+adsExample_LIBS += autoparamDriver
+adsExample_LIBS += asyn
 
 # adsExample_registerRecordDeviceDriver.cpp derives from adsExample.dbd
 adsExample_SRCS += adsExample_registerRecordDeviceDriver.cpp
@@ -39,6 +40,10 @@ adsExample_SRCS_vxWorks += -nil-
 
 # Finally link to the EPICS Base libraries
 adsExample_LIBS += $(EPICS_BASE_IOC_LIBS)
+ifdef TCDIR
+adsExample_SYS_LIBS_WIN32 += $(TCDIR)/AdsApi/TcAdsDll/x64/lib/TcAdsDll
+endif
+adsExample_SYS_LIBS_WIN32 += ws2_32
 
 #===========================
 

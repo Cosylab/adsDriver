@@ -11,7 +11,13 @@
 #include <cstdint>
 #include <utility>
 
-#include "AdsDef.h"
+#ifdef USE_TC_ADS
+#include <windows.h>
+#include <TcAdsDef.h>
+#include <TcAdsApi.h>
+#else
+#include <AdsLib.h>
+#endif
 
 #include "Variable.h"
 #include "SumReadBuffer.h"

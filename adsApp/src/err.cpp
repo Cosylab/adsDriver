@@ -4,6 +4,10 @@
 
 #include "err.h"
 
+#ifndef GLOBALERR_MISSING_ROUTE
+#define GLOBALERR_MISSING_ROUTE 0x07
+#endif
+
 std::map<int, std::string> ads_errors = {
     { -1, "<unknown error>" },
     { EPICSADS_OK, "OK" },
