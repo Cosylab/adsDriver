@@ -5,11 +5,10 @@
 #ifndef RWLOCK_H
 #define RWLOCK_H
 
-#ifdef _WIN32
-#include <mutex>
-#include <shared_mutex>
-#else
+#ifdef LINUX_USE_CPP11
 #include <pthread.h>
+#else
+#include <boost/thread/shared_mutex.hpp>
 #endif
 
 /* Reader/writer lock implementation based on POSIX rwlocks.
@@ -19,17 +18,16 @@
  * */
 class RWLock {
 protected:
-#ifdef _WIN32
-    std::shared_mutex mutex_;
-#else
+#ifdef LINUX_USE_CPP11
     pthread_rwlock_t rwlock;
     pthread_rwlockattr_t rwlock_attr;
-
+#else
+    boost::shared_mutex mutex_;
 #endif
     RWLock();
 
 public:
-#ifdef _WIN32
+#ifndef LINUX_USE_CPP11
 #define PTHREAD_RWLOCK_PREFER_READER_NP 0
 #define PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP 1
 #endif

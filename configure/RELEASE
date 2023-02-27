@@ -7,6 +7,10 @@
 ASYN=$(MODULES)/asyn
 AUTOPARAM=$(MODULES)/autoparamdriver
 
+# Set to YES in order to compile with C++11 on Linux, otherwise it will use 14.
+# Default is NO
+LINUX_USE_CPP11=NO
+
 ## define if need path to find boost
 #BOOST=$(MODULES)/boost
 

@@ -18,7 +18,18 @@ DBD += ads.dbd
 
 EPICS_ADS=$(TOP)/adsApp/src
 
+# RWLock.h implements POSIX style R/W lock and needs libpthread
+# If building with c++14, boost::shared_mutex is used instead
+# Building on Windows requires c++14
+ifeq ($(LINUX_USE_CPP11), YES)
+USR_CXXFLAGS_Linux += -DLINUX_USE_CPP11
 USR_CXXFLAGS_Linux += -std=c++11
+ads_SYS_LIBS_Linux += pthread
+else
+USR_CXXFLAGS_Linux += -std=c++14
+ads_SYS_LIBS += boost_thread
+endif
+
 USR_CXXFLAGS_WIN32 += -DNOMINMAX
 
 # use ADS from twincat
@@ -66,10 +77,6 @@ $(filter standalone_%,$(ads_SRCS)): standalone_%: $(EPICS_ADS)/beckhoffAdsLib/Ad
 
 endif
 
-# libpthread is needed for POSIX R/W locks used in RWLock.h
-ads_SYS_LIBS_Linux += pthread
-
-# ads_LIBS += DynamicAsynPort
 ads_LIBS += autoparamDriver
 ads_LIBS += asyn
 ads_LIBS += $(EPICS_BASE_IOC_LIBS)
