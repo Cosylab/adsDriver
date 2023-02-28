@@ -31,13 +31,15 @@ epicsShareFunc int ads_open(int argc, const char *const *argv) {
     int device_read_ads_port = defaultDeviceReadADSPort;
     int sum_buffer_nelem = defaultSumBuferNelem;
     int ads_function_timeout_ms = -1;
+    int sum_read_period = defaultSumReadPeriod.count();
+    std::chrono::milliseconds chr_sum_read_period{ sum_read_period };
 
-    if (argc < 3 || argc > 7) {
+    if (argc < 3 || argc > 8) {
         errlogPrintf(
             "AdsOpen <port_name> <ip_addr> <ams_net_id>"
             " | optional: <sum_buffer_nelem (default: %u)> <ads_timeout "
-            "(default: %u) [ms]> <device_read_ads_port (default:%u)>\n",
-            defaultSumBuferNelem, defaultADSCallTimeout_ms, defaultDeviceReadADSPort);
+            "(default: %u) [ms]> <device_read_ads_port (default:%u)> <sum_read_period (default:%u)>\n",
+            defaultSumBuferNelem, defaultADSCallTimeout_ms, defaultDeviceReadADSPort, defaultSumReadPeriod);
         return -1;
     }
 
@@ -79,13 +81,23 @@ epicsShareFunc int ads_open(int argc, const char *const *argv) {
             }
 
             break;
+
+        case 7:
+            sum_read_period = strtol(argv[i], nullptr, 10);
+            if (sum_read_period < 1) {
+                errlogPrintf(
+                    "Error: sum_read_period must be a positive integer (%i)\n",
+                    sum_read_period);
+                return -1;
+            }
+            chr_sum_read_period = std::chrono::milliseconds(sum_read_period);
         default:
             break;
         }
     }
 
     new ADSPortDriver(port_name.c_str(), ip_addr.c_str(), ams_net_id.c_str(),
-                      sum_buffer_nelem, ads_function_timeout_ms, device_read_ads_port);
+                      sum_buffer_nelem, ads_function_timeout_ms, device_read_ads_port, chr_sum_read_period);
 
     return 0;
 }

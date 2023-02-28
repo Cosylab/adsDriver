@@ -91,7 +91,7 @@ DeviceVariable *ADSPortDriver::createDeviceVariable(DeviceVariable *baseInfo) {
 ADSPortDriver::ADSPortDriver(
     char const *portName, char const *ipAddr, char const *amsNetId,
     uint16_t sumBufferSize = defaultSumBuferNelem,
-    uint32_t adsFunctionTimeout = defaultADSCallTimeout_ms, uint16_t deviceReadAdsPort = defaultDeviceReadADSPort)
+    uint32_t adsFunctionTimeout = defaultADSCallTimeout_ms, uint16_t deviceReadAdsPort = defaultDeviceReadADSPort , std::chrono::milliseconds sumReadPeriod = defaultSumReadPeriod)
     : Autoparam::Driver(portName, Autoparam::DriverOpts()
                                       .setAutoInterrupts(false)
                                       .setAutoConnect(true)
@@ -99,7 +99,7 @@ ADSPortDriver::ADSPortDriver(
                                       .setInitHook(initHook)),
       portName(portName), ipAddr(ipAddr), amsNetId{0, 0, 0 ,0 ,0 ,0},
       sumBufferSize(sumBufferSize), adsFunctionTimeout(adsFunctionTimeout),
-      deviceReadAdsPort(deviceReadAdsPort),  adsConnection(new Connection()),
+      deviceReadAdsPort(deviceReadAdsPort), sumReadPeriod(sumReadPeriod),  adsConnection(new Connection()),
       SumRead(sumBufferSize, adsConnection),
       exitCalled(false), initialized(false),
       currentDeviceState(ADSSTATE_INVALID) {
@@ -450,7 +450,7 @@ void ADSPortDriver::adsScan() {
             performIOIntr();
         }
 
-        std::this_thread::sleep_for(sumReadPeriod);
+        std::this_thread::sleep_for(this->sumReadPeriod);
     }
 
     LOG_TRACE_ASYN(pasynUserSelf, "ADS scan thread exiting");
