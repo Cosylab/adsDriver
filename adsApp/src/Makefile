@@ -18,6 +18,9 @@ DBD += ads.dbd
 
 EPICS_ADS=$(TOP)/adsApp/src
 
+# AdsLib added this option with 1ec463c
+USR_CXXFLAGS += -DCONFIG_DEFAULT_LOGLEVEL=1
+
 # RWLock.h implements POSIX style R/W lock and needs libpthread
 # If building with c++14, boost::shared_mutex is used instead
 # Building on Windows requires c++14
