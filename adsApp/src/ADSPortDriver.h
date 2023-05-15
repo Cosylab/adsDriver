@@ -42,7 +42,7 @@ constexpr uint32_t defaultADSCallTimeout_ms = 500;
 constexpr uint16_t defaultDeviceReadADSPort = AMSPORT_R0_PLC_TC3;
 constexpr std::chrono::seconds deviceInfoPeriod{5};
 constexpr std::chrono::milliseconds waitForConnectionPeriod{500};
-constexpr std::chrono::milliseconds sumReadPeriod{1};
+constexpr std::chrono::milliseconds defaultSumReadPeriod{1};
 
 class ADSPortDriver;
 
@@ -66,7 +66,7 @@ class ADSPortDriver : public Autoparam::Driver {
   public:
     ADSPortDriver(char const *portName, char const *ipAddr,
                   char const *amsNetId, uint16_t sumBufferSize,
-                  uint32_t adsFunctionTimeout, uint16_t deviceReadAdsPort);
+                  uint32_t adsFunctionTimeout, uint16_t deviceReadAdsPort, std::chrono::milliseconds sumReadPeriod);
 
     ~ADSPortDriver();
 
@@ -81,6 +81,7 @@ class ADSPortDriver : public Autoparam::Driver {
     uint32_t const adsFunctionTimeout;
     uint16_t deviceReadAdsPort;
     const std::shared_ptr<Connection> adsConnection;
+    const std::chrono::milliseconds sumReadPeriod;
 
     SumReadRequest SumRead;
 
