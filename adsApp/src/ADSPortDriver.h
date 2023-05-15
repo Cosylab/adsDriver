@@ -80,8 +80,8 @@ class ADSPortDriver : public Autoparam::Driver {
     uint16_t const sumBufferSize;
     uint32_t const adsFunctionTimeout;
     uint16_t deviceReadAdsPort;
-    const std::shared_ptr<Connection> adsConnection;
     const std::chrono::milliseconds sumReadPeriod;
+    const std::shared_ptr<Connection> adsConnection;
 
     SumReadRequest SumRead;
 

@@ -38,8 +38,8 @@ epicsShareFunc int ads_open(int argc, const char *const *argv) {
         errlogPrintf(
             "AdsOpen <port_name> <ip_addr> <ams_net_id>"
             " | optional: <sum_buffer_nelem (default: %u)> <ads_timeout "
-            "(default: %u) [ms]> <device_read_ads_port (default:%u)> <sum_read_period (default:%u)>\n",
-            defaultSumBuferNelem, defaultADSCallTimeout_ms, defaultDeviceReadADSPort, defaultSumReadPeriod);
+            "(default: %u) [ms]> <device_read_ads_port (default: %u)> <sum_read_period (default: %ld)>\n",
+            defaultSumBuferNelem, defaultADSCallTimeout_ms, defaultDeviceReadADSPort, defaultSumReadPeriod.count());
         return -1;
     }
 
