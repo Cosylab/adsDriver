@@ -33,4 +33,6 @@ iocBoot_DEPEND_DIRS += $(filter %App,$(DIRS))
 # Add any additional dependency rules here:
 adsExampleApp_DEPEND_DIRS += adsApp
 
+DIRS += documentation
+
 include $(TOP)/configure/RULES_TOP
