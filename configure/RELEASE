@@ -4,6 +4,12 @@
 
 #RELEASE Location of external products
 
+# Required external module paths:
+# ASYN - asynDriver
+# AUTOPARAM - autoparamDriver
+# EPICS_BASE - EPICS base
+
+EPICS_BASE=$(EPICS_BASE)
 ASYN=$(MODULES)/asyn
 AUTOPARAM=$(MODULES)/autoparamdriver
 

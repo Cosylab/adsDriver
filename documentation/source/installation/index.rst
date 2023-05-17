@@ -17,8 +17,7 @@ Pre-requisite software:
 * **Boost**: Boost C++ libraries
 * **gcc**: GNU Compiler Collection
 * **g++**: GCC for C++
-* **git**: version control system
-* **autoparamDriver**: see :ref:`instructions below <autoparam-install>`
+* **autoparamDriver**: at least v2.0.0, see :ref:`instructions below <autoparam-install>`
 
 ADS device support software includes :ref:`beckhoff-adslib-ref` as a submodule.
 
@@ -26,6 +25,8 @@ ADS device support software includes :ref:`beckhoff-adslib-ref` as a submodule.
 
 AutoparamDriver
 ========================
+The following is a quickstart for compiling Autoparam on Linux. Refer to Autoparam README for more information.
+
 Download the latest stable version from `Github <www.github.com/cosylab/autoparamDriver>`_.
 
 The provided ``configure/RELEASE`` file assumes that the module's parent directory contains a *RELEASE.local* file with the required module paths (i.e. *ASYN* and *EPICS_BASE*):
@@ -114,24 +115,22 @@ The provided ``configure/RELEASE`` file assumes that the module’s parent direc
    # ASYN - asynDriver
    # AUTOPARAM - autoparamDriver
    # EPICS_BASE - EPICS base
-   
-   # External modules are expected to be defined in a RELEASE.local file located
-   # in $(TOP)'s parent directory.
-   -include $(TOP)/../RELEASE.local
 
-Set the target installation location in ``configure/CONFIG_SITE`` (optional step):
-  
+RELEASE file also contains an option to force compiling with C++11 on Linux. Use this if your toolchain is not compatible with a newer C++ standard.
+
 .. code-block:: makefile
-   :emphasize-lines: 6
+   
+   # Set to YES in order to compile with C++11 on Linux, otherwise it will use 14.
+   # Default is NO
+   LINUX_USE_CPP11=NO
 
-   # CONFIG_SITE
-   # ... <removed for brevity>
+If you compile on Windows and you have TwinCAT installed, you might prefer using the ADS library included with your TwinCAT installation. You can define the path to your TwinCAT installation using TCDIR variable in the RELEASE file.
 
-   # To install files into a location other than $(TOP) define
-   #   INSTALL_LOCATION here.
-   INSTALL_LOCATION=/opt/epics/modules/ads
+.. code-block:: makefile
 
-   # ... <removed for brevity>
+   ## define TCDIR to use ADS library from local Beckhoff TwinCAT install
+   ## rather than ADS in submodule
+   #TCDIR=C:/TwinCAT
 
 Compile the module:
 
