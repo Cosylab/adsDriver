@@ -19,7 +19,7 @@ in `documentation` folder. Compiling documentation to html requires python-sphin
 
 # Dependencies
 
-- autoparamDriver v1.0
+- autoparamDriver v2.0.0
 - asyn, R4-41
 - EPICS base 7.0.5
 
