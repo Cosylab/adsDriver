@@ -31,7 +31,7 @@ During IOC boot, when trying to connect to an ADS device the IOC reports *Error:
     The ADS device you are connecting to does not have a configured ADS route for the IOC client.
 
 **Problem solution**:
-    `Add an ADS route to the ADS device that the IOC is connecting to <using-twincat-setup>`_.
+    Add an ADS route to the ADS device that the IOC is connecting to, see :ref:`using-twincat-setup`.
 
 IOC fails to connect with "Info: connection closed by remote" messages
 ======================================================================
@@ -52,7 +52,7 @@ During IOC boot, when trying to connect to an ADS device the IOC reports *Info: 
     The PLC is running in *Configuration* mode instead of *Run* mode.
 
 **Problem solution**:
-    `Activate configuration and run the PLC with TwinCAT XAE <using-twincat-setup>`_.
+    Activate configuration and run the PLC with TwinCAT XAE, see :ref:`using-twincat-setup`.
 
 IOC fails to connect with "Connect TCP socket failed with: 111" errors
 ======================================================================

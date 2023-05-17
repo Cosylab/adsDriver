@@ -41,7 +41,7 @@ Beckhoff ADS client library
 ===========================
 *Beckhoff ADS client library* implements the AMS/ADS protocol on top of TCP/IP. The library is used by the ADS port driver.
 
-Refer to the `Beckhoff ADS website <https://github.com/Beckhoff/ADS>`_ for more information.
+Refer to the `Beckhoff ADS website <https://github.com/Beckhoff/ADS>`__ for more information.
 
 Also note, that this library is included in ADS driver as a submodule.
 
@@ -51,7 +51,7 @@ ADS driver
 ===============
 *ADS driver* implements the layer between the database records and the Beckhoff ADS client library. It exchanges data between input/output records and corresponding ADS variables.
 
-`Github <https://www.github.com/cosylab/adsDriver>`_
+`Github <https://www.github.com/cosylab/adsDriver>`__
 
 .. _autoparam-ref:
 
@@ -59,7 +59,7 @@ AutoparamDriver
 ========================
 *AutoparamDriver* is a library that simplifies integration of devices with lots of I/O signals of different types, which are handled in a similar way. The ADS port driver extends this library to keep track of which ADS addresses map to which database records in the IOC.
 
-`Github <https://www.github.com/cosylab/autoparamDriver>`_
+`Github <https://www.github.com/cosylab/autoparamDriver>`__
 
 .. _ads-sample-ref:
 
