@@ -32,6 +32,13 @@ dbLoadRecords("db/example.db","P=$(PREFIX_ADSEXAMPLE), PORT=$(PORT_ADSEXAMPLE)")
 #dbLoadRecords("db/many_vars.db", "P=$(PREFIX_ADSEXAMPLE), PORT=$(PORT_ADSEXAMPLE)")
 
 # Open ADS port
+# AdsOpen(port_name,
+#         remote_ip_address,
+#         remote_ams_net_id,
+#         sum_buffer_nelem (default: 500),
+#         ads_timeout (default: 500 ms),
+#         device_ads_port (default: 851),
+#         sum_read_period (default: 1 ms))
 AdsOpen("$(PORT_ADSEXAMPLE)", "$(IP_ADSEXAMPLE)", "$(AMS_ID_ADSEXAMPLE)")
 
 # Enable asyn trace output for errors and warnings
