@@ -1,10 +1,5 @@
-<!--
-SPDX-FileCopyrightText: 2022 Cosylab d.d.
-
-SPDX-License-Identifier: MIT
--->
-
 <?xml version="1.0" encoding="UTF-8"?>
+<!--Saved on 2024-04-23 17:12:32 by meyer-->
 <display version="2.0.0">
   <name>Display</name>
   <macros>
@@ -37,7 +32,7 @@ SPDX-License-Identifier: MIT
       </color>
     </border_color>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>ADS data by port, group, offset</name>
     <y>31</y>
     <width>330</width>
@@ -50,6 +45,10 @@ SPDX-License-Identifier: MIT
       <color name="Black" red="0" green="0" blue="0">
       </color>
     </foreground_color>
+    <line_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </line_color>
     <background_color>
       <color name="MEDM_COLOR_3" red="200" green="200" blue="200">
       </color>
@@ -98,6 +97,7 @@ SPDX-License-Identifier: MIT
         <action type="write_pv">
           <pv_name>$(pv_name)</pv_name>
           <value>1</value>
+          <description>WritePV</description>
         </action>
       </actions>
       <pv_name>$(P):reg_int32_counter.PROC</pv_name>
@@ -146,7 +146,7 @@ SPDX-License-Identifier: MIT
       </border_color>
     </widget>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>ADS data by symbolic name</name>
     <x>330</x>
     <y>31</y>
@@ -160,6 +160,10 @@ SPDX-License-Identifier: MIT
       <color name="Black" red="0" green="0" blue="0">
       </color>
     </foreground_color>
+    <line_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </line_color>
     <background_color>
       <color name="MEDM_COLOR_3" red="200" green="200" blue="200">
       </color>
@@ -208,6 +212,7 @@ SPDX-License-Identifier: MIT
         <action type="write_pv">
           <pv_name>$(pv_name)</pv_name>
           <value>1</value>
+          <description>WritePV</description>
         </action>
       </actions>
       <pv_name>$(P):sym_int32_counter.PROC</pv_name>
@@ -256,7 +261,7 @@ SPDX-License-Identifier: MIT
       </border_color>
     </widget>
   </widget>
-  <widget type="group" version="2.0.0">
+  <widget type="group" version="3.0.0">
     <name>Supported EPICS records</name>
     <y>130</y>
     <width>660</width>
@@ -269,6 +274,10 @@ SPDX-License-Identifier: MIT
       <color name="Black" red="0" green="0" blue="0">
       </color>
     </foreground_color>
+    <line_color>
+      <color name="Black" red="0" green="0" blue="0">
+      </color>
+    </line_color>
     <background_color>
       <color name="MEDM_COLOR_3" red="200" green="200" blue="200">
       </color>
@@ -285,7 +294,7 @@ SPDX-License-Identifier: MIT
               <name>Text Update_4</name>
               <pv_name>$(P):types_stringin</pv_name>
               <x>355</x>
-              <y>158</y>
+              <y>235</y>
               <width>160</width>
               <height>26</height>
               <background_color>
@@ -319,7 +328,7 @@ SPDX-License-Identifier: MIT
               <name>Label_12</name>
               <text>stringout:</text>
               <x>292</x>
-              <y>195</y>
+              <y>272</y>
               <width>58</width>
               <height>16</height>
               <vertical_alignment>1</vertical_alignment>
@@ -335,7 +344,7 @@ SPDX-License-Identifier: MIT
               <name>Text Input_1</name>
               <pv_name>$(P):types_longout</pv_name>
               <x>72</x>
-              <y>190</y>
+              <y>267</y>
               <width>160</width>
               <height>26</height>
               <background_color>
@@ -385,7 +394,7 @@ SPDX-License-Identifier: MIT
               <name>Text Update_1</name>
               <pv_name>$(P):types_ai</pv_name>
               <x>72</x>
-              <y>79</y>
+              <y>109</y>
               <width>160</width>
               <height>26</height>
               <background_color>
@@ -405,7 +414,7 @@ SPDX-License-Identifier: MIT
               <name>Text Input</name>
               <pv_name>$(P):types_ao</pv_name>
               <x>72</x>
-              <y>118</y>
+              <y>148</y>
               <width>160</width>
               <height>26</height>
               <background_color>
@@ -443,7 +452,7 @@ SPDX-License-Identifier: MIT
               <name>Text Update_3</name>
               <pv_name>$(P):types_mbbiDirect</pv_name>
               <x>355</x>
-              <y>79</y>
+              <y>109</y>
               <width>160</width>
               <height>26</height>
               <background_color>
@@ -479,7 +488,7 @@ SPDX-License-Identifier: MIT
               <name>Text Input_4</name>
               <pv_name>$(P):types_stringout</pv_name>
               <x>355</x>
-              <y>190</y>
+              <y>267</y>
               <width>160</width>
               <height>26</height>
               <background_color>
@@ -497,7 +506,7 @@ SPDX-License-Identifier: MIT
               <name>Label_5</name>
               <text>longin:</text>
               <x>21</x>
-              <y>163</y>
+              <y>240</y>
               <width>42</width>
               <height>16</height>
               <vertical_alignment>1</vertical_alignment>
@@ -513,7 +522,7 @@ SPDX-License-Identifier: MIT
               <name>Label_4</name>
               <text>ao:</text>
               <x>43</x>
-              <y>123</y>
+              <y>153</y>
               <width>20</width>
               <height>16</height>
               <vertical_alignment>1</vertical_alignment>
@@ -529,7 +538,7 @@ SPDX-License-Identifier: MIT
               <name>Text Update</name>
               <pv_name>$(P):types_longin</pv_name>
               <x>72</x>
-              <y>158</y>
+              <y>235</y>
               <width>160</width>
               <height>26</height>
               <background_color>
@@ -549,7 +558,7 @@ SPDX-License-Identifier: MIT
               <name>Label_11</name>
               <text>stringin:</text>
               <x>299</x>
-              <y>163</y>
+              <y>240</y>
               <width>50</width>
               <height>16</height>
               <vertical_alignment>1</vertical_alignment>
@@ -626,7 +635,7 @@ SPDX-License-Identifier: MIT
               <name>Label_3</name>
               <text>ai:</text>
               <x>48</x>
-              <y>83</y>
+              <y>113</y>
               <width>15</width>
               <height>16</height>
               <vertical_alignment>1</vertical_alignment>
@@ -642,7 +651,7 @@ SPDX-License-Identifier: MIT
               <name>Label_9</name>
               <text>mbbiDirect:</text>
               <x>278</x>
-              <y>84</y>
+              <y>114</y>
               <width>71</width>
               <height>16</height>
               <vertical_alignment>1</vertical_alignment>
@@ -658,7 +667,7 @@ SPDX-License-Identifier: MIT
               <name>Label_6</name>
               <text>longout:</text>
               <x>14</x>
-              <y>195</y>
+              <y>272</y>
               <width>50</width>
               <height>16</height>
               <vertical_alignment>1</vertical_alignment>
@@ -675,7 +684,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.BC</pv_name>
               <label></label>
               <x>436</x>
-              <y>132</y>
+              <y>162</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -687,7 +696,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.B2</pv_name>
               <label></label>
               <x>396</x>
-              <y>112</y>
+              <y>142</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -698,7 +707,7 @@ SPDX-License-Identifier: MIT
               <name>Text Update_3</name>
               <pv_name>$(P):types_mbboDirect</pv_name>
               <x>561</x>
-              <y>114</y>
+              <y>144</y>
               <width>47</width>
               <height>26</height>
               <background_color>
@@ -719,7 +728,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.B3</pv_name>
               <label></label>
               <x>416</x>
-              <y>112</y>
+              <y>142</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -730,7 +739,7 @@ SPDX-License-Identifier: MIT
               <name>Label_10</name>
               <text>B0..B7</text>
               <x>518</x>
-              <y>114</y>
+              <y>144</y>
               <width>37</width>
               <height>15</height>
               <font>
@@ -751,7 +760,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.B7</pv_name>
               <label></label>
               <x>496</x>
-              <y>112</y>
+              <y>142</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -763,7 +772,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.BE</pv_name>
               <label></label>
               <x>476</x>
-              <y>132</y>
+              <y>162</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -775,7 +784,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.BA</pv_name>
               <label></label>
               <x>396</x>
-              <y>132</y>
+              <y>162</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -787,7 +796,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.B8</pv_name>
               <label></label>
               <x>355</x>
-              <y>132</y>
+              <y>162</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -799,7 +808,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.B0</pv_name>
               <label></label>
               <x>355</x>
-              <y>112</y>
+              <y>142</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -811,7 +820,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.B4</pv_name>
               <label></label>
               <x>436</x>
-              <y>112</y>
+              <y>142</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -822,7 +831,7 @@ SPDX-License-Identifier: MIT
               <name>Label_10</name>
               <text>B8..BF</text>
               <x>518</x>
-              <y>132</y>
+              <y>162</y>
               <width>37</width>
               <height>15</height>
               <font>
@@ -843,7 +852,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.B6</pv_name>
               <label></label>
               <x>476</x>
-              <y>112</y>
+              <y>142</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -855,7 +864,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.BF</pv_name>
               <label></label>
               <x>496</x>
-              <y>132</y>
+              <y>162</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -867,7 +876,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.B1</pv_name>
               <label></label>
               <x>376</x>
-              <y>112</y>
+              <y>142</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -878,7 +887,7 @@ SPDX-License-Identifier: MIT
               <name>Label_10</name>
               <text>mbboDirect:</text>
               <x>273</x>
-              <y>122</y>
+              <y>152</y>
               <width>76</width>
               <height>16</height>
               <vertical_alignment>1</vertical_alignment>
@@ -895,7 +904,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.B9</pv_name>
               <label></label>
               <x>376</x>
-              <y>132</y>
+              <y>162</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -907,7 +916,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.BD</pv_name>
               <label></label>
               <x>456</x>
-              <y>132</y>
+              <y>162</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -919,7 +928,7 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.B5</pv_name>
               <label></label>
               <x>456</x>
-              <y>112</y>
+              <y>142</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
@@ -931,12 +940,454 @@ SPDX-License-Identifier: MIT
               <pv_name>$(P):types_mbboDirect.BB</pv_name>
               <label></label>
               <x>416</x>
-              <y>132</y>
+              <y>162</y>
               <width>18</width>
               <height>18</height>
               <auto_size>true</auto_size>
               <actions>
               </actions>
+            </widget>
+            <widget type="combo" version="2.0.0">
+              <name>Combo_1</name>
+              <pv_name>$(P):types_mbbo_rw</pv_name>
+              <x>355</x>
+              <y>78</y>
+              <width>160</width>
+              <height>23</height>
+              <background_color>
+                <color red="255" green="255" blue="255">
+                </color>
+              </background_color>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_13</name>
+              <text>mbbo_rw:</text>
+              <x>284</x>
+              <y>82</y>
+              <width>64</width>
+              <height>16</height>
+              <vertical_alignment>1</vertical_alignment>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_14</name>
+              <text>bo_rw:</text>
+              <x>14</x>
+              <y>81</y>
+              <width>50</width>
+              <height>16</height>
+              <horizontal_alignment>2</horizontal_alignment>
+              <vertical_alignment>1</vertical_alignment>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="bool_button" version="2.0.0">
+              <name>Boolean Button_1</name>
+              <pv_name>$(P):types_bo_rw</pv_name>
+              <x>72</x>
+              <y>78</y>
+              <width>160</width>
+              <height>24</height>
+              <off_label>OFF</off_label>
+              <off_color>
+                <color name="Off" red="60" green="100" blue="60">
+                </color>
+              </off_color>
+              <on_label>ON</on_label>
+              <on_color>
+                <color name="On" red="0" green="255" blue="0">
+                </color>
+              </on_color>
+              <background_color>
+                <color red="240" green="240" blue="240">
+                </color>
+              </background_color>
+              <labels_from_pv>true</labels_from_pv>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Input_2</name>
+              <pv_name>$(P):types_ao_rw</pv_name>
+              <x>72</x>
+              <y>193</y>
+              <width>160</width>
+              <height>26</height>
+              <background_color>
+                <color name="WritePV_Background" red="128" green="255" blue="255">
+                </color>
+              </background_color>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_15</name>
+              <text>ao_rw:</text>
+              <x>14</x>
+              <y>198</y>
+              <width>50</width>
+              <height>16</height>
+              <horizontal_alignment>2</horizontal_alignment>
+              <vertical_alignment>1</vertical_alignment>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_bc_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.BC</pv_name>
+              <label></label>
+              <x>436</x>
+              <y>207</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_b2_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.B2</pv_name>
+              <label></label>
+              <x>396</x>
+              <y>187</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="textupdate" version="2.0.0">
+              <name>Text Update_5</name>
+              <pv_name>$(P):types_mbboDirect_rw</pv_name>
+              <x>561</x>
+              <y>189</y>
+              <width>47</width>
+              <height>26</height>
+              <background_color>
+                <color name="MEDM_COLOR_5" red="174" green="174" blue="174">
+                </color>
+              </background_color>
+              <vertical_alignment>1</vertical_alignment>
+              <wrap_words>false</wrap_words>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_b3_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.B3</pv_name>
+              <label></label>
+              <x>416</x>
+              <y>187</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_16</name>
+              <text>B0..B7</text>
+              <x>518</x>
+              <y>189</y>
+              <width>37</width>
+              <height>15</height>
+              <font>
+                <font name="Fine Print" family="Liberation Sans" style="REGULAR" size="12.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_b7_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.B7</pv_name>
+              <label></label>
+              <x>496</x>
+              <y>187</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_be_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.BE</pv_name>
+              <label></label>
+              <x>476</x>
+              <y>207</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_ba_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.BA</pv_name>
+              <label></label>
+              <x>396</x>
+              <y>207</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_b8_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.B8</pv_name>
+              <label></label>
+              <x>355</x>
+              <y>207</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_b0_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.B0</pv_name>
+              <label></label>
+              <x>355</x>
+              <y>187</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_b4_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.B4</pv_name>
+              <label></label>
+              <x>436</x>
+              <y>187</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_17</name>
+              <text>B8..BF</text>
+              <x>518</x>
+              <y>207</y>
+              <width>37</width>
+              <height>15</height>
+              <font>
+                <font name="Fine Print" family="Liberation Sans" style="REGULAR" size="12.0">
+                </font>
+              </font>
+              <vertical_alignment>1</vertical_alignment>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_b6_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.B6</pv_name>
+              <label></label>
+              <x>476</x>
+              <y>187</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_bf_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.BF</pv_name>
+              <label></label>
+              <x>496</x>
+              <y>207</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_b1_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.B1</pv_name>
+              <label></label>
+              <x>376</x>
+              <y>187</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_18</name>
+              <text>mbboDirect_rw:</text>
+              <x>249</x>
+              <y>197</y>
+              <height>16</height>
+              <vertical_alignment>1</vertical_alignment>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_b9_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.B9</pv_name>
+              <label></label>
+              <x>376</x>
+              <y>207</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_bd_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.BD</pv_name>
+              <label></label>
+              <x>456</x>
+              <y>207</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_b5_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.B5</pv_name>
+              <label></label>
+              <x>456</x>
+              <y>187</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="checkbox" version="2.0.0">
+              <name>mbboDirect_bb_1</name>
+              <pv_name>$(P):types_mbboDirect_rw.BB</pv_name>
+              <label></label>
+              <x>416</x>
+              <y>207</y>
+              <width>18</width>
+              <height>18</height>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_19</name>
+              <text>stringout_rw:</text>
+              <x>264</x>
+              <y>302</y>
+              <width>86</width>
+              <height>16</height>
+              <horizontal_alignment>2</horizontal_alignment>
+              <vertical_alignment>1</vertical_alignment>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Input_3</name>
+              <pv_name>$(P):types_longout_rw</pv_name>
+              <x>72</x>
+              <y>297</y>
+              <width>160</width>
+              <height>26</height>
+              <background_color>
+                <color name="WritePV_Background" red="128" green="255" blue="255">
+                </color>
+              </background_color>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="textentry" version="3.0.0">
+              <name>Text Input_5</name>
+              <pv_name>$(P):types_stringout_rw</pv_name>
+              <x>355</x>
+              <y>297</y>
+              <width>160</width>
+              <height>26</height>
+              <background_color>
+                <color name="WritePV_Background" red="128" green="255" blue="255">
+                </color>
+              </background_color>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
+            </widget>
+            <widget type="label" version="2.0.0">
+              <name>Label_20</name>
+              <text>longout_rw:</text>
+              <y>302</y>
+              <width>74</width>
+              <height>16</height>
+              <vertical_alignment>1</vertical_alignment>
+              <auto_size>true</auto_size>
+              <actions>
+              </actions>
+              <border_color>
+                <color red="0" green="128" blue="255">
+                </color>
+              </border_color>
             </widget>
           </children>
         </tab>

@@ -24,6 +24,9 @@ class ADSVariable {
     uint32_t elem_size = 0; /* Element size in bytes */
     std::vector<uint8_t> value;
     bool notify_on_update;
+    bool write_readback = false;
+    bool await_written_readback = false;
+    std::vector<uint8_t> last_written;
 
   public:
     const std::shared_ptr<ADSAddress> addr;
@@ -31,6 +34,8 @@ class ADSVariable {
     uint32_t size(); /* Total data size in bytes */
     bool notifies_on_update();
     void set_notify_on_update(const bool notify);
+    bool uses_write_readback();
+    void set_write_readback(const bool readback);
 
     void set_connection(std::shared_ptr<Connection> connection);
     std::shared_ptr<Connection> get_connection();
