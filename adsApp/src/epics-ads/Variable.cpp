@@ -34,6 +34,12 @@ void ADSVariable::set_notify_on_update(const bool notify) {
     this->notify_on_update = notify;
 }
 
+bool ADSVariable::uses_write_readback() { return this->write_readback; }
+
+void ADSVariable::set_write_readback(const bool readback) {
+    this->write_readback = readback;
+}
+
 // old
 //  Variable::Variable(std::shared_ptr<ADSAddress> address, bool
 //  notify_on_update)
@@ -85,6 +91,13 @@ int ADSVariable::read_from_buffer(const uint32_t size, char *buffer) {
                  this->addr->info().c_str(), read_result,
                  errorMap[read_result].c_str());
         return EPICSADS_NO_DATA;
+    }
+
+    /* Return the written value for the first read after a write to avoid
+     * jumping between "new value" -> "old value" -> "new value" */
+    if (write_readback && await_written_readback) {
+        memcpy(buffer, last_written.data(), last_written.size());
+        await_written_readback = false;
     }
 
     return 0;
@@ -149,6 +162,11 @@ int ADSVariable::write(const char *data, const uint32_t size) {
                                 buffer.data());                 // data buffer
     if (rc != 0) {
         return ads_rc_to_epicsads_error(rc);
+    }
+
+    if (write_readback) {
+        await_written_readback = true;
+        last_written = buffer;
     }
 
     return 0;

@@ -193,6 +193,16 @@ This section contains examples of database record configurations.
        field(OUT,  "@asyn($(PORT) 0 0) DINT W P=350 V=Main.writable")
    }
 
+*longout* record writes to a 32-bit integer ADS variable and reads current value back. Because ``info(asyn:READBACK, "1")`` is set, the ADS device support will update the output variable if it was changed outside of EPICS:
+
+.. code-block::
+
+   record(longout, "$(P):reg_int32_readwritable") {
+       field(DTYP, "asynInt32")
+       field(OUT,  "@asyn($(PORT) 0 0) DINT W P=350 V=Main.writable")
+       info(asyn:READBACK, "1")
+   }
+
 *stringin* record reads from a string ADS variable of length 9. Due to ``SCAN=I/O Intr``, the ADS device support will update the record immediately when it detects that the addressed ADS variable has changed:
 
 .. code-block::

@@ -1,9 +1,9 @@
-/* SPDX-FileCopyrightText: 2022 Cosylab d.d. https://www.cosylab.com */
+/* SPDX-FileCopyrightText: 2023 Cosylab d.d. https://www.cosylab.com */
 /* SPDX-License-Identifier: MIT-0 */
 
 
 .wy-nav-side {
-    background: #00002C
+    background: #371D4F
 }
 
 .wy-menu-vertical p.caption {
@@ -11,5 +11,5 @@
 }
 
 .wy-side-nav-search input[type="text"] {
-    border-color: #00002C;
+    border-color: #371D4F;
 }

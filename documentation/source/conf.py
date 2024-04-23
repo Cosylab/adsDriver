@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+# SPDX-FileCopyrightText: 2023 Cosylab d.d.
 #
 # SPDX-License-Identifier: MIT-0
 
@@ -22,7 +22,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'EPICS ADS Device Support'
-copyright = '2022, Cosylab d.d'
+copyright = '2023, Cosylab d.d'
 author = 'EPICS ADS Team'
 
 
@@ -59,7 +59,7 @@ html_static_path = ['_static']
 html_theme_options = {
     'collapse_navigation': False,
     'display_version': False,
-    'style_nav_header_background': '#00002C',
+    'style_nav_header_background': '#371D4F',
     #'analytics_id': UA-XXXXX or G-XXX,
 }
 

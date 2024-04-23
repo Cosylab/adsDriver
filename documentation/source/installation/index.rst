@@ -27,7 +27,7 @@ AutoparamDriver
 ========================
 The following is a quickstart for compiling Autoparam on Linux. Refer to Autoparam README for more information.
 
-Download the latest stable version from `Github <www.github.com/cosylab/autoparamDriver>`__.
+Download the latest stable version from `Github <https://www.github.com/cosylab/autoparamDriver>`__.
 
 The provided ``configure/RELEASE`` file assumes that the module's parent directory contains a *RELEASE.local* file with the required module paths (i.e. *ASYN* and *EPICS_BASE*):
 
@@ -103,7 +103,7 @@ Finally, compile the module:
 
 ADS Driver
 ===============
-The procedure is similar to the one described for the autoparamDriver above. First download the latest stable version from `Github <www.github.com/cosylab/adsDriver>`__ link. Make sure you also clone the submodules.
+The procedure is similar to the one described for the autoparamDriver above. First download the latest stable version from `Github <https://www.github.com/cosylab/adsDriver>`__ link. Make sure you also clone the submodules.
 
 The provided ``configure/RELEASE`` file assumes that the module’s parent directory contains a *RELEASE.local* file with the required module paths (i.e. *ASYN*, *AUTOPARAM* and *EPICS_BASE*):
 

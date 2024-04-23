@@ -80,7 +80,7 @@ DeviceVariable *ADSPortDriver::createDeviceVariable(DeviceVariable *baseInfo) {
 
     if (adsDeviceVar->adsPV->addr->get_operation() == Operation::Read) {
         ads_read_vars.push_back(adsDeviceVar->adsPV);
-    } else {
+    } else if (adsDeviceVar->adsPV->addr->get_operation() == Operation::Write) {
         ads_write_vars.push_back(adsDeviceVar->adsPV);
     }
 
@@ -269,6 +269,16 @@ void ADSPortDriver::initHook(Autoparam::Driver *driver) {
         LOG_TRACE_ASYN(self->pasynUserSelf, "%s already initialized",
                        self->portName.c_str());
         return;
+    }
+
+    // add write variables with asyn:READBACK to the list of sum read variables
+    auto vars = self->getInterruptVariables();
+    for (auto itr = vars.begin(); itr != vars.end(); itr++) {
+        auto &adsVar = *static_cast<ADSDeviceVar *>(*itr);
+        if (adsVar.adsPV->addr->get_operation() == Operation::Write) {
+            adsVar.adsPV->set_write_readback(true);
+            self->ads_read_vars.push_back(adsVar.adsPV);
+        }
     }
 
     {
@@ -733,7 +743,8 @@ Result<epicsDataType> ADSPortDriver::integerRead(DeviceVariable &deviceVar) {
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    if (adsVar->addr->get_operation() == Operation::Write) {
+    if ( (adsVar->addr->get_operation() == Operation::Write && !adsVar->uses_write_readback())
+        || !adsVar->get_connection()->is_connected()) {
         result.status = asynError;
         return result;
     }
@@ -760,7 +771,8 @@ UInt32ReadResult ADSPortDriver::digitalRead(DeviceVariable &deviceVar,
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    if (adsVar->addr->get_operation() == Operation::Write) {
+    if ( (adsVar->addr->get_operation() == Operation::Write && !adsVar->uses_write_readback())
+        || !adsVar->get_connection()->is_connected()) {
         result.status = asynError;
         return result;
     }
@@ -786,7 +798,8 @@ Float64ReadResult ADSPortDriver::floatRead(DeviceVariable &deviceVar) {
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    if (adsVar->addr->get_operation() == Operation::Write) {
+    if ( (adsVar->addr->get_operation() == Operation::Write && !adsVar->uses_write_readback())
+        || !adsVar->get_connection()->is_connected()) {
         result.status = asynError;
         return result;
     }
@@ -885,7 +898,8 @@ ArrayReadResult ADSPortDriver::arrayRead(DeviceVariable &deviceVar,
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    if (adsVar->addr->get_operation() == Operation::Write) {
+    if ( (adsVar->addr->get_operation() == Operation::Write && !adsVar->uses_write_readback())
+        || !adsVar->get_connection()->is_connected()) {
         result.status = asynError;
         return result;
     }
@@ -941,7 +955,8 @@ OctetReadResult ADSPortDriver::stringRead(DeviceVariable &deviceVar,
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    if (adsVar->addr->get_operation() == Operation::Write) {
+    if ( (adsVar->addr->get_operation() == Operation::Write && !adsVar->uses_write_readback())
+        || !adsVar->get_connection()->is_connected()) {
         result.status = asynError;
         return result;
     }
