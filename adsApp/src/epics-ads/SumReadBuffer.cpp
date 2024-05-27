@@ -95,17 +95,6 @@ int SumReadBuffer::add_variable(std::shared_ptr<ADSVariable> variable) {
         return EPICSADS_ERROR;
     }
 
-    /* Variables that trigger notifications are additionally stored in a
-     * separate vector */
-    if (variable->notifies_on_update() == true) {
-        try {
-            this->notify_on_update_vars.push_back(variable);
-        } catch (const std::exception &ex) {
-            LOG_ERR("vector.push_back() failed: %s", ex.what());
-            return EPICSADS_ERROR;
-        }
-    }
-
     /* Store information about where the variables' corresponding data can be
      * found in the buffer */
     BufferDataPosition bdp = {this, this->next_result_offset,
@@ -185,39 +174,6 @@ void SumReadBuffer::save_buffer() {
     this->rwlock.lock_write();
     memcpy(this->prev_data_buffer, this->buffer, this->buffer_size);
     this->rwlock.unlock_write();
-}
-
-std::vector<std::shared_ptr<ADSVariable>>
-SumReadBuffer::get_updated_variables() {
-    std::vector<std::shared_ptr<ADSVariable>> updated_vars;
-
-    for (auto it = this->notify_on_update_vars.begin();
-         it != this->notify_on_update_vars.end(); it++) {
-        BufferDataPosition bdp = (*it)->get_buffer_reader();
-
-        /* Check if variable was successfully read */
-        uint32_t *read_result = (uint32_t *)this->buffer;
-        read_result += bdp.off_result;
-        if (*read_result != 0) {
-            LOG_WARN("variable '%s' could not be read (%u): %s",
-                     (*it)->addr->info().c_str(), *read_result,
-                     errorMap[*read_result].c_str());
-            continue;
-        }
-
-        uint8_t *new_values_buffer_start =
-            this->buffer + this->start_of_data_offset() + bdp.off_data;
-        uint8_t *prev_values_buffer_start = this->prev_data_buffer +
-                                            this->start_of_data_offset() +
-                                            bdp.off_data;
-
-        if (memcmp(new_values_buffer_start, prev_values_buffer_start,
-                   (*it)->size()) != 0) {
-            updated_vars.push_back(*it);
-        }
-    }
-
-    return updated_vars;
 }
 
 size_t SumReadBuffer::results_size() {

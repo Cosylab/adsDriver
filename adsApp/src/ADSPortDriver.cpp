@@ -61,10 +61,8 @@ DeviceAddress *ADSPortDriver::parseDeviceAddress(std::string const &function,
 
 ADSDeviceVar::ADSDeviceVar(DeviceVariable *baseInfo, ADSPortDriver *driver)
     : DeviceVariable(baseInfo), driver(driver),
-      adsPV(new ADSVariable(
-          std::make_shared<ADSAddress>(
-              static_cast<ADSDeviceAddress const &>(address()).address),
-          false)) {}
+      adsPV(new ADSVariable(std::make_shared<ADSAddress>(
+          static_cast<ADSDeviceAddress const &>(address()).address))) {}
 
 DeviceVariable *ADSPortDriver::createDeviceVariable(DeviceVariable *baseInfo) {
     ADSDeviceVar *adsDeviceVar = nullptr;

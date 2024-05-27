@@ -309,28 +309,6 @@ int SumReadRequest::read() {
     return 0;
 }
 
-std::vector<std::shared_ptr<ADSVariable>>
-SumReadRequest::get_updated_variables() {
-    std::vector<std::shared_ptr<ADSVariable>> vars;
-
-    if (this->initialized == false) {
-        return vars;
-    }
-
-    auto chunk_set = this->get_chunks();
-    for (auto chunk_itr = chunk_set->begin(); chunk_itr != chunk_set->end();
-         chunk_itr++) {
-        auto updated_vars =
-            (*chunk_itr)->sum_read_data_buffer->get_updated_variables();
-        for (auto var = updated_vars.begin(); var != updated_vars.end();
-             var++) {
-            vars.push_back(*var);
-        }
-    }
-
-    return vars;
-}
-
 void SumReadRequest::print_info(FILE *fd, int details) {
     if (details >= 1) {
         fprintf(fd, "Sum-read request report:\n");

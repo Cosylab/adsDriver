@@ -20,9 +20,6 @@ class SumReadBuffer {
     /* Variables added to this buffer */
     std::vector<std::shared_ptr<ADSVariable>> variables;
 
-    /* Variables added to this buffer that should be notified on value update */
-    std::vector<std::shared_ptr<ADSVariable>> notify_on_update_vars;
-
     uint16_t max_nvariables = 0; /* Maximum allowed number of variables */
     size_t max_data_size_soft_limit =
         1000000; /* Maximum soft limit for data segment size */
@@ -110,11 +107,6 @@ class SumReadBuffer {
      *
      * This method implicitly acquires write lock before copying the buffer. */
     void save_buffer();
-
-    /* Return variables that have been modified after the save_buffer() was
-     * last called and the buffer was updated. Only variables that were
-     * constructed with notify_on_update=true are returned. */
-    std::vector<std::shared_ptr<ADSVariable>> get_updated_variables();
 
     // for autoparam use
     // std::vector<std::shared_ptr<Variable>> get_updated_variables(
