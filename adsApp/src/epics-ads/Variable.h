@@ -25,7 +25,6 @@ class ADSVariable {
     std::vector<uint8_t> value;
     bool notify_on_update;
     bool write_readback = false;
-    bool await_written_readback = false;
     std::vector<uint8_t> last_written;
 
   public:

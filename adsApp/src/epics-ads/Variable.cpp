@@ -95,9 +95,9 @@ int ADSVariable::read_from_buffer(const uint32_t size, char *buffer) {
 
     /* Return the written value for the first read after a write to avoid
      * jumping between "new value" -> "old value" -> "new value" */
-    if (write_readback && await_written_readback) {
+    if (write_readback && !last_written.empty()) {
         memcpy(buffer, last_written.data(), last_written.size());
-        await_written_readback = false;
+        last_written.clear();
     }
 
     return 0;
@@ -165,7 +165,6 @@ int ADSVariable::write(const char *data, const uint32_t size) {
     }
 
     if (write_readback) {
-        await_written_readback = true;
         last_written = buffer;
     }
 
