@@ -23,7 +23,6 @@ class ADSVariable {
     BufferDataPosition buffer_reader = EMPTY_BUFFER_DATA_POSITION;
     uint32_t elem_size = 0; /* Element size in bytes */
     std::vector<uint8_t> value;
-    bool notify_on_update;
     bool write_readback = false;
     std::vector<uint8_t> last_written;
 
@@ -31,8 +30,6 @@ class ADSVariable {
     const std::shared_ptr<ADSAddress> addr;
     const ADSAddress *get_address();
     uint32_t size(); /* Total data size in bytes */
-    bool notifies_on_update();
-    void set_notify_on_update(const bool notify);
     bool uses_write_readback();
     void set_write_readback(const bool readback);
 
@@ -44,9 +41,7 @@ class ADSVariable {
     void set_buffer_reader(BufferDataPosition br);
     BufferDataPosition get_buffer_reader();
 
-    // for autoparam
-    ADSVariable(std::shared_ptr<ADSAddress> address,
-                bool notify_on_update = false);
+    ADSVariable(std::shared_ptr<ADSAddress> address);
 
     /* Read data from underlying buffer. The method implicitly acquires a read
      * lock before copying into the caller's buffer.  */

@@ -28,28 +28,13 @@ BufferDataPosition ADSVariable::get_buffer_reader() {
     return this->buffer_reader;
 }
 
-bool ADSVariable::notifies_on_update() { return this->notify_on_update; }
-
-void ADSVariable::set_notify_on_update(const bool notify) {
-    this->notify_on_update = notify;
-}
-
 bool ADSVariable::uses_write_readback() { return this->write_readback; }
 
 void ADSVariable::set_write_readback(const bool readback) {
     this->write_readback = readback;
 }
 
-// old
-//  Variable::Variable(std::shared_ptr<ADSAddress> address, bool
-//  notify_on_update)
-//      : notify_on_update(notify_on_update), addr(address) {
-//      this->elem_size = ads_datatype_sizes[this->addr->get_data_type()];
-//  }
-
-ADSVariable::ADSVariable(std::shared_ptr<ADSAddress> address,
-                         bool notify_on_update)
-    : notify_on_update(notify_on_update), addr(address) {
+ADSVariable::ADSVariable(std::shared_ptr<ADSAddress> address) : addr(address) {
     this->elem_size = ads_datatype_sizes.at(this->addr->get_data_type());
 }
 
