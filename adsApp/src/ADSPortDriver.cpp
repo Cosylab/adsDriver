@@ -699,7 +699,7 @@ void ADSPortDriver::performIOIntr() {
 
             case ADSDataType::USINT: {
                 Int32ReadResult result =
-                    integerRead<epicsInt16, epicsInt32>(adsVar);
+                    integerRead<epicsUInt8, epicsInt32>(adsVar);
 
                 setParam(adsVar, result.value, result.status,
                          result.alarmStatus, result.alarmSeverity);
@@ -709,7 +709,7 @@ void ADSPortDriver::performIOIntr() {
             case ADSDataType::WORD:
             case ADSDataType::UINT: {
                 Int32ReadResult result =
-                    integerRead<epicsInt32, epicsInt32>(adsVar);
+                    integerRead<epicsUInt16, epicsInt32>(adsVar);
 
                 setParam(adsVar, result.value, result.status,
                          result.alarmStatus, result.alarmSeverity);
@@ -719,7 +719,7 @@ void ADSPortDriver::performIOIntr() {
             case ADSDataType::DWORD:
             case ADSDataType::UDINT: {
                 Int64ReadResult result =
-                    integerRead<epicsInt64, epicsInt64>(adsVar);
+                    integerRead<epicsUInt64, epicsInt64>(adsVar);
 
                 setParam(adsVar, result.value, result.status,
                          result.alarmStatus, result.alarmSeverity);
