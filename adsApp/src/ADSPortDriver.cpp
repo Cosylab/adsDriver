@@ -18,6 +18,7 @@
 #include <sstream>
 #include <Types.h>
 #include <err.h>
+#include <epicsString.h>
 #include <ADSPortDriver.h>
 #include <stdexcept>
 #include <thread>
@@ -523,9 +524,13 @@ void ADSPortDriver::performArrayCallbacks(ADSDeviceVar &parentDeviceVar,
     Autoparam::Array<epicsDataType> readArray(buffer.data(), buffer.size());
 
     ArrayReadResult result = arrayRead<PLCDataType, epicsDataType>(parentDeviceVar, readArray);
+    int hash = epicsMemHash(reinterpret_cast<char const *>(readArray.data()), readArray.size() * sizeof(epicsDataType), 0);
 
-    doCallbacksArray(parentDeviceVar, readArray, result.status,
-                     result.alarmStatus, result.alarmSeverity);
+    // Mimic the behavior of callParamCallbacks() by only doing the callbacks if data has changed.
+    if (parentDeviceVar.adsPV->updateDataHash(hash)) {
+        doCallbacksArray(parentDeviceVar, readArray, result.status,
+                        result.alarmStatus, result.alarmSeverity);
+    }
 }
 
 void ADSPortDriver::performIOIntr() {

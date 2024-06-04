@@ -23,6 +23,7 @@ class ADSVariable {
     BufferDataPosition buffer_reader = EMPTY_BUFFER_DATA_POSITION;
     uint32_t elem_size = 0; /* Element size in bytes */
     std::vector<uint8_t> value;
+    int array_data_hash; // Used to detect change on read
     bool write_readback = false;
     std::vector<uint8_t> last_written;
 
@@ -32,6 +33,9 @@ class ADSVariable {
     uint32_t size(); /* Total data size in bytes */
     bool uses_write_readback();
     void set_write_readback(const bool readback);
+
+    // Updates the stored data hash and returns true if it has changed.
+    bool updateDataHash(int new_hash);
 
     void set_connection(std::shared_ptr<Connection> connection);
     std::shared_ptr<Connection> get_connection();

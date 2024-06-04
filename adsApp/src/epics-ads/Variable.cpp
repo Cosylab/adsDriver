@@ -34,6 +34,12 @@ void ADSVariable::set_write_readback(const bool readback) {
     this->write_readback = readback;
 }
 
+bool ADSVariable::updateDataHash(int new_hash) {
+    bool changed = new_hash != array_data_hash;
+    array_data_hash = new_hash;
+    return changed;
+}
+
 ADSVariable::ADSVariable(std::shared_ptr<ADSAddress> address) : addr(address) {
     this->elem_size = ads_datatype_sizes.at(this->addr->get_data_type());
 }
