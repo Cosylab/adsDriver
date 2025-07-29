@@ -97,6 +97,7 @@ int Connection::resolve_variables(
         return EPICSADS_DISCONNECTED;
     }
 
+    int status = 0;
     for (size_t i = 0; i < ads_variables.size(); i++) {
         std::shared_ptr<ADSVariable> ads_var = ads_variables[i];
         if (ads_var->addr->is_resolved() == true) {
@@ -121,16 +122,18 @@ int Connection::resolve_variables(
         if (rc != 0) {
             LOG_WARN("could not resolve ADS variable '%s'",
                      ads_var->addr->get_var_name().c_str());
-            return ads_rc_to_epicsads_error(rc);
+            status = ads_rc_to_epicsads_error(rc);
+            continue;
         }
 
         rc = ads_var->addr->resolve(ADSIGRP_SYM_VALBYHND, handle);
         if (rc != 0) {
-            return EPICSADS_ERROR;
+            status = EPICSADS_ERROR;
+            continue;
         }
     }
 
-    return 0;
+    return status;
 }
 
 int Connection::unresolve_variable(std::shared_ptr<ADSVariable> ads_variable) {
