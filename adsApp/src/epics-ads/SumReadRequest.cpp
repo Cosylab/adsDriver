@@ -248,7 +248,6 @@ void SumReadRequest::set_buffers_state(
     }
 }
 
-
 int SumReadRequest::read() {
     if (this->initialized == false) {
         return EPICSADS_INV_CALL;

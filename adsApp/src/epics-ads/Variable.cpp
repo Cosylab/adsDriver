@@ -143,7 +143,7 @@ int ADSVariable::write(const char *data, const uint32_t size) {
     std::lock_guard<epicsMutex> lock(this->conn->mtx);
 
     AmsAddr remote_ams_addr = {this->conn->get_remote_ams_netid(),
-                                      this->addr->get_ads_port()};
+                               this->addr->get_ads_port()};
 
     long rc = AdsSyncWriteReqEx(this->conn->get_ads_port(),     // ADS port
                                 &remote_ams_addr,               // AMS address
@@ -184,19 +184,19 @@ int ADSVariable::read(uint8_t *data, const uint32_t size,
     std::lock_guard<epicsMutex> lock(this->conn->mtx);
 
     AmsAddr remote_ams_addr = {this->conn->get_remote_ams_netid(),
-                                      this->addr->get_ads_port()};
+                               this->addr->get_ads_port()};
 
-
-    long rc = AdsSyncReadReqEx2(this->conn->get_ads_port(),     // ADS port
-                                &remote_ams_addr,               // AMS address
-                                this->addr->get_index_group(),  // index group
-                                this->addr->get_index_offset(), // index offset
-                                bytes_to_read,                  // data length
-                                data,        // read (result data) buffer
+    long rc =
+        AdsSyncReadReqEx2(this->conn->get_ads_port(),     // ADS port
+                          &remote_ams_addr,               // AMS address
+                          this->addr->get_index_group(),  // index group
+                          this->addr->get_index_offset(), // index offset
+                          bytes_to_read,                  // data length
+                          data, // read (result data) buffer
 #ifdef USE_TC_ADS
-                     (ads_ui32*)
+                          (ads_ui32 *)
 #endif
-                                bytes_read); // bytes written into read buffer
+                              bytes_read); // bytes written into read buffer
 
     if (rc != 0) {
         return ads_rc_to_epicsads_error(rc);

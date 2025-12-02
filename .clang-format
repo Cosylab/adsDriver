@@ -4,7 +4,7 @@
 
 ---
 Language:        Cpp
-Standard: Cpp03
+Standard: Cpp11
 # BasedOnStyle:  LLVM
 AccessModifierOffset: -2
 AlignAfterOpenBracket: Align
@@ -153,7 +153,7 @@ SpaceBeforeRangeBasedForLoopColon: true
 SpaceInEmptyBlock: false
 SpaceInEmptyParentheses: false
 SpacesBeforeTrailingComments: 1
-SpacesInAngles:  Leave  # for Standard Cpp03
+SpacesInAngles:  Leave
 SpacesInConditionalStatement: false
 SpacesInContainerLiterals: true
 SpacesInCStyleCastParentheses: false
@@ -164,7 +164,6 @@ SpacesInParentheses: false
 SpacesInSquareBrackets: false
 SpaceBeforeSquareBrackets: false
 BitFieldColonSpacing: Both
-Standard:        Latest
 StatementAttributeLikeMacros:
   - Q_EMIT
 StatementMacros:

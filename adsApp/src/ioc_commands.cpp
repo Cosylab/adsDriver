@@ -32,14 +32,16 @@ epicsShareFunc int ads_open(int argc, const char *const *argv) {
     int sum_buffer_nelem = defaultSumBuferNelem;
     int ads_function_timeout_ms = -1;
     int sum_read_period = defaultSumReadPeriod.count();
-    std::chrono::milliseconds chr_sum_read_period{ sum_read_period };
+    std::chrono::milliseconds chr_sum_read_period{sum_read_period};
 
     if (argc < 3 || argc > 8) {
         errlogPrintf(
             "AdsOpen <port_name> <ip_addr> <ams_net_id>"
             " | optional: <sum_buffer_nelem (default: %u)> <ads_timeout "
-            "(default: %u) [ms]> <device_read_ads_port (default: %u)> <sum_read_period (default: %ld)>\n",
-            defaultSumBuferNelem, defaultADSCallTimeout_ms, defaultDeviceReadADSPort, defaultSumReadPeriod.count());
+            "(default: %u) [ms]> <device_read_ads_port (default: %u)> "
+            "<sum_read_period (default: %ld)>\n",
+            defaultSumBuferNelem, defaultADSCallTimeout_ms,
+            defaultDeviceReadADSPort, defaultSumReadPeriod.count());
         return -1;
     }
 
@@ -74,9 +76,9 @@ epicsShareFunc int ads_open(int argc, const char *const *argv) {
         case 6:
             device_read_ads_port = strtol(argv[i], nullptr, 10);
             if (device_read_ads_port < 1) {
-                errlogPrintf(
-                    "Error: device_read_ads_port must be a positive integer (%i)\n",
-                    device_read_ads_port);
+                errlogPrintf("Error: device_read_ads_port must be a positive "
+                             "integer (%i)\n",
+                             device_read_ads_port);
                 return -1;
             }
 
@@ -97,7 +99,8 @@ epicsShareFunc int ads_open(int argc, const char *const *argv) {
     }
 
     new ADSPortDriver(port_name.c_str(), ip_addr.c_str(), ams_net_id.c_str(),
-                      sum_buffer_nelem, ads_function_timeout_ms, device_read_ads_port, chr_sum_read_period);
+                      sum_buffer_nelem, ads_function_timeout_ms,
+                      device_read_ads_port, chr_sum_read_period);
 
     return 0;
 }

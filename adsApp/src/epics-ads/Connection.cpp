@@ -7,8 +7,6 @@
 
 #include "Connection.h"
 
-
-
 bool Connection::is_connected() { return (this->ads_port != 0 ? true : false); }
 
 const AmsNetId Connection::get_remote_ams_netid() {
@@ -27,7 +25,8 @@ void Connection::set_local_ams_id(const AmsNetId ams_id) {
 #endif
 }
 
-int Connection::connect(const AmsNetId ams_id, const std::string address, const uint16_t device_read_ads_port) {
+int Connection::connect(const AmsNetId ams_id, const std::string address,
+                        const uint16_t device_read_ads_port) {
     std::lock_guard<epicsMutex> lock(this->mtx);
 
     /* Add AMS route */
@@ -109,15 +108,16 @@ int Connection::resolve_variables(
         AmsAddr ams_addr = {this->remote_ams_netid,
                             ads_var->addr->get_ads_port()};
         long rc = AdsSyncReadWriteReqEx2(
-            this->ads_port,                        // ADS port
-            &ams_addr,                             // AMS address
-            ADSIGRP_SYM_HNDBYNAME,                 // index group
-            0,                                     // index offset
-            sizeof(handle),                        // read length
-            &handle,                               // read data
-            ads_var->addr->get_var_name().size(),  // write length
-            const_cast<char*>(ads_var->addr->get_var_name().c_str()), // write data
-            nullptr);                              // bytes read
+            this->ads_port,                       // ADS port
+            &ams_addr,                            // AMS address
+            ADSIGRP_SYM_HNDBYNAME,                // index group
+            0,                                    // index offset
+            sizeof(handle),                       // read length
+            &handle,                              // read data
+            ads_var->addr->get_var_name().size(), // write length
+            const_cast<char *>(
+                ads_var->addr->get_var_name().c_str()), // write data
+            nullptr);                                   // bytes read
 
         if (rc != 0) {
             LOG_WARN("could not resolve ADS variable '%s'",

@@ -17,7 +17,7 @@
  * - Don't release locks if currently not holding a lock.
  * */
 class RWLock {
-protected:
+  protected:
 #ifdef LINUX_USE_CPP11
     pthread_rwlock_t rwlock;
     pthread_rwlockattr_t rwlock_attr;
@@ -26,13 +26,14 @@ protected:
 #endif
     RWLock();
 
-public:
+  public:
 #ifndef LINUX_USE_CPP11
 #define PTHREAD_RWLOCK_PREFER_READER_NP 0
 #define PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP 1
 #endif
     static const int prefer_reader = PTHREAD_RWLOCK_PREFER_READER_NP;
-    static const int prefer_writer = PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP;
+    static const int prefer_writer =
+        PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP;
 
     /* Flags chould be set to either prefer_reader or prefer_writer. */
     RWLock(int flags);

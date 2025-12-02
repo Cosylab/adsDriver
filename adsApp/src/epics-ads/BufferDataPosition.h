@@ -13,12 +13,16 @@ struct BufferDataPosition {
     uint32_t off_result;
     size_t off_data;
 
-    bool operator == (const BufferDataPosition& br) const {
-        return (this->buffer == br.buffer) && (this->off_result == br.off_result) && (this->off_data == br.off_data);
+    bool operator==(const BufferDataPosition &br) const {
+        return (this->buffer == br.buffer) &&
+               (this->off_result == br.off_result) &&
+               (this->off_data == br.off_data);
     }
 
-    bool operator != (const BufferDataPosition& br) const {
-        return (this->buffer != br.buffer) || (this->off_result != br.off_result) || (this->off_data != br.off_data);
+    bool operator!=(const BufferDataPosition &br) const {
+        return (this->buffer != br.buffer) ||
+               (this->off_result != br.off_result) ||
+               (this->off_data != br.off_data);
     }
 };
 

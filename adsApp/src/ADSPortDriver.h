@@ -66,7 +66,8 @@ class ADSPortDriver : public Autoparam::Driver {
   public:
     ADSPortDriver(char const *portName, char const *ipAddr,
                   char const *amsNetId, uint16_t sumBufferSize,
-                  uint32_t adsFunctionTimeout, uint16_t deviceReadAdsPort, std::chrono::milliseconds sumReadPeriod);
+                  uint32_t adsFunctionTimeout, uint16_t deviceReadAdsPort,
+                  std::chrono::milliseconds sumReadPeriod);
 
     ~ADSPortDriver();
 

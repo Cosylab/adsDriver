@@ -90,24 +90,25 @@ DeviceVariable *ADSPortDriver::createDeviceVariable(DeviceVariable *baseInfo) {
 ADSPortDriver::ADSPortDriver(
     char const *portName, char const *ipAddr, char const *amsNetId,
     uint16_t sumBufferSize = defaultSumBuferNelem,
-    uint32_t adsFunctionTimeout = defaultADSCallTimeout_ms, uint16_t deviceReadAdsPort = defaultDeviceReadADSPort , std::chrono::milliseconds sumReadPeriod = defaultSumReadPeriod)
+    uint32_t adsFunctionTimeout = defaultADSCallTimeout_ms,
+    uint16_t deviceReadAdsPort = defaultDeviceReadADSPort,
+    std::chrono::milliseconds sumReadPeriod = defaultSumReadPeriod)
     : Autoparam::Driver(portName, Autoparam::DriverOpts()
                                       .setAutoInterrupts(false)
                                       .setAutoConnect(true)
                                       .setAutoDestruct()
                                       .setInitHook(initHook)),
-      portName(portName), ipAddr(ipAddr), amsNetId{0, 0, 0 ,0 ,0 ,0},
+      portName(portName), ipAddr(ipAddr), amsNetId{0, 0, 0, 0, 0, 0},
       sumBufferSize(sumBufferSize), adsFunctionTimeout(adsFunctionTimeout),
-      deviceReadAdsPort(deviceReadAdsPort), sumReadPeriod(sumReadPeriod),  adsConnection(new Connection()),
-      SumRead(sumBufferSize, adsConnection),
+      deviceReadAdsPort(deviceReadAdsPort), sumReadPeriod(sumReadPeriod),
+      adsConnection(new Connection()), SumRead(sumBufferSize, adsConnection),
       exitCalled(false), initialized(false),
       currentDeviceState(ADSSTATE_INVALID) {
 
 #ifdef USE_TC_ADS
     std::vector<std::string> split_ams;
     boost::split(split_ams, amsNetId, boost::is_any_of("."));
-    for(int i=0; i < split_ams.size() && i < 6; ++i)
-    {
+    for (int i = 0; i < split_ams.size() && i < 6; ++i) {
         this->amsNetId.b[i] = atoi(split_ams[i].c_str());
     }
 #else
@@ -238,8 +239,9 @@ ADSPortDriver::ADSPortDriver(
     registerHandlers<Octet>(ads_datatypes_str.at(ADSDataType::STRING),
                             stringRead, stringWrite, NULL);
 
-    LOG_TRACE("ADSPortDriver parameters: %s, %s, %s, %d, %d %d", portName, ipAddr,
-              amsNetId, sumBufferSize, adsFunctionTimeout, deviceReadAdsPort);
+    LOG_TRACE("ADSPortDriver parameters: %s, %s, %s, %d, %d %d", portName,
+              ipAddr, amsNetId, sumBufferSize, adsFunctionTimeout,
+              deviceReadAdsPort);
     LOG_TRACE("ADSPortDriver instance: %p, ip: %s", this, ipAddr);
 
     adsScanThread = std::thread(&ADSPortDriver::adsScan, this);
@@ -318,7 +320,8 @@ asynStatus ADSPortDriver::ADSConnect(asynUser *pasynUser) {
     }
 
     // connect to the ADS device
-    status = static_cast<asynStatus>(adsConnection->connect(amsNetId, ipAddr, deviceReadAdsPort));
+    status = static_cast<asynStatus>(
+        adsConnection->connect(amsNetId, ipAddr, deviceReadAdsPort));
 
     if (status) {
         LOG_ERR_ASYN(pasynUser, "Could not connect to ADS device (%i): %s",
@@ -523,13 +526,16 @@ void ADSPortDriver::performArrayCallbacks(ADSDeviceVar &parentDeviceVar,
     std::vector<epicsDataType> buffer(nelem);
     Autoparam::Array<epicsDataType> readArray(buffer.data(), buffer.size());
 
-    ArrayReadResult result = arrayRead<PLCDataType, epicsDataType>(parentDeviceVar, readArray);
-    int hash = epicsMemHash(reinterpret_cast<char const *>(readArray.data()), readArray.size() * sizeof(epicsDataType), 0);
+    ArrayReadResult result =
+        arrayRead<PLCDataType, epicsDataType>(parentDeviceVar, readArray);
+    int hash = epicsMemHash(reinterpret_cast<char const *>(readArray.data()),
+                            readArray.size() * sizeof(epicsDataType), 0);
 
-    // Mimic the behavior of callParamCallbacks() by only doing the callbacks if data has changed.
+    // Mimic the behavior of callParamCallbacks() by only doing the callbacks if
+    // data has changed.
     if (parentDeviceVar.adsPV->updateDataHash(hash)) {
         doCallbacksArray(parentDeviceVar, readArray, result.status,
-                        result.alarmStatus, result.alarmSeverity);
+                         result.alarmStatus, result.alarmSeverity);
     }
 }
 
@@ -746,8 +752,9 @@ Result<epicsDataType> ADSPortDriver::integerRead(DeviceVariable &deviceVar) {
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    if ( (adsVar->addr->get_operation() == Operation::Write && !adsVar->uses_write_readback())
-        || !adsVar->get_connection()->is_connected()) {
+    if ((adsVar->addr->get_operation() == Operation::Write &&
+         !adsVar->uses_write_readback()) ||
+        !adsVar->get_connection()->is_connected()) {
         result.status = asynError;
         return result;
     }
@@ -774,8 +781,9 @@ UInt32ReadResult ADSPortDriver::digitalRead(DeviceVariable &deviceVar,
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    if ( (adsVar->addr->get_operation() == Operation::Write && !adsVar->uses_write_readback())
-        || !adsVar->get_connection()->is_connected()) {
+    if ((adsVar->addr->get_operation() == Operation::Write &&
+         !adsVar->uses_write_readback()) ||
+        !adsVar->get_connection()->is_connected()) {
         result.status = asynError;
         return result;
     }
@@ -801,8 +809,9 @@ Float64ReadResult ADSPortDriver::floatRead(DeviceVariable &deviceVar) {
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    if ( (adsVar->addr->get_operation() == Operation::Write && !adsVar->uses_write_readback())
-        || !adsVar->get_connection()->is_connected()) {
+    if ((adsVar->addr->get_operation() == Operation::Write &&
+         !adsVar->uses_write_readback()) ||
+        !adsVar->get_connection()->is_connected()) {
         result.status = asynError;
         return result;
     }
@@ -901,8 +910,9 @@ ArrayReadResult ADSPortDriver::arrayRead(DeviceVariable &deviceVar,
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    if ( (adsVar->addr->get_operation() == Operation::Write && !adsVar->uses_write_readback())
-        || !adsVar->get_connection()->is_connected()) {
+    if ((adsVar->addr->get_operation() == Operation::Write &&
+         !adsVar->uses_write_readback()) ||
+        !adsVar->get_connection()->is_connected()) {
         result.status = asynError;
         return result;
     }
@@ -958,8 +968,9 @@ OctetReadResult ADSPortDriver::stringRead(DeviceVariable &deviceVar,
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    if ( (adsVar->addr->get_operation() == Operation::Write && !adsVar->uses_write_readback())
-        || !adsVar->get_connection()->is_connected()) {
+    if ((adsVar->addr->get_operation() == Operation::Write &&
+         !adsVar->uses_write_readback()) ||
+        !adsVar->get_connection()->is_connected()) {
         result.status = asynError;
         return result;
     }

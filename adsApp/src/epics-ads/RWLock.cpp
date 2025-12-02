@@ -10,22 +10,26 @@
 static int unlock(pthread_rwlock_t *rwlock);
 #endif
 
-
 RWLock::RWLock(int flags) {
 #ifdef LINUX_USE_CPP11
     int rc = pthread_rwlockattr_init(&this->rwlock_attr);
     if (rc != 0) {
-        throw std::runtime_error("could not initialize RW lock attributes; pthread_rwlockattr_init: " + rc);
+        throw std::runtime_error("could not initialize RW lock attributes; "
+                                 "pthread_rwlockattr_init: " +
+                                 rc);
     }
 
     rc = pthread_rwlockattr_setkind_np(&this->rwlock_attr, flags);
     if (rc != 0) {
-        throw std::runtime_error("could not set RW lock attributes; pthread_rwlockattr_setkind_np: " + rc);
+        throw std::runtime_error("could not set RW lock attributes; "
+                                 "pthread_rwlockattr_setkind_np: " +
+                                 rc);
     }
 
     rc = pthread_rwlock_init(&this->rwlock, &this->rwlock_attr);
     if (rc != 0) {
-        throw std::runtime_error("could not initialize RW lock; pthread_rwlock_init: " + rc);
+        throw std::runtime_error(
+            "could not initialize RW lock; pthread_rwlock_init: " + rc);
     }
 #endif
 }
@@ -41,7 +45,8 @@ RWLock::~RWLock() {
     rc = pthread_rwlockattr_destroy(&this->rwlock_attr);
     if (rc != 0) {
         /* Also very bad. */
-        LOG_ERR("failed to destroy rwlock_attr; pthread_rwlockattr_destroy: %i", rc);
+        LOG_ERR("failed to destroy rwlock_attr; pthread_rwlockattr_destroy: %i",
+                rc);
     }
 #endif
 }
