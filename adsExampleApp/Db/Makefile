@@ -1,6 +1,6 @@
-# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+# SPDX-FileCopyrightText: 1998 Argonne National Laboratory
 #
-# SPDX-License-Identifier: MIT-0
+# SPDX-License-Identifier: EPICS
 
 TOP=../..
 include $(TOP)/configure/CONFIG
