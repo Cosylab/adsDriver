@@ -248,16 +248,16 @@ ADSPortDriver::ADSPortDriver(
 }
 
 ADSPortDriver::~ADSPortDriver() {
-    LOG_WARN_ASYN(pasynUserSelf, "Shutting down");
+    LOG_TRACE_ASYN(pasynUserSelf, "Shutting down");
     {
         std::lock_guard<ADSPortDriver> guard(*this);
         exitCalled = true;
     }
 
-    LOG_WARN_ASYN(pasynUserSelf, "Waiting for threads to join");
+    LOG_TRACE_ASYN(pasynUserSelf, "Waiting for threads to join");
     adsScanThread.join();
 
-    LOG_WARN_ASYN(pasynUserSelf, "Shutdown complete");
+    LOG_TRACE_ASYN(pasynUserSelf, "Shutdown complete");
 }
 
 void ADSPortDriver::initHook(Autoparam::Driver *driver) {
@@ -335,13 +335,13 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
         return status;
     }
 
-    LOG_WARN_ASYN(pasynUser, "Connected to ADS device (IP: %s)",
-                  ipAddr.c_str());
+    LOG_TRACE_ASYN(pasynUser, "Connected to ADS device (IP: %s)",
+                   ipAddr.c_str());
     // resolving means translating symbolic names to actual addresses
     // it is done separately for read and write vars
-    LOG_WARN_ASYN(pasynUser, "Resolving ADS variable names");
-    LOG_WARN_ASYN(pasynUser, "Note that this can take a "
-                             "minute, depending on amount of variables");
+    LOG_TRACE_ASYN(pasynUser, "Resolving ADS variable names");
+    LOG_TRACE_ASYN(pasynUser, "Note that this can take a "
+                              "minute, depending on amount of variables");
 
     if (ads_read_vars.size()) {
         status = static_cast<asynStatus>(
@@ -412,9 +412,9 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
             return status;
         }
     }
-    LOG_WARN_ASYN(pasynUser,
-                  "Tried resolving %lu read and %lu write variable names",
-                  ads_read_vars.size(), ads_write_vars.size());
+    LOG_TRACE_ASYN(pasynUser,
+                   "Tried resolving %lu read and %lu write variable names",
+                   ads_read_vars.size(), ads_write_vars.size());
 
     // initialize sum-read buffers
     status = static_cast<asynStatus>(SumRead.initialize());
@@ -427,11 +427,11 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
         return status;
     }
 
-    LOG_WARN_ASYN(pasynUser, "Initialized sum-read request buffers");
+    LOG_TRACE_ASYN(pasynUser, "Initialized sum-read request buffers");
 
     status = doSumRead();
-    LOG_WARN_ASYN(pasynUser, "Inital sum-read status (%i): %s", status,
-                  ads_errors[status].c_str());
+    LOG_TRACE_ASYN(pasynUser, "Inital sum-read status (%i): %s", status,
+                   ads_errors[status].c_str());
 
     if (status) {
         previous_connect_status = status;
