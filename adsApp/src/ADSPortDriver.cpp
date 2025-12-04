@@ -95,7 +95,7 @@ ADSPortDriver::ADSPortDriver(
     std::chrono::milliseconds sumReadPeriod = defaultSumReadPeriod)
     : Autoparam::Driver(portName, Autoparam::DriverOpts()
                                       .setAutoInterrupts(false)
-                                      .setAutoConnect(true)
+                                      .setAutoConnect(false)
                                       .setAutoDestruct()
                                       .setInitHook(initHook)),
       portName(portName), ipAddr(ipAddr), amsNetId{0, 0, 0, 0, 0, 0},
@@ -302,7 +302,7 @@ void ADSPortDriver::initHook(Autoparam::Driver *driver) {
     }
 }
 
-asynStatus ADSPortDriver::ADSConnect(asynUser *pasynUser) {
+asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
     LOG_TRACE_ASYN(pasynUser, "Entering");
     LOG_TRACE("ADSPortDriver instance: %p, ip: %s", this, ipAddr.c_str());
     asynStatus status;
@@ -378,10 +378,14 @@ asynStatus ADSPortDriver::ADSConnect(asynUser *pasynUser) {
     LOG_WARN_ASYN(pasynUser, "Inital sum-read status (%i): %s", status,
                   ads_errors[status].c_str());
 
-    return status;
+    if (status) {
+        return status;
+    }
+
+    return Autoparam::Driver::connect(pasynUserSelf);
 }
 
-asynStatus ADSPortDriver::ADSDisconnect(asynUser *pasynUser) {
+asynStatus ADSPortDriver::disconnect(asynUser *pasynUser) {
     LOG_TRACE_ASYN(pasynUser, "Entering");
     SumRead.deinitialize();
 
@@ -403,7 +407,7 @@ asynStatus ADSPortDriver::ADSDisconnect(asynUser *pasynUser) {
 
     adsConnection->set_disconnected();
 
-    return asynSuccess;
+    return Autoparam::Driver::disconnect(pasynUserSelf);
 }
 
 void ADSPortDriver::adsScan() {
@@ -427,9 +431,9 @@ void ADSPortDriver::adsScan() {
             {
                 std::lock_guard<ADSPortDriver> guard(*this);
 
-                auto status = ADSConnect(pasynUserSelf);
+                auto status = connect(pasynUserSelf);
                 if (status) {
-                    ADSDisconnect(pasynUserSelf);
+                    disconnect(pasynUserSelf);
                 }
             }
 
@@ -469,7 +473,7 @@ void ADSPortDriver::adsScan() {
 
     if (adsConnection->is_connected()) {
         std::lock_guard<ADSPortDriver> guard(*this);
-        ADSDisconnect(pasynUserSelf);
+        disconnect(pasynUserSelf);
     }
 }
 
@@ -482,7 +486,7 @@ asynStatus ADSPortDriver::readADSDeviceInfo() {
 
     if (status) {
         LOG_WARN_ASYN(pasynUserSelf, "Cannot read ADS device info");
-        ADSDisconnect(pasynUserSelf);
+        disconnect(pasynUserSelf);
         return status;
     }
 
@@ -500,7 +504,7 @@ asynStatus ADSPortDriver::readADSDeviceState() {
 
     if (status) {
         LOG_WARN_ASYN(pasynUserSelf, "Cannot read ADS device state");
-        ADSDisconnect(pasynUserSelf);
+        disconnect(pasynUserSelf);
         return status;
     }
     currentAdsState = state;
@@ -513,7 +517,7 @@ asynStatus ADSPortDriver::doSumRead() {
 
     if (status) {
         LOG_WARN_ASYN(pasynUserSelf, "Cannot perform sum-read");
-        ADSDisconnect(pasynUserSelf);
+        disconnect(pasynUserSelf);
     }
 
     return status;

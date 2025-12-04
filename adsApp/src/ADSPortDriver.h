@@ -71,8 +71,8 @@ class ADSPortDriver : public Autoparam::Driver {
 
     ~ADSPortDriver();
 
-    asynStatus ADSConnect(asynUser *pasynUser);
-    asynStatus ADSDisconnect(asynUser *pasynUser);
+    asynStatus connect(asynUser *pasynUser);
+    asynStatus disconnect(asynUser *pasynUser);
 
   private:
     std::string portName;
