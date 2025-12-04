@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+#include "asynDriver.h"
 #include <ADSAddress.h>
 #include <Variable.h>
 #include <autoparamHandler.h>
@@ -17,7 +18,6 @@
 #include <mutex>
 #include <sstream>
 #include <Types.h>
-#include <err.h>
 #include <epicsString.h>
 #include <ADSPortDriver.h>
 #include <stdexcept>
@@ -308,14 +308,17 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
     asynStatus status;
 
     if (exitCalled) {
+        previous_connect_status = asynError;
         return asynError;
     }
     if (!initialized) {
+        previous_connect_status = asynError;
         return asynError;
     }
 
     if (adsConnection->is_connected()) {
         LOG_WARN_ASYN(pasynUser, "Already connected to ADS device");
+        previous_connect_status = asynSuccess;
         return asynSuccess;
     }
 
@@ -324,13 +327,16 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
         adsConnection->connect(amsNetId, ipAddr, deviceReadAdsPort));
 
     if (status) {
-        LOG_ERR_ASYN(pasynUser, "Could not connect to ADS device (%i): %s",
-                     status, ads_errors[status].c_str());
+        if (status != previous_connect_status) {
+            LOG_ERR_ASYN(pasynUser, "Could not connect to ADS device (%i): %s",
+                         status, ads_errors[status].c_str());
+        }
+        previous_connect_status = status;
         return status;
     }
+
     LOG_WARN_ASYN(pasynUser, "Connected to ADS device (IP: %s)",
                   ipAddr.c_str());
-
     // resolving means translating symbolic names to actual addresses
     // it is done separately for read and write vars
     LOG_WARN_ASYN(pasynUser, "Resolving ADS variable names");
@@ -341,10 +347,33 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
         status = static_cast<asynStatus>(
             adsConnection->resolve_variables(ads_read_vars));
 
+        auto const &ads_variables = ads_read_vars;
+        int32_t resolved_cnt =
+            count_if(ads_variables.begin(), ads_variables.end(),
+                     [](std::shared_ptr<ADSVariable> const &ads_var) {
+                         return ads_var->addr->is_resolved();
+                     });
+        bool changed = resolved_cnt > num_resolved_read_variables;
+        num_resolved_read_variables = resolved_cnt;
+
         if (status) {
+            if (changed) {
+                for (size_t i = 0; i < ads_variables.size(); i++) {
+                    std::shared_ptr<ADSVariable> const &ads_var =
+                        ads_variables[i];
+                    if (!ads_var->addr->is_resolved()) {
+                        LOG_WARN("could not resolve read ADS variable '%s'",
+                                 ads_var->addr->get_var_name().c_str());
+                    }
+                }
+            }
             LOG_ERR_ASYN(pasynUser,
-                         "Could not resolve ADS read variable names (%i): %s",
-                         status, ads_errors[status].c_str());
+                         "Could not resolve ADS read variable names (%i/%lu "
+                         "resolved) (%i): %s",
+                         resolved_cnt, ads_variables.size(), status,
+                         ads_errors[status].c_str());
+
+            previous_connect_status = status;
             return status;
         }
     }
@@ -353,14 +382,38 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
         status = static_cast<asynStatus>(
             adsConnection->resolve_variables(ads_write_vars));
 
+        auto const &ads_variables = ads_write_vars;
+        int32_t resolved_cnt =
+            count_if(ads_variables.begin(), ads_variables.end(),
+                     [](std::shared_ptr<ADSVariable> const &ads_var) {
+                         return ads_var->addr->is_resolved();
+                     });
+        bool changed = resolved_cnt > num_resolved_write_variables;
+        num_resolved_write_variables = resolved_cnt;
+
         if (status) {
+            if (changed) {
+                for (size_t i = 0; i < ads_variables.size(); i++) {
+                    std::shared_ptr<ADSVariable> const &ads_var =
+                        ads_variables[i];
+                    if (!ads_var->addr->is_resolved()) {
+                        LOG_WARN("could not resolve write ADS variable '%s'",
+                                 ads_var->addr->get_var_name().c_str());
+                    }
+                }
+            }
             LOG_ERR_ASYN(pasynUser,
-                         "Could not resolve ADS write variable names(%i): %s",
-                         status, ads_errors[status].c_str());
+                         "Could not resolve ADS write variable names (%i/%lu "
+                         "resolved) (%i): %s",
+                         resolved_cnt, ads_variables.size(), status,
+                         ads_errors[status].c_str());
+
+            previous_connect_status = status;
             return status;
         }
     }
-    LOG_WARN_ASYN(pasynUser, "Resolved %lu read and %lu write variable names",
+    LOG_WARN_ASYN(pasynUser,
+                  "Tried resolving %lu read and %lu write variable names",
                   ads_read_vars.size(), ads_write_vars.size());
 
     // initialize sum-read buffers
@@ -369,6 +422,8 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
         LOG_ERR_ASYN(pasynUser,
                      "Error initializing sum-read request buffers (%i): %s",
                      status, ads_errors[status].c_str());
+
+        previous_connect_status = status;
         return status;
     }
 
@@ -379,10 +434,13 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
                   ads_errors[status].c_str());
 
     if (status) {
+        previous_connect_status = status;
         return status;
     }
 
-    return Autoparam::Driver::connect(pasynUserSelf);
+    status = Autoparam::Driver::connect(pasynUserSelf);
+    previous_connect_status = status;
+    return status;
 }
 
 asynStatus ADSPortDriver::disconnect(asynUser *pasynUser) {
@@ -607,7 +665,7 @@ void ADSPortDriver::performIOIntr() {
             }
 
             case ADSDataType::STRING: {
-                std::vector<char> buffer(nelem + 1);  // include null-termination
+                std::vector<char> buffer(nelem + 1); // include null-termination
                 Autoparam::Octet readArray(buffer.data(), buffer.size());
 
                 OctetReadResult result = stringRead(adsVar, readArray);

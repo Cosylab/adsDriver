@@ -2,9 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
+// We need this to prevent ads-lib log spam.
+#include "Log.h"
+// Prevent macro name collision
+#undef LOG_VERBOSE
+#undef LOG_INFO
+#undef LOG_WARN
+#undef LOG_ERROR
+#undef LOG
+
 #include <mutex>
 #include "err.h"
-
 #include "Connection.h"
 
 bool Connection::is_connected() { return (this->ads_port != 0 ? true : false); }
@@ -107,6 +115,10 @@ int Connection::resolve_variables(
         uint32_t handle = 0;
         AmsAddr ams_addr = {this->remote_ams_netid,
                             ads_var->addr->get_ads_port()};
+
+        // Disable adsLib logging for this function call
+        size_t prev_log_level = Logger::logLevel;
+        Logger::logLevel = 4;
         long rc = AdsSyncReadWriteReqEx2(
             this->ads_port,                       // ADS port
             &ams_addr,                            // AMS address
@@ -118,11 +130,11 @@ int Connection::resolve_variables(
             const_cast<char *>(
                 ads_var->addr->get_var_name().c_str()), // write data
             nullptr);                                   // bytes read
+        // Re-enable adsLib logging
+        Logger::logLevel = prev_log_level;
 
         if (rc != 0) {
-            LOG_WARN("could not resolve ADS variable '%s'",
-                     ads_var->addr->get_var_name().c_str());
-            status = ads_rc_to_epicsads_error(rc);
+            status = status ? status : ads_rc_to_epicsads_error(rc);
             continue;
         }
 

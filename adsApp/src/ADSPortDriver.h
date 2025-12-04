@@ -18,6 +18,7 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+#include <err.h>
 
 #ifdef USE_TC_ADS
 #include <windows.h>
@@ -83,6 +84,11 @@ class ADSPortDriver : public Autoparam::Driver {
     uint16_t deviceReadAdsPort;
     const std::chrono::milliseconds sumReadPeriod;
     const std::shared_ptr<Connection> adsConnection;
+
+    int32_t num_resolved_read_variables = -1;
+    int32_t num_resolved_write_variables = -1;
+    asynStatus previous_connect_status =
+        static_cast<asynStatus>(EPICSADS_DISCONNECTED);
 
     SumReadRequest SumRead;
 
