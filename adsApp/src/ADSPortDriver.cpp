@@ -124,7 +124,7 @@ ADSPortDriver::ADSPortDriver(
                                  integerWrite<epicsInt8, epicsInt32>, NULL);
     registerHandlers<epicsInt32>(ads_datatypes_str.at(ADSDataType::BYTE),
                                  integerRead<epicsInt8, epicsInt32>,
-                                 integerWrite<epicsInt8>, NULL);
+                                 integerWrite<epicsInt8, epicsInt32>, NULL);
     registerHandlers<epicsInt32>(ads_datatypes_str.at(ADSDataType::USINT),
                                  integerRead<epicsUInt8, epicsInt32>,
                                  integerWrite<epicsUInt8, epicsInt32>, NULL);
@@ -208,7 +208,7 @@ ADSPortDriver::ADSPortDriver(
         NULL);
     registerHandlers<Array<epicsInt16>>(
         ads_datatypes_str.at(ADSDataType::WORD) + "[]",
-        arrayRead<epicsInt16, epicsInt16>, arrayWrite<epicsInt16, epicsInt16>,
+        arrayRead<epicsUInt16, epicsInt16>, arrayWrite<epicsUInt16, epicsInt16>,
         NULL);
     registerHandlers<Array<epicsInt16>>(
         ads_datatypes_str.at(ADSDataType::UINT) + "[]",
@@ -734,7 +734,7 @@ void ADSPortDriver::performIOIntr() {
             case ADSDataType::DWORD:
             case ADSDataType::UDINT: {
                 Int64ReadResult result =
-                    integerRead<epicsUInt64, epicsInt64>(adsVar);
+                    integerRead<epicsUInt32, epicsInt64>(adsVar);
 
                 setParam(adsVar, result.value, result.status,
                          result.alarmStatus, result.alarmSeverity);
@@ -842,7 +842,8 @@ WriteResult ADSPortDriver::integerWrite(DeviceVariable &deviceVar,
     auto &info = static_cast<ADSDeviceVar &>(deviceVar);
     auto adsVar = info.adsPV;
 
-    auto status = adsVar->write(reinterpret_cast<char const *>(&val),
+    PLCDataType rawVal = val;
+    auto status = adsVar->write(reinterpret_cast<char const *>(&rawVal),
                                 sizeof(PLCDataType));
 
     if (status) {
