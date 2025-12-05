@@ -1,0 +1,234 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT
+
+# Test database for scalar data types
+
+# BOOL type - bi/bo records
+record(bi, "$(P):bool_in") {
+    field(DESC, "BOOL input")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) BOOL R P=$(ADS_PORT) V=TestPlan.bi")
+    field(ZNAM, "False")
+    field(ONAM, "True")
+    field(UDFS, "NO_ALARM")
+}
+
+record(bo, "$(P):bool_out") {
+    field(DESC, "BOOL output")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) BOOL W P=$(ADS_PORT) V=TestPlan.bo")
+    field(ZNAM, "False")
+    field(ONAM, "True")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# SINT type - longin/longout records
+record(longin, "$(P):sint_in") {
+    field(DESC, "SINT input")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) SINT R P=$(ADS_PORT) V=TestPlan.sint_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(longout, "$(P):sint_out") {
+    field(DESC, "SINT output")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) SINT W P=$(ADS_PORT) V=TestPlan.sint_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# INT type - longin/longout records
+record(longin, "$(P):int_in") {
+    field(DESC, "INT input")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) INT R P=$(ADS_PORT) V=TestPlan.int_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(longout, "$(P):int_out") {
+    field(DESC, "INT output")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) INT W P=$(ADS_PORT) V=TestPlan.int_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# DINT type - longin/longout records
+record(longin, "$(P):dint_in") {
+    field(DESC, "DINT input")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) DINT R P=$(ADS_PORT) V=TestPlan.dint_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(longout, "$(P):dint_out") {
+    field(DESC, "DINT output")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) DINT W P=$(ADS_PORT) V=TestPlan.dint_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# UINT type - longin/longout records
+record(longin, "$(P):uint_in") {
+    field(DESC, "UINT input")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) UINT R P=$(ADS_PORT) V=TestPlan.uint_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(longout, "$(P):uint_out") {
+    field(DESC, "UINT output")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) UINT W P=$(ADS_PORT) V=TestPlan.uint_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# UDINT type - ai/ao records with asynInt64
+record(ai, "$(P):udint_in") {
+    field(DESC, "UDINT input")
+    field(DTYP, "asynInt64")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) UDINT R P=$(ADS_PORT) V=TestPlan.udint_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(ao, "$(P):udint_out") {
+    field(DESC, "UDINT output")
+    field(DTYP, "asynInt64")
+    field(OUT,  "@asyn($(PORT) 0 0) UDINT W P=$(ADS_PORT) V=TestPlan.udint_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# LINT type - ai/ao records with asynInt64
+record(int64in, "$(P):lint_in") {
+    field(DESC, "LINT input")
+    field(DTYP, "asynInt64")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) LINT R P=$(ADS_PORT) V=TestPlan.lint_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(int64out, "$(P):lint_out") {
+    field(DESC, "LINT output")
+    field(DTYP, "asynInt64")
+    field(OUT,  "@asyn($(PORT) 0 0) LINT W P=$(ADS_PORT) V=TestPlan.lint_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# REAL type - ai/ao records with asynFloat64
+record(ai, "$(P):real_in") {
+    field(DESC, "REAL input")
+    field(PREC, "6")
+    field(DTYP, "asynFloat64")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) REAL R P=$(ADS_PORT) V=TestPlan.real_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(ao, "$(P):real_out") {
+    field(DESC, "REAL output")
+    field(PREC, "6")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 0 0) REAL W P=$(ADS_PORT) V=TestPlan.real_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# LREAL type - ai/ao records with asynFloat64
+record(ai, "$(P):lreal_in") {
+    field(DESC, "LREAL input")
+    field(PREC, "12")
+    field(DTYP, "asynFloat64")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) LREAL R P=$(ADS_PORT) V=TestPlan.lreal_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(ao, "$(P):lreal_out") {
+    field(DESC, "LREAL output")
+    field(PREC, "12")
+    field(DTYP, "asynFloat64")
+    field(OUT,  "@asyn($(PORT) 0 0) LREAL W P=$(ADS_PORT) V=TestPlan.lreal_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# BYTE type - longin/longout records with asynInt32
+record(longin, "$(P):byte_in") {
+    field(DESC, "BYTE input")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) BYTE R P=$(ADS_PORT) V=TestPlan.byte_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(longout, "$(P):byte_out") {
+    field(DESC, "BYTE output")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) BYTE W P=$(ADS_PORT) V=TestPlan.byte_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# USINT type - longin/longout records with asynInt32
+record(longin, "$(P):usint_in") {
+    field(DESC, "USINT input")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) USINT R P=$(ADS_PORT) V=TestPlan.usint_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(longout, "$(P):usint_out") {
+    field(DESC, "USINT output")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) USINT W P=$(ADS_PORT) V=TestPlan.usint_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# WORD type - longin/longout records with asynInt32
+record(longin, "$(P):word_in") {
+    field(DESC, "WORD input")
+    field(DTYP, "asynInt32")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) WORD R P=$(ADS_PORT) V=TestPlan.word_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(longout, "$(P):word_out") {
+    field(DESC, "WORD output")
+    field(DTYP, "asynInt32")
+    field(OUT,  "@asyn($(PORT) 0 0) WORD W P=$(ADS_PORT) V=TestPlan.word_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# DWORD type - ai/ao records with asynInt64
+record(ai, "$(P):dword_in") {
+    field(DESC, "DWORD input")
+    field(DTYP, "asynInt64")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) DWORD R P=$(ADS_PORT) V=TestPlan.dword_in")
+    field(UDFS, "NO_ALARM")
+}
+
+record(ao, "$(P):dword_out") {
+    field(DESC, "DWORD output")
+    field(DTYP, "asynInt64")
+    field(OUT,  "@asyn($(PORT) 0 0) DWORD W P=$(ADS_PORT) V=TestPlan.dword_out")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}

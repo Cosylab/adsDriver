@@ -29,3 +29,6 @@ adsExampleApp/TC3_testProj/_Boot
 adsExampleApp/TC3_testProj/_Config
 adsExampleApp/TC3_testProj/**/_Libraries
 
+# Test suite
+tests/venv/
+__pycache__

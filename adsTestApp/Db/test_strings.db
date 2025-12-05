@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT
+
+# Test database for string data types
+#
+# IMPORTANT: This EPICS build has MAX_STRING_SIZE=40, which limits both
+# stringin and stringout records to 40 bytes (39 chars + null terminator).
+#
+# This database provides a 2x2 matrix of records to test all combinations:
+# - N=40: PLC buffer matches EPICS buffer limit (normal operation)
+# - N=60: PLC buffer exceeds EPICS buffer limit (tests truncation)
+
+# ============================================================================
+# N=40 Records (PLC buffer matches EPICS buffer limit)
+# ============================================================================
+
+record(stringin, "$(P):string_in_n40") {
+    field(DESC, "STRING input N=40")
+    field(DTYP, "asynOctetRead")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) STRING N=40 R P=$(ADS_PORT) V=TestPlan.stringin_n40")
+    field(UDFS, "NO_ALARM")
+}
+
+record(stringout, "$(P):string_out_n40") {
+    field(DESC, "STRING output N=40")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT) 0 0) STRING N=40 W P=$(ADS_PORT) V=TestPlan.stringout_n40")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# ============================================================================
+# N=60 Records (PLC buffer exceeds EPICS buffer limit - tests truncation)
+# ============================================================================
+
+record(stringin, "$(P):string_in_n60") {
+    field(DESC, "STRING input N=60")
+    field(DTYP, "asynOctetRead")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) STRING N=60 R P=$(ADS_PORT) V=TestPlan.stringin_n60")
+    field(UDFS, "NO_ALARM")
+}
+
+record(stringout, "$(P):string_out_n60") {
+    field(DESC, "STRING output N=60")
+    field(DTYP, "asynOctetWrite")
+    field(OUT,  "@asyn($(PORT) 0 0) STRING N=60 W P=$(ADS_PORT) V=TestPlan.stringout_n60")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}

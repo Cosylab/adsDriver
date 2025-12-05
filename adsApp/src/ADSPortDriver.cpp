@@ -123,8 +123,8 @@ ADSPortDriver::ADSPortDriver(
                                  integerRead<epicsInt8, epicsInt32>,
                                  integerWrite<epicsInt8, epicsInt32>, NULL);
     registerHandlers<epicsInt32>(ads_datatypes_str.at(ADSDataType::BYTE),
-                                 integerRead<epicsInt8, epicsInt32>,
-                                 integerWrite<epicsInt8, epicsInt32>, NULL);
+                                 integerRead<epicsUInt8, epicsInt32>,
+                                 integerWrite<epicsUInt8, epicsInt32>, NULL);
     registerHandlers<epicsInt32>(ads_datatypes_str.at(ADSDataType::USINT),
                                  integerRead<epicsUInt8, epicsInt32>,
                                  integerWrite<epicsUInt8, epicsInt32>, NULL);
@@ -196,8 +196,8 @@ ADSPortDriver::ADSPortDriver(
                                        arrayWrite<epicsInt8, epicsInt8>, NULL);
     registerHandlers<Array<epicsInt8>>(ads_datatypes_str.at(ADSDataType::BYTE) +
                                            "[]",
-                                       arrayRead<epicsInt8, epicsInt8>,
-                                       arrayWrite<epicsInt8, epicsInt8>, NULL);
+                                       arrayRead<epicsUInt8, epicsInt8>,
+                                       arrayWrite<epicsUInt8, epicsInt8>, NULL);
     registerHandlers<Array<epicsInt8>>(
         ads_datatypes_str.at(ADSDataType::USINT) + "[]",
         arrayRead<epicsUInt8, epicsInt8>, arrayWrite<epicsUInt8, epicsInt8>,
@@ -558,8 +558,6 @@ void ADSPortDriver::performIOIntr() {
             auto const &nelem = adsVar.adsPV->addr->get_nelem();
 
             switch (dataType) {
-            case ADSDataType::BOOL:
-            case ADSDataType::BYTE:
             case ADSDataType::SINT: {
                 performArrayCallbacks<epicsInt8, epicsInt8>(adsVar, nelem);
                 break;
@@ -591,6 +589,8 @@ void ADSPortDriver::performIOIntr() {
                 break;
             }
 
+            case ADSDataType::BOOL:
+            case ADSDataType::BYTE:
             case ADSDataType::USINT: {
                 performArrayCallbacks<epicsUInt8, epicsInt8>(adsVar, nelem);
                 break;
@@ -657,8 +657,6 @@ void ADSPortDriver::performIOIntr() {
 
         } else {
             switch (dataType) {
-            case ADSDataType::BOOL:
-            case ADSDataType::BYTE:
             case ADSDataType::SINT: {
                 Int32ReadResult result =
                     integerRead<epicsInt8, epicsInt32>(adsVar);
@@ -712,6 +710,8 @@ void ADSPortDriver::performIOIntr() {
                 break;
             }
 
+            case ADSDataType::BOOL:
+            case ADSDataType::BYTE:
             case ADSDataType::USINT: {
                 Int32ReadResult result =
                     integerRead<epicsUInt8, epicsInt32>(adsVar);

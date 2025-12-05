@@ -1,0 +1,177 @@
+# SPDX-FileCopyrightText: 2022 Cosylab d.d.
+#
+# SPDX-License-Identifier: MIT
+
+# Test database for waveform/array data types
+
+# SINT array - asynInt8ArrayIn/Out
+record(waveform, "$(P):sint_arr_in") {
+    field(DESC, "SINT array input")
+    field(DTYP, "asynInt8ArrayIn")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) SINT[] N=10 R P=$(ADS_PORT) V=TestPlan.sint_in_array")
+    field(FTVL, "CHAR")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):sint_arr_out") {
+    field(DESC, "SINT array output")
+    field(DTYP, "asynInt8ArrayOut")
+    field(INP,  "@asyn($(PORT) 0 0) SINT[] N=10 W P=$(ADS_PORT) V=TestPlan.sint_out_array")
+    field(FTVL, "CHAR")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# INT array - asynInt16ArrayIn/Out
+record(waveform, "$(P):int_arr_in") {
+    field(DESC, "INT array input")
+    field(DTYP, "asynInt16ArrayIn")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) INT[] N=10 R P=$(ADS_PORT) V=TestPlan.int_in_array")
+    field(FTVL, "SHORT")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):int_arr_out") {
+    field(DESC, "INT array output")
+    field(DTYP, "asynInt16ArrayOut")
+    field(INP,  "@asyn($(PORT) 0 0) INT[] N=10 W P=$(ADS_PORT) V=TestPlan.int_out_array")
+    field(FTVL, "SHORT")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# DINT array - asynInt32ArrayIn/Out
+record(waveform, "$(P):dint_arr_in") {
+    field(DESC, "DINT array input")
+    field(DTYP, "asynInt32ArrayIn")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) DINT[] N=10 R P=$(ADS_PORT) V=TestPlan.dint_in_array")
+    field(FTVL, "LONG")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):dint_arr_out") {
+    field(DESC, "DINT array output")
+    field(DTYP, "asynInt32ArrayOut")
+    field(INP,  "@asyn($(PORT) 0 0) DINT[] N=10 W P=$(ADS_PORT) V=TestPlan.dint_out_array")
+    field(FTVL, "LONG")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# UINT array - asynInt16ArrayIn/Out
+record(waveform, "$(P):uint_arr_in") {
+    field(DESC, "UINT array input")
+    field(DTYP, "asynInt16ArrayIn")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) UINT[] N=10 R P=$(ADS_PORT) V=TestPlan.uint_in_array")
+    field(FTVL, "USHORT")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):uint_arr_out") {
+    field(DESC, "UINT array output")
+    field(DTYP, "asynInt16ArrayOut")
+    field(INP,  "@asyn($(PORT) 0 0) UINT[] N=10 W P=$(ADS_PORT) V=TestPlan.uint_out_array")
+    field(FTVL, "USHORT")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# UDINT array - asynInt32ArrayIn/Out
+record(waveform, "$(P):udint_arr_in") {
+    field(DESC, "UDINT array input")
+    field(DTYP, "asynInt32ArrayIn")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) UDINT[] N=10 R P=$(ADS_PORT) V=TestPlan.udint_in_array")
+    field(FTVL, "ULONG")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):udint_arr_out") {
+    field(DESC, "UDINT array output")
+    field(DTYP, "asynInt32ArrayOut")
+    field(INP,  "@asyn($(PORT) 0 0) UDINT[] N=10 W P=$(ADS_PORT) V=TestPlan.udint_out_array")
+    field(FTVL, "ULONG")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# REAL array - asynFloat32ArrayIn/Out
+record(waveform, "$(P):real_arr_in") {
+    field(DESC, "REAL array input")
+    field(DTYP, "asynFloat32ArrayIn")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) REAL[] N=10 R P=$(ADS_PORT) V=TestPlan.real_in_array")
+    field(FTVL, "FLOAT")
+    field(NELM, "10")
+    field(PREC, "6")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):real_arr_out") {
+    field(DESC, "REAL array output")
+    field(DTYP, "asynFloat32ArrayOut")
+    field(INP,  "@asyn($(PORT) 0 0) REAL[] N=10 W P=$(ADS_PORT) V=TestPlan.real_out_array")
+    field(FTVL, "FLOAT")
+    field(NELM, "10")
+    field(PREC, "6")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# LREAL array - asynFloat64ArrayIn/Out
+record(waveform, "$(P):lreal_arr_in") {
+    field(DESC, "LREAL array input")
+    field(DTYP, "asynFloat64ArrayIn")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) LREAL[] N=10 R P=$(ADS_PORT) V=TestPlan.lreal_in_array")
+    field(FTVL, "DOUBLE")
+    field(NELM, "10")
+    field(PREC, "12")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):lreal_arr_out") {
+    field(DESC, "LREAL array output")
+    field(DTYP, "asynFloat64ArrayOut")
+    field(INP,  "@asyn($(PORT) 0 0) LREAL[] N=10 W P=$(ADS_PORT) V=TestPlan.lreal_out_array")
+    field(FTVL, "DOUBLE")
+    field(NELM, "10")
+    field(PREC, "12")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}
+
+# BYTE array - asynInt8ArrayIn/Out
+record(waveform, "$(P):byte_arr_in") {
+    field(DESC, "BYTE array input")
+    field(DTYP, "asynInt8ArrayIn")
+    field(SCAN, "I/O Intr")
+    field(INP,  "@asyn($(PORT) 0 0) BYTE[] N=10 R P=$(ADS_PORT) V=TestPlan.byte_in_array")
+    field(FTVL, "UCHAR")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+}
+
+record(waveform, "$(P):byte_arr_out") {
+    field(DESC, "BYTE array output")
+    field(DTYP, "asynInt8ArrayOut")
+    field(INP,  "@asyn($(PORT) 0 0) BYTE[] N=10 W P=$(ADS_PORT) V=TestPlan.byte_out_array")
+    field(FTVL, "UCHAR")
+    field(NELM, "10")
+    field(UDFS, "NO_ALARM")
+    info(asyn:READBACK, "1")
+}

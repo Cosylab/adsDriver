@@ -11,7 +11,7 @@
 
 EPICS_BASE=$(EPICS_BASE)
 ASYN=$(MODULES)/asyn
-AUTOPARAM=$(MODULES)/autoparamdriver
+AUTOPARAM=$(MODULES)/autoparam
 
 # Set to YES in order to compile with C++11 on Linux, otherwise it will use 14.
 # Default is NO
