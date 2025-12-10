@@ -607,7 +607,7 @@ void ADSPortDriver::performIOIntr() {
             }
 
             case ADSDataType::STRING: {
-                std::vector<char> buffer(nelem);
+                std::vector<char> buffer(nelem + 1);  // include null-termination
                 Autoparam::Octet readArray(buffer.data(), buffer.size());
 
                 OctetReadResult result = stringRead(adsVar, readArray);
