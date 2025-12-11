@@ -15,6 +15,7 @@ adsSup/*.so
 .cache
 .ccls-cache
 compile_commands.json
+.iocsh_history
 
 # Docs
 documentation/build/*
