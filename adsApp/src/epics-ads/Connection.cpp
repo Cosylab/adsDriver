@@ -34,21 +34,34 @@ void Connection::set_local_ams_id(const AmsNetId ams_id) {
 }
 
 int Connection::connect(const AmsNetId ams_id, const std::string address,
-                        const uint16_t device_read_ads_port) {
+                        const uint16_t device_read_ads_port, bool silent) {
     std::lock_guard<epicsMutex> lock(this->mtx);
+
+    // Disable adsLib logging temporarily
+    size_t prev_log_level = Logger::logLevel;
+    if (silent) {
+        Logger::logLevel = 4;
+    };
 
     /* Add AMS route */
 #ifndef USE_TC_ADS
     long rc = AdsAddRoute(ams_id, address.c_str());
+    Logger::logLevel = prev_log_level;
     if (rc != 0) {
-        LOG_ERR("could not add ADS rout (%li): %s", rc, errorMap[rc].c_str());
+        if (!silent) {
+            LOG_ERR("could not add ADS route (%li): %s", rc,
+                    errorMap[rc].c_str());
+        };
         return EPICSADS_DISCONNECTED;
     }
 #endif
 
     const long port = AdsPortOpenEx();
+    Logger::logLevel = prev_log_level;
     if (port == 0) {
-        LOG_ERR("could not open port to ADS device");
+        if (!silent) {
+            LOG_ERR("could not open port to ADS device");
+        };
         return EPICSADS_DISCONNECTED;
     }
 

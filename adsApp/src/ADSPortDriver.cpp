@@ -322,9 +322,11 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
         return asynSuccess;
     }
 
-    // connect to the ADS device
+    // connect to the ADS device, but only log errors the first time
+    bool silent = previous_connect_status ==
+                  static_cast<asynStatus>(EPICSADS_DISCONNECTED);
     status = static_cast<asynStatus>(
-        adsConnection->connect(amsNetId, ipAddr, deviceReadAdsPort));
+        adsConnection->connect(amsNetId, ipAddr, deviceReadAdsPort, silent));
 
     if (status) {
         if (status != previous_connect_status) {
