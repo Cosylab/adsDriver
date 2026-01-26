@@ -96,4 +96,3 @@ include $(TOP)/configure/RULES
 
 # Explicit dependency needed for generated header file
 #ADSPortDriver$(DEP): $(COMMON_DIR)/$(GENVERSION)
-

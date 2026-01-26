@@ -2,9 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
+// We need this to prevent ads-lib log spam.
+#include "Log.h"
+// Prevent macro name collision
+#undef LOG_VERBOSE
+#undef LOG_INFO
+#undef LOG_WARN
+#undef LOG_ERROR
+#undef LOG
+
 #include <mutex>
 #include "err.h"
-
 #include "Connection.h"
 
 bool Connection::is_connected() { return (this->ads_port != 0 ? true : false); }
@@ -26,21 +34,34 @@ void Connection::set_local_ams_id(const AmsNetId ams_id) {
 }
 
 int Connection::connect(const AmsNetId ams_id, const std::string address,
-                        const uint16_t device_read_ads_port) {
+                        const uint16_t device_read_ads_port, bool silent) {
     std::lock_guard<epicsMutex> lock(this->mtx);
+
+    // Disable adsLib logging temporarily
+    size_t prev_log_level = Logger::logLevel;
+    if (silent) {
+        Logger::logLevel = 4;
+    };
 
     /* Add AMS route */
 #ifndef USE_TC_ADS
     long rc = AdsAddRoute(ams_id, address.c_str());
+    Logger::logLevel = prev_log_level;
     if (rc != 0) {
-        LOG_ERR("could not add ADS rout (%li): %s", rc, errorMap[rc].c_str());
+        if (!silent) {
+            LOG_ERR("could not add ADS route (%li): %s", rc,
+                    errorMap[rc].c_str());
+        };
         return EPICSADS_DISCONNECTED;
     }
 #endif
 
     const long port = AdsPortOpenEx();
+    Logger::logLevel = prev_log_level;
     if (port == 0) {
-        LOG_ERR("could not open port to ADS device");
+        if (!silent) {
+            LOG_ERR("could not open port to ADS device");
+        };
         return EPICSADS_DISCONNECTED;
     }
 
@@ -107,6 +128,10 @@ int Connection::resolve_variables(
         uint32_t handle = 0;
         AmsAddr ams_addr = {this->remote_ams_netid,
                             ads_var->addr->get_ads_port()};
+
+        // Disable adsLib logging for this function call
+        size_t prev_log_level = Logger::logLevel;
+        Logger::logLevel = 4;
         long rc = AdsSyncReadWriteReqEx2(
             this->ads_port,                       // ADS port
             &ams_addr,                            // AMS address
@@ -118,11 +143,11 @@ int Connection::resolve_variables(
             const_cast<char *>(
                 ads_var->addr->get_var_name().c_str()), // write data
             nullptr);                                   // bytes read
+        // Re-enable adsLib logging
+        Logger::logLevel = prev_log_level;
 
         if (rc != 0) {
-            LOG_WARN("could not resolve ADS variable '%s'",
-                     ads_var->addr->get_var_name().c_str());
-            status = ads_rc_to_epicsads_error(rc);
+            status = status ? status : ads_rc_to_epicsads_error(rc);
             continue;
         }
 
