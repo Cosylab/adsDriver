@@ -371,12 +371,13 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
                                  ads_var->addr->get_var_name().c_str());
                     }
                 }
+                LOG_ERR_ASYN(
+                    pasynUser,
+                    "Could not resolve ADS read variable names (%i/%lu "
+                    "resolved) (%i): %s",
+                    resolved_cnt, ads_variables.size(), status,
+                    ads_errors[status].c_str());
             }
-            LOG_ERR_ASYN(pasynUser,
-                         "Could not resolve ADS read variable names (%i/%lu "
-                         "resolved) (%i): %s",
-                         resolved_cnt, ads_variables.size(), status,
-                         ads_errors[status].c_str());
 
             previous_connect_status = status;
             return status;
@@ -406,12 +407,13 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
                                  ads_var->addr->get_var_name().c_str());
                     }
                 }
+                LOG_ERR_ASYN(
+                    pasynUser,
+                    "Could not resolve ADS write variable names (%i/%lu "
+                    "resolved) (%i): %s",
+                    resolved_cnt, ads_variables.size(), status,
+                    ads_errors[status].c_str());
             }
-            LOG_ERR_ASYN(pasynUser,
-                         "Could not resolve ADS write variable names (%i/%lu "
-                         "resolved) (%i): %s",
-                         resolved_cnt, ads_variables.size(), status,
-                         ads_errors[status].c_str());
 
             previous_connect_status = status;
             return status;
@@ -469,7 +471,6 @@ asynStatus ADSPortDriver::disconnect(asynUser *pasynUser) {
     adsConnection->disconnect();
 
     adsConnection->set_disconnected();
-
     return Autoparam::Driver::disconnect(pasynUserSelf);
 }
 
