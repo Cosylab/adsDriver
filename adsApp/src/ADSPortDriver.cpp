@@ -92,7 +92,9 @@ ADSPortDriver::ADSPortDriver(
     uint16_t sumBufferSize = defaultSumBuferNelem,
     uint32_t adsFunctionTimeout = defaultADSCallTimeout_ms,
     uint16_t deviceReadAdsPort = defaultDeviceReadADSPort,
-    std::chrono::milliseconds sumReadPeriod = defaultSumReadPeriod)
+    std::chrono::milliseconds sumReadPeriod = defaultSumReadPeriod,
+    std::chrono::milliseconds waitForConnectionPeriod =
+        defaultWaitForConnectionPeriod)
     : Autoparam::Driver(portName, Autoparam::DriverOpts()
                                       .setAutoInterrupts(false)
                                       .setAutoConnect(false)
@@ -101,6 +103,7 @@ ADSPortDriver::ADSPortDriver(
       portName(portName), ipAddr(ipAddr), amsNetId{0, 0, 0, 0, 0, 0},
       sumBufferSize(sumBufferSize), adsFunctionTimeout(adsFunctionTimeout),
       deviceReadAdsPort(deviceReadAdsPort), sumReadPeriod(sumReadPeriod),
+      waitForConnectionPeriod(waitForConnectionPeriod),
       adsConnection(new Connection()), SumRead(sumBufferSize, adsConnection),
       exitCalled(false), initialized(false),
       currentDeviceState(ADSSTATE_INVALID) {
@@ -497,7 +500,7 @@ void ADSPortDriver::adsScan() {
                 }
             }
 
-            std::this_thread::sleep_for(waitForConnectionPeriod);
+            std::this_thread::sleep_for(this->waitForConnectionPeriod);
             continue;
         }
 
