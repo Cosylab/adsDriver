@@ -98,7 +98,7 @@ AdsOpen
     Configure a new ADS connection. This command must be called before corresponding database records are loaded, i.e. before *dbLoadRecord* is called.
 
 **Interface**:
-    ``AdsOpen(port_name, ip_addr, ams_net_id, sum_buffer_nelem, ads_timeout)``
+    ``AdsOpen(port_name, ip_addr, ams_net_id, sum_buffer_nelem, ads_timeout, device_ads_port, sum_read_period, wait_for_connection_period)``
 
 **Parameters**:
     * **port_name**: The port name that is registered with asynManager and is used in the INP/OUT address specifications for the records.
@@ -117,8 +117,10 @@ AdsOpen
    # Configure an ADS connection with the optional parameters not specified.
    AdsOpen("plc-01", "10.5.0.115", "10.5.0.115.1.1")
 
-   # Configure an ADS connection with all parameters. Here ADS sum operation buffer PV limit is set to 250, ads timeout to 1 second, auto connect is disabled and the default thread priority is used.
-   AdsOpen("plc-02", "10.5.0.120", "10.5.0.120.1.15", 250, 1000)
+   # Configure an ADS connection with all parameters. Here ADS sum operation buffer PV limit is set to 250, ads timeout to 1000 ms,
+   ads read port is set to 851 (PLC_TC3), sum read poll delay is set to 20 ms and reconnect delay is set to 600 ms.
+
+   AdsOpen("plc-02", "10.5.0.120", "10.5.0.120.1.15", 250, 1000, 851, 20, 600)
 
 .. _supported-record-types:
 
