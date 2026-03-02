@@ -305,29 +305,32 @@ void ADSPortDriver::initHook(Autoparam::Driver *driver) {
     }
 }
 
+asynStatus ADSPortDriver::set_connection_status(asynStatus status) {
+    // If previous connection status is the same as the current one,
+    // logs should be silent.
+    this->silent = status == this->previous_connect_status;
+    this->previous_connect_status = status;
+    return status;
+}
+
 asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
     LOG_TRACE_ASYN(pasynUser, "Entering");
-    LOG_TRACE("ADSPortDriver instance: %p, ip: %s", this, ipAddr.c_str());
+    LOG_TRACE_ASYN(pasynUser, "ADSPortDriver instance: %p, ip: %s", this,
+                   ipAddr.c_str());
     asynStatus status;
 
     if (exitCalled) {
-        previous_connect_status = asynError;
-        return asynError;
+        return set_connection_status(asynError);
     }
     if (!initialized) {
-        previous_connect_status = asynError;
-        return asynError;
+        return set_connection_status(asynError);
     }
 
     if (adsConnection->is_connected()) {
         LOG_WARN_ASYN(pasynUser, "Already connected to ADS device");
-        previous_connect_status = asynSuccess;
-        return asynSuccess;
+        return set_connection_status(asynSuccess);
     }
 
-    // connect to the ADS device, but only log errors the first time
-    bool silent = previous_connect_status ==
-                  static_cast<asynStatus>(EPICSADS_DISCONNECTED);
     status = static_cast<asynStatus>(
         adsConnection->connect(amsNetId, ipAddr, deviceReadAdsPort, silent));
 
@@ -336,8 +339,7 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
             LOG_ERR_ASYN(pasynUser, "Could not connect to ADS device (%i): %s",
                          status, ads_errors[status].c_str());
         }
-        previous_connect_status = status;
-        return status;
+        return set_connection_status(status);
     }
 
     LOG_TRACE_ASYN(pasynUser, "Connected to ADS device (IP: %s)",
@@ -380,7 +382,7 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
             }
 
             previous_connect_status = status;
-            return status;
+            return set_connection_status(status);
         }
     }
 
@@ -416,7 +418,7 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
             }
 
             previous_connect_status = status;
-            return status;
+            return set_connection_status(status);
         }
     }
     LOG_TRACE_ASYN(pasynUser,
@@ -425,32 +427,30 @@ asynStatus ADSPortDriver::connect(asynUser *pasynUser) {
 
     // initialize sum-read buffers
     status = static_cast<asynStatus>(SumRead.initialize());
+
     if (status) {
         LOG_ERR_ASYN(pasynUser,
                      "Error initializing sum-read request buffers (%i): %s",
                      status, ads_errors[status].c_str());
 
-        previous_connect_status = status;
-        return status;
+        return set_connection_status(status);
     }
 
     LOG_TRACE_ASYN(pasynUser, "Initialized sum-read request buffers");
-
     status = doSumRead();
     LOG_TRACE_ASYN(pasynUser, "Inital sum-read status (%i): %s", status,
                    ads_errors[status].c_str());
 
     if (status) {
-        previous_connect_status = status;
-        return status;
+        return set_connection_status(status);
     }
 
     status = Autoparam::Driver::connect(pasynUserSelf);
-    previous_connect_status = status;
-    return status;
+    return set_connection_status(status);
 }
 
 asynStatus ADSPortDriver::disconnect(asynUser *pasynUser) {
+
     LOG_TRACE_ASYN(pasynUser, "Entering");
     SumRead.deinitialize();
 
@@ -458,7 +458,9 @@ asynStatus ADSPortDriver::disconnect(asynUser *pasynUser) {
     // so unresolving variables doesn't make sense
     if (!exitCalled) {
         if (adsConnection->is_connected() == false) {
-            LOG_WARN_ASYN(pasynUser, "Already disconnected");
+            if (!this->silent) {
+                LOG_WARN_ASYN(pasynUser, "Already disconnected");
+            }
             return asynSuccess;
         }
 
@@ -468,9 +470,10 @@ asynStatus ADSPortDriver::disconnect(asynUser *pasynUser) {
     }
 
     LOG_TRACE_ASYN(pasynUser, "Disconnecting from ADS device");
-    adsConnection->disconnect();
 
+    adsConnection->disconnect(this->silent);
     adsConnection->set_disconnected();
+
     return Autoparam::Driver::disconnect(pasynUserSelf);
 }
 

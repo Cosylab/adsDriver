@@ -91,6 +91,8 @@ class ADSPortDriver : public Autoparam::Driver {
     int32_t num_resolved_write_variables = -1;
     asynStatus previous_connect_status =
         static_cast<asynStatus>(EPICSADS_DISCONNECTED);
+    bool silent = false;
+    asynStatus set_connection_status(asynStatus status);
 
     SumReadRequest SumRead;
 
