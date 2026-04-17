@@ -29,7 +29,7 @@ Database records are configured as follows:
 .. warning::
    In current ADS port driver version, a large number of simultaneous write requests can saturate the ADS connection and cause the system to become unresponsive and cause records to time out.
 
-The format used to specify the ADS variable in the INP/OUT fields depends if the record targets a scalar variable or array: 
+The format used to specify the ADS variable in the INP/OUT fields depends if the record targets a scalar variable or array:
 * ``<DATA_TYPE> <OPERATION> P=<PORT> V=<VARIABLE>`` is used for scalars,
 * ``<DATA_TYPE>[] N=<NELEM> <OPERATION> P=<PORT> V=<VARIABLE>`` is used for arrays. *STRING* datatype requires N=<NELEM>, but not '[]'.
 
@@ -39,7 +39,7 @@ The format used to specify the ADS variable in the INP/OUT fields depends if the
     is used to specify number of elements for array access, as well as to specify the length of *STRING* PLC variables, e.g., ``N=25``.
 **OPERATION**:
     specifies if the PLC variable is read (``R``) or written (``W``).
-**PORT**: 
+**PORT**:
     ADS port in string or numerical format. The same parameter constraints apply as for register access, e.g., ``P=PLC_TC3``.
 **VARIABLE**:
     ADS variable name in string format, e.g. ``V=Main.temperature``.
@@ -57,7 +57,7 @@ Example database record configuration:
 --------------------------------------
 
 .. code-block::
-   
+
    record(ai, "BECKHOFF:ANALOG_IN:01") {
        field(DESC, "Read first 16bit analog input")
        field(DTYP, "asynInt32")
@@ -98,7 +98,7 @@ AdsOpen
     Configure a new ADS connection. This command must be called before corresponding database records are loaded, i.e. before *dbLoadRecord* is called.
 
 **Interface**:
-    ``AdsOpen(port_name, ip_addr, ams_net_id, sum_buffer_nelem, ads_timeout)``
+    ``AdsOpen(port_name, ip_addr, ams_net_id, sum_buffer_nelem, ads_timeout, device_ads_port, sum_read_period, wait_for_connection_period)``
 
 **Parameters**:
     * **port_name**: The port name that is registered with asynManager and is used in the INP/OUT address specifications for the records.
@@ -106,6 +106,9 @@ AdsOpen
     * **ams_net_id**: AMS net ID of the remote ADS device.
     * **sum_buffer_nelem** (optional): The maximum number of PVs that sum-read request and data buffers can contain. Defaults to 500, as per `recommendation by Beckhoff <https://infosys.beckhoff.com/english.php?content=../content/1033/tcsample_vc/html/tcadsdll_api_cpp_sample17.htm&id=5851162267582607595>`_.
     * **ads_timeout** (optional): Current version of the ADS device support (v2.0.0) does not implement *ADS function timeout* feature. ADS client library uses the default value of 5000 ms.
+	* **device_ads_port** (optional): Ads port driver connects to. Default is 851 i.e. PLC_TC3.
+	* **sum_read_period** (optional): Sum read polling delay. Default is the minimum (1 ms) delay.
+	* **wait_for_connection_period** (optional): Delay between reconnections. Default value is 500 ms.
 
 **Example**:
 
@@ -113,9 +116,11 @@ AdsOpen
 
    # Configure an ADS connection with the optional parameters not specified.
    AdsOpen("plc-01", "10.5.0.115", "10.5.0.115.1.1")
-   
-   # Configure an ADS connection with all parameters. Here ADS sum operation buffer PV limit is set to 250, ads timeout to 1 second, auto connect is disabled and the default thread priority is used. 
-   AdsOpen("plc-02", "10.5.0.120", "10.5.0.120.1.15", 250, 1000)
+
+   # Configure an ADS connection with all parameters. Here ADS sum operation buffer PV limit is set to 250, ads timeout to 1000 ms,
+   ads read port is set to 851 (PLC_TC3), sum read poll delay is set to 20 ms and reconnect delay is set to 600 ms.
+
+   AdsOpen("plc-02", "10.5.0.120", "10.5.0.120.1.15", 250, 1000, 851, 20, 600)
 
 .. _supported-record-types:
 
@@ -125,30 +130,30 @@ This table lists EPICS records that are supported by the ADS device support, and
 
 .. table::
    :widths: auto
-   
+
    =================== ======= ======= ================ ==================== =========== ======================= ==========
-   asyn interface       ai/ao   bi/bo   longin/longout   stringin/stringout   mbbi/mbbo   mbbiDirect/mbboDirect   waveform 
+   asyn interface       ai/ao   bi/bo   longin/longout   stringin/stringout   mbbi/mbbo   mbbiDirect/mbboDirect   waveform
    =================== ======= ======= ================ ==================== =========== ======================= ==========
-   asynInt32              X       X           X                                   X                                        
+   asynInt32              X       X           X                                   X
    asynInt64              X                   X
    asynUInt32Digital              X                                                                 X
-   asynFloat64            X                                                                                                
-   asynOctet                                                     X                                                         
-   asynInt8Array                                                                                                      X    
-   asynInt16Array                                                                                                     X    
-   asynInt32Array                                                                                                     X    
-   asynFloat32Array                                                                                                   X    
-   asynFloat64Array                                                                                                   X    
+   asynFloat64            X
+   asynOctet                                                     X
+   asynInt8Array                                                                                                      X
+   asynInt16Array                                                                                                     X
+   asynInt32Array                                                                                                     X
+   asynFloat32Array                                                                                                   X
+   asynFloat64Array                                                                                                   X
    =================== ======= ======= ================ ==================== =========== ======================= ==========
 
 .. _supported-data-types:
 
-Supported TwinCAT PLC data types 
+Supported TwinCAT PLC data types
 ================================
 This table lists asyn interfaces and `TwinCAT PLC data types <https://infosys.beckhoff.com/english.php?content=../content/1033/tcplccontrol/html/tcplcctrl_plc_data_types_overview.htm&id>`_ that the interfaces support.
 
 .. warning::
-   ULINT datatype is not supported. 
+   ULINT datatype is not supported.
 
 
 .. table::
@@ -274,4 +279,3 @@ This table lists the ADS port names that can be specified by name in the record'
    PLC_RTS4   831
    PLC_TC3    851
    ========== =====
-

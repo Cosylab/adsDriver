@@ -56,11 +56,11 @@ class Connection {
 
     void set_local_ams_id(const AmsNetId ams_id);
     int connect(const AmsNetId ams_id, const std::string address,
-                const uint16_t deviceReadAdsPort, bool silent);
+                const uint16_t deviceReadAdsPort, bool silent = false);
 
     /* Disconnect from the ADS device, i.e. close the ADS port and remove the
      * remote AMS route. */
-    int disconnect();
+    int disconnect(bool silent = false);
 
     /* Sets the connection state as 'disconnected', without calling any ADS
      * disconnect/port close functions.

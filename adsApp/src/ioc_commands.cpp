@@ -32,16 +32,21 @@ epicsShareFunc int ads_open(int argc, const char *const *argv) {
     int sum_buffer_nelem = defaultSumBuferNelem;
     int ads_function_timeout_ms = -1;
     int sum_read_period = defaultSumReadPeriod.count();
+    int wait_for_connection_period = defaultWaitForConnectionPeriod.count();
     std::chrono::milliseconds chr_sum_read_period{sum_read_period};
+    std::chrono::milliseconds chr_wait_for_connection_period{
+        wait_for_connection_period};
 
-    if (argc < 3 || argc > 8) {
+    if (argc < 3 || argc > 9) {
         errlogPrintf(
             "AdsOpen <port_name> <ip_addr> <ams_net_id>"
             " | optional: <sum_buffer_nelem (default: %u)> <ads_timeout "
             "(default: %u) [ms]> <device_read_ads_port (default: %u)> "
-            "<sum_read_period (default: %ld)>\n",
+            "<sum_read_period (default: %ld)> "
+            "<wait_for_connection_period (default: %ld)>\n",
             defaultSumBuferNelem, defaultADSCallTimeout_ms,
-            defaultDeviceReadADSPort, defaultSumReadPeriod.count());
+            defaultDeviceReadADSPort, defaultSumReadPeriod.count(),
+            defaultWaitForConnectionPeriod.count());
         return -1;
     }
 
@@ -83,7 +88,6 @@ epicsShareFunc int ads_open(int argc, const char *const *argv) {
             }
 
             break;
-
         case 7:
             sum_read_period = strtol(argv[i], nullptr, 10);
             if (sum_read_period < 1) {
@@ -93,6 +97,18 @@ epicsShareFunc int ads_open(int argc, const char *const *argv) {
                 return -1;
             }
             chr_sum_read_period = std::chrono::milliseconds(sum_read_period);
+            break;
+        case 8:
+            wait_for_connection_period = strtol(argv[i], nullptr, 10);
+            if (wait_for_connection_period < 1) {
+                errlogPrintf("Error: wait_for_connection_period must be a "
+                             "positive integer (%i)\n",
+                             wait_for_connection_period);
+                return -1;
+            }
+            chr_wait_for_connection_period =
+                std::chrono::milliseconds(wait_for_connection_period);
+            break;
         default:
             break;
         }
@@ -100,7 +116,8 @@ epicsShareFunc int ads_open(int argc, const char *const *argv) {
 
     new ADSPortDriver(port_name.c_str(), ip_addr.c_str(), ams_net_id.c_str(),
                       sum_buffer_nelem, ads_function_timeout_ms,
-                      device_read_ads_port, chr_sum_read_period);
+                      device_read_ads_port, chr_sum_read_period,
+                      chr_wait_for_connection_period);
 
     return 0;
 }

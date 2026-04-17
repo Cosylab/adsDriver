@@ -41,30 +41,31 @@ int Connection::connect(const AmsNetId ams_id, const std::string address,
     size_t prev_log_level = Logger::logLevel;
     if (silent) {
         Logger::logLevel = 4;
-    };
+    }
 
     /* Add AMS route */
 #ifndef USE_TC_ADS
     long rc = AdsAddRoute(ams_id, address.c_str());
-    Logger::logLevel = prev_log_level;
     if (rc != 0) {
         if (!silent) {
             LOG_ERR("could not add ADS route (%li): %s", rc,
                     errorMap[rc].c_str());
         };
+        Logger::logLevel = prev_log_level;
         return EPICSADS_DISCONNECTED;
     }
 #endif
 
     const long port = AdsPortOpenEx();
-    Logger::logLevel = prev_log_level;
     if (port == 0) {
         if (!silent) {
             LOG_ERR("could not open port to ADS device");
         };
+        Logger::logLevel = prev_log_level;
         return EPICSADS_DISCONNECTED;
     }
 
+    Logger::logLevel = prev_log_level;
     this->remote_ams_netid = ams_id;
     this->ads_port = port;
     this->device_read_ads_port = device_read_ads_port;
@@ -72,12 +73,15 @@ int Connection::connect(const AmsNetId ams_id, const std::string address,
     return 0;
 }
 
-int Connection::disconnect() {
+int Connection::disconnect(bool silent) {
     std::lock_guard<epicsMutex> lock(this->mtx);
 
     if (this->is_connected() == false) {
         return EPICSADS_DISCONNECTED;
     }
+
+    int prev_log_level = Logger::logLevel;
+    Logger::logLevel = silent ? 4 : prev_log_level;
 
     AdsPortCloseEx(this->ads_port);
     this->ads_port = 0;
@@ -88,6 +92,7 @@ int Connection::disconnect() {
 #endif
     this->remote_ams_netid = {0, 0, 0, 0, 0, 0};
 
+    Logger::logLevel = prev_log_level;
     return 0;
 }
 
