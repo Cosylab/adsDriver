@@ -3,6 +3,11 @@
 
 ## Development version
 
+No changes yet.
+
+
+## Version 3.2.0
+
 - Added support for `asyn:READBACK`. This allows updating output records with
   the actual value of the ADS variable.
 
